@@ -1,45 +1,66 @@
-"use client"
+"use client";
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import React from 'react'
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import React from 'react';
 
 const NavNormal = () => {
-      const links = [
-            {
-                  name: "home",
-                  path: "/"
-            },
-            {
-                  name: "about",
-                  path: "/about"
-            },
-            {
-                  name: "services",
-                  path: "/services"
-            },
-            {
-                  name: "packages",
-                  path: "/packages"
-            },
-            {
-                  name: "case studies",
-                  path: "/case-studies"
-            },
-      ]
-      const pathName = usePathname()
+    const links = [
+        {
+            name: "home",
+            path: "/",
+        },
+        {
+            name: "about",
+            path: "/about",
+        },
+        {
+            name: "print shop",
+            path: "https://print.mhmdigital.us/shop", 
+            external: true,
+        },
+        {
+            name: "services",
+            path: "/services",
+        },
+        {
+            name: "packages",
+            path: "/packages",
+        },
+        {
+            name: "case studies",
+            path: "/case-studies",
+        },
+    ];
 
-  return (
-      <div className='hidden xl:flex items-center gap-7 text-[16px]'>
+    const pathName = usePathname();
+
+    return (
+        <div className="hidden xl:flex items-center gap-7 text-[15px]">
             {links.map((link, index) => (
-                  <Link key={index} href={link.path} className={`${link.path === pathName && "text-accent border-b-2 border-accent"}
-                  capitalize font-medium hover:text-accent transition-all
-                  `}>
+                link.external ? (
+                    <a
+                        key={index}
+                        href={link.path}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="capitalize font-medium hover:text-accent transition-all"
+                    >
                         <h5>{link.name}</h5>
-                  </Link>
+                    </a>
+                ) : (
+                    <Link
+                        key={index}
+                        href={link.path}
+                        className={`${link.path === pathName && "text-accent border-b-2 border-accent"}
+                        capitalize font-medium hover:text-accent transition-all`}
+                    >
+                        <h5>{link.name}</h5>
+                    </Link>
+                )
             ))}
-      </div>
-  )
-}
+        </div>
+    );
+};
 
-export default NavNormal
+export default NavNormal;
