@@ -16,7 +16,7 @@ const NavNormal = () => {
         },
         {
             name: "print shop",
-            path: "https://print.mhmdigital.us/shop", 
+            path: "https://print.mhmdigital.us/shop",
             external: true,
         },
         {
