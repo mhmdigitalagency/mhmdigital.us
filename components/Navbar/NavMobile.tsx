@@ -18,8 +18,8 @@ const NavMobile = () => {
                   path: "/about"
             },
             {
-                  name: "print shop",
-                  path: "https://print.mhmdigital.us/shop"
+                  name: "Notary Public",
+                  path: "https://Notary.mhmdigital.us/"
             },
             {
                   name: "services",
