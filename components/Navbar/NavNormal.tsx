@@ -27,10 +27,10 @@ const NavNormal = () => {
             name: "packages",
             path: "/packages",
         },
-        {
-            name: "case studies",
-            path: "/case-studies",
-        },
+        // {
+        //     name: "case studies",
+        //     path: "/case-studies",
+        // },
     ];
 
     const pathName = usePathname();
