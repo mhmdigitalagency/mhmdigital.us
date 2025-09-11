@@ -45,10 +45,19 @@ export const checkoutSchema = z.object({
     });
 
 export const contactSchema = z.object({
-      name: z.string().min(1, "First name is required"),
+      name: z.string().min(1, "Name is required"),
       phoneNumber: z.string().min(1, "Phone number is required"),
       email: z.string().email("Invalid email").min(1, "Email is required"),
       service: z.string().min(1, "Service is required"),
       description: z.string().optional(),
       company: z.string().optional(),
+})
+
+export const appointmentSchema = z.object({
+      name: z.string().min(1, "Full name is required"),
+      phoneNumber: z.string().min(1, "Phone number is required"),
+      email: z.string().email("Invalid email").min(1, "Email is required"),
+      company: z.string().optional(),
+      role: z.string().min(1, "Role is required"),
+      industry: z.string().min(1, "Industry is required"),
 })

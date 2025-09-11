@@ -1,15 +1,15 @@
 'use server';
 
-import { contactSchema } from '@/schemas';
+import { appointmentSchema } from '@/schemas';
 import nodemailer from 'nodemailer';
 import { z } from 'zod';
 import hbs from 'nodemailer-express-handlebars';
 import path from 'path';
 import handlebars from 'handlebars';
 
-export async function contact(values: z.infer<typeof contactSchema>) {
+export async function appointment(values: z.infer<typeof appointmentSchema>) {
 
-  const parsedValues = contactSchema.parse(values);
+  const parsedValues = appointmentSchema.parse(values);
 
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
@@ -28,8 +28,8 @@ export async function contact(values: z.infer<typeof contactSchema>) {
       <li>Email: {{email}}</li>
       <li>Phone number: {{phoneNumber}}</li>
       <li>Company: {{company}}</li>
-      <li>Service requested: {{service}}</li>
-      <li>Project description: {{description}}</li>
+      <li>Role: {{role}}</li>
+      <li>Industry: {{industry}}</li>
     </ul>
   `;
 
@@ -37,10 +37,10 @@ export async function contact(values: z.infer<typeof contactSchema>) {
   const htmlToSend = compiledTemplate({
     name: values.name,
     email: values.email,
-    phoneNumber: values.phoneNumber || "Not provided",
+    phoneNumber: values.phoneNumber,
     company: values.company || "Not provided",
-    service: values.service,
-    description: values.description,
+    role: values.role,
+    industry: values.industry,
   });
 
   const mailOptions = {

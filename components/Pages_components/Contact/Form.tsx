@@ -24,6 +24,7 @@ import { contact } from '@/actions/contact'
 import { contactSchema } from '@/schemas';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link';
 
 type Input = z.infer<typeof contactSchema>;
 
@@ -65,7 +66,7 @@ const Form = ({services}: Props) => {
                         setError(data.error)
                         toast({
                               title: "Success",
-                              description: "Message envoyé",
+                              description: "Message sent",
                               variant: "default"
                         })
                         window.location.reload();
@@ -125,7 +126,7 @@ const Form = ({services}: Props) => {
                                                             <FormControl>
                                                                   <Input placeholder="Full name *" {...field}
                                                                         disabled={isPending} 
-                                                                        className='border h-14 rounded-full text-sm placeholder:text-base' 
+                                                                        className='border h-14 rounded-full text-sm placeholder:text-base hover:border-black transition-all duration-300' 
                                                                   />
                                                             </FormControl>
                                                       </div>
@@ -146,7 +147,7 @@ const Form = ({services}: Props) => {
                                                             <FormControl> 
                                                                         <Input placeholder="Email *" {...field}
                                                                               disabled={isPending} 
-                                                                              className='border h-14 rounded-full text-sm placeholder:text-base' 
+                                                                              className='border h-14 rounded-full text-sm placeholder:text-base hover:border-black transition-all duration-300' 
                                                                         />      
                                                             </FormControl>
                                                       </div>
@@ -169,7 +170,7 @@ const Form = ({services}: Props) => {
                                                             <FormControl>
                                                                   <Input placeholder="Pnone number *" {...field}
                                                                         disabled={isPending} 
-                                                                        className='border h-14 rounded-full text-sm placeholder:text-base' 
+                                                                        className='border h-14 rounded-full text-sm placeholder:text-base hover:border-black transition-all duration-300' 
                                                                   />
                                                             </FormControl>
                                                       </div>
@@ -190,7 +191,7 @@ const Form = ({services}: Props) => {
                                                             <FormControl>
                                                                   <Input placeholder="Company name" {...field}
                                                                         disabled={isPending} 
-                                                                        className='border h-14 rounded-full text-sm placeholder:text-base' 
+                                                                        className='border h-14 rounded-full text-sm placeholder:text-base hover:border-black transition-all duration-300' 
                                                                   />
                                                             </FormControl>
                                                       </div>
@@ -210,7 +211,7 @@ const Form = ({services}: Props) => {
                                                       <FormItem className='w-full'>
                                                       <select onChange={field.onChange} defaultValue={field.value} required
                                                       className='w-full bg-white px-5 py-5 rounded-[40px] border 
-                                                    hover:border-blue-400 transition-all duration-300 cursor-pointer'>
+                                                    hover:border-black transition-all duration-300 cursor-pointer'>
                                                             <option value="" className='text-gray-400'>Select a service *</option>
                                                             {
                                                                   services.map((item, index) => (
@@ -233,7 +234,7 @@ const Form = ({services}: Props) => {
                                                       <FormControl>
                                                             <Textarea placeholder="Describe your project..." {...field}
                                                                   disabled={isPending} 
-                                                                  className='rounded-3xl pt-5 pb-20 px-6 text-xl placeholder:text-base' 
+                                                                  className='rounded-3xl pt-5 pb-20 px-6 text-xl placeholder:text-base hover:border-black transition-all duration-300' 
                                                             />
                                                       </FormControl>
                                                       <FormMessage />
@@ -243,14 +244,24 @@ const Form = ({services}: Props) => {
                               </div>
                               <FormError message={error} />
                               <br />
-                              <div>
+                              <div className='flex items-center gap-5 flex-col justify-start'>
                                     <motion.button 
-                                    whileHover={{ y: -12, transition: {type: 'spring'} }}
-                                    className='flex items-center gap-2 bg-red-500 text-white 
-                                    rounded-full px-10 py-6 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]' type='submit'>
-                                          <h5 className='font-semibold text-base sm:text-[20px]'>Get in Touch</h5>
+                                          whileHover={{ y: -12, transition: {type: 'spring'} }}
+                                          className='flex items-center justify-center gap-2 bg-red-500 text-white 
+                                          rounded-full px-10 py-5 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] w-full' type='submit'>
+                                          <h5 className='font-semibold text-base sm:text-[20px]'>Submit</h5>
                                           <ArrowRight className='text-white' />
                                     </motion.button>
+                                          <h5>Or</h5>
+                                    <Link href={'/appointment'} className='group w-full'>
+                                          <motion.button 
+                                                whileHover={{ y: -12, transition: {type: 'spring'} }}
+                                                className='flex items-center gap-2 justify-center bg-black text-white 
+                                                rounded-full px-10 py-5 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] w-full' type='submit'>
+                                                <h5 className='font-semibold text-base sm:text-[20px]'>Schedule an appointment</h5>
+                                                {/* <ArrowRight className='text-white' /> */}
+                                          </motion.button>
+                                    </Link>
                               </div>
                         </form>
                         </Forms>

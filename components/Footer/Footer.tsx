@@ -65,9 +65,9 @@ const Footer = () => {
                                     <p className='mb-3 text-base sm:text-lg text-gray-500'>
                                           <Link className='hover:underline' href={'/services'}>Services</Link>
                                     </p>
-                                    <p className='mb-3 text-base sm:text-lg text-gray-500'>
+                                    {/* <p className='mb-3 text-base sm:text-lg text-gray-500'>
                                           <Link className='hover:underline' href={'/case-studies'}>Case Studies</Link>
-                                    </p>
+                                    </p> */}
                               </div>
                         </div>
                         <div className='w-full'>
