@@ -4,7 +4,7 @@ import React, { useState, useTransition } from 'react'
 import {motion} from 'framer-motion'
 import { Minus } from 'lucide-react'
 import Image from 'next/image'
-import image1 from '@/public/images/ceo.jpeg'
+import image1 from '@/public/images/MOSS.png'
 import {z} from 'zod'
 import { useRouter } from "next/navigation";
 import { useToast } from '@/components/ui/use-toast';
@@ -79,17 +79,17 @@ const Form = () => {
                               Schedule a demo today!
                         </h2>
                         <p className='text-base md:text-lg font-medium text-slate-500 max-w-md lg:max-w-xl mt-5'>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tortor, proin arcu vel felis pellentesque.
+                              Schedule a free demo to discover how MHM Digital can support your business growth. In just a few minutes, get a personalized presentation of our services and solutions tailored to your needs.
                         </p>
                         <div className='mt-6'>
-                              <h3 className='text-xl md:text-2xl font-extrabold leading-snug'>Schedule a demo with John:</h3>
+                              <h3 className='text-xl md:text-2xl font-extrabold leading-snug'>Schedule a demo with :</h3>
                               <div className='mt-3 flex items-center gap-4 p-5 border border-slate-200 rounded-[18px]'>
                                     <div className='w-20 h-20 rounded-[20px] overflow-hidden'>
                                           <Image src={image1} alt='image1' priority width={0} height={0} sizes='100vw' 
                                           className='w-full' />
                                     </div>
                                     <div>
-                                          <h5 className='font-bold text-base xl:text-lg'>Mohamed Salou Soumah</h5>
+                                          <h5 className='font-bold text-base xl:text-lg'>Mohamed Soumah</h5>
                                           <p className='text-base xl:text-lg text-red-500 rounded-xl'>CEO & Founder of Mhm Digital</p>
                                     </div>
                               </div>
@@ -101,9 +101,9 @@ const Form = () => {
                                           <form className='px-4 xl:px-12 py-20 border rounded-[50px] bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)]' 
                                           onSubmit={form.handleSubmit(onSubmit)}>
                                                 <div className='border-b border-slate-200 pb-8 mb-8'>
-                                                      <h3 className='text-xl md:text-2xl font-extrabold leading-snug mb-3'>Schedule a demo</h3>
+                                                      <h3 className='text-xl md:text-2xl font-extrabold leading-snug mb-3'>Schedule your personalized demo</h3>
                                                       <p className='text-base md:text-lg font-medium text-slate-500 max-w-md lg:max-w-xl mt-5'>
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Faucibus ante velit nunc morbi pretium. Ut nullam dolor.
+                                                            Fill out this quick form: our team will contact you to confirm the date and time of your appointment.
                                                       </p>
                                                 </div>
                                                 <div className='flex flex-col sm:flex-row items-center justify-between gap-5 mb-7'>
