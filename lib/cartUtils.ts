@@ -1,34 +1,116 @@
-import { Carts, CartItem } from '../types/carts';
+import { BillingCycle, Carts, CartItem } from "@/types/carts";
 
-const CART_KEY = 'cart';
+const CART_KEY = "cart";
 
 export function getCart(): Carts {
-  const cart = localStorage.getItem(CART_KEY);
-  if (cart) {
-    return JSON.parse(cart);
+  if (typeof window === "undefined") {
+    return { items: [] };
   }
-  return { items: [] };
+
+  try {
+    const cart = localStorage.getItem(CART_KEY);
+    return cart ? JSON.parse(cart) : { items: [] };
+  } catch {
+    return { items: [] };
+  }
 }
 
 export function saveCart(cart: Carts): void {
+  if (typeof window === "undefined") return;
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
 }
 
-export function addToCart(CartItem: CartItem): void {
+export function getUnitPrice(item: CartItem): number {
+  switch (item.packageDuration) {
+    case "MONTHLY":
+      return item.package.priceByMonth ?? 0;
+    case "YEARLY":
+      return item.package.priceByYear ?? 0;
+    case "ONE_TIME":
+    default:
+      return item.package.price ?? 0;
+  }
+}
+
+export function addItemToCart(item: CartItem): Carts {
   const cart = getCart();
-  const existingItemIndex = cart.items.findIndex(i => i.packageId === CartItem.packageId);
+
+  const existingItemIndex = cart.items.findIndex(
+    (i) =>
+      i.packageId === item.packageId &&
+      i.packageDuration === item.packageDuration
+  );
 
   if (existingItemIndex !== -1) {
-    cart.items[existingItemIndex].quantity += CartItem.quantity;
+    cart.items[existingItemIndex].quantity += item.quantity;
   } else {
-    cart.items.push(CartItem);
+    cart.items.push(item);
   }
 
   saveCart(cart);
+  return cart;
 }
 
-export function removeFromCart(packageId: string): void {
+export function removeItemFromCart(
+  packageId: string,
+  packageDuration?: BillingCycle
+): Carts {
   const cart = getCart();
-  cart.items = cart.items.filter(item => item.packageId !== packageId);
+
+  cart.items = cart.items.filter((item) => {
+    if (packageDuration !== undefined) {
+      return !(
+        item.packageId === packageId &&
+        item.packageDuration === packageDuration
+      );
+    }
+
+    return item.packageId !== packageId;
+  });
+
   saveCart(cart);
+  return cart;
+}
+
+export function updateCartItemQuantity(
+  packageId: string,
+  quantity: number,
+  packageDuration?: BillingCycle
+): Carts {
+  const cart = getCart();
+
+  cart.items = cart.items
+    .map((item) => {
+      const sameItem =
+        item.packageId === packageId &&
+        (packageDuration === undefined ||
+          item.packageDuration === packageDuration);
+
+      if (!sameItem) return item;
+
+      return {
+        ...item,
+        quantity,
+      };
+    })
+    .filter((item) => item.quantity > 0);
+
+  saveCart(cart);
+  return cart;
+}
+
+export function clearCartStorage(): void {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(CART_KEY);
+}
+
+export function getCartCount(cart: Carts): number {
+  return cart.items.reduce((sum, item) => sum + item.quantity, 0);
+}
+
+export function getCartTotal(cart: Carts): number {
+  return cart.items.reduce((sum, item) => {
+    const unitPrice = getUnitPrice(item);
+    return sum + unitPrice * item.quantity;
+  }, 0);
 }

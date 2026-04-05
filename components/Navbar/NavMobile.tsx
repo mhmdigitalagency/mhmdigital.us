@@ -29,10 +29,10 @@ const NavMobile = () => {
                   name: "packages",
                   path: "/packages"
             },
-            // {
-            //       name: "case studies",
-            //       path: "/case-studies"
-            // },
+            {
+                  name: "get in touch",
+                  path: "/contact"
+            },
       ]
       const pathName = usePathname()
 
@@ -44,39 +44,30 @@ const NavMobile = () => {
 
   return (
     <div className='xl:hidden'>
-      <button className='w-10 h-10 sm:w-10 sm:h-10 md:w-[3rem] md:h-[3rem] 
+      <button className='size-8 md:size-10 
       rounded-full flex items-center justify-center bg-red-500 text-white 
-      shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
+      shadow-[rgba(13,38,76,0.19)_0px_9px_20px]'>
             <div onClick={toggle}>
                   {
-                        open ? <RiCloseFill color='white' className='text-xl sm:text-2xl' /> : 
-                        <RiMenu3Fill color='white' className='text-xl sm:text-2xl' />
+                        open ? <RiCloseFill color='white' className='text-lg md:text-2xl cursor-pointer' /> : 
+                        <RiMenu3Fill color='white' className='text-lg md:text-2xl cursor-pointer' />
                   }
                   
             </div>
       </button>
       <div className={`absolute shadow-sm transition-all duration-500 
-            ${open ? 'top-[6.3rem] bg-white min-h-fit left-0 bottom-0 z-50 transition-all duration-500 ease-in-out right-0' 
-            : 'top-[-800px] left-0 right-0'}`}>
+            ${open ? 'top-[6.3rem] bg-white left-0 right-0 z-50 transition-all duration-500 ease-in-out min-h-screen' 
+            : '-top-250 left-0 right-0 transition-all duration-500 ease-in-out min-h-screen'}`}>
             <hr />
-            <div className='px-8 flex flex-col items-start justify-start gap-10 py-24'>
+            <div className='px-4 flex flex-col items-start justify-start gap-10 py-8'>
             {links.map((link, index) => (
                   <Link
-                  key={index} href={link.path} className={`${link.path === pathName && "text-accent border-b-2 border-accent"}
-                  capitalize font-medium hover:text-accent transition-all w-fit text-2xl
+                  key={index} href={link.path} className={`${link.path === pathName && "text-gray-500 border-b-2 border-gray-500"}
+                  capitalize font-medium hover:text-gray-500 transition-all w-fit text-base duration-300
                   `}>
                         <h5 onClick={toggle}>{link.name}</h5>
                   </Link>
             ))}
-            <Link href={'/contact'} className='md:hidden'>
-                  <button onClick={toggle} className='flex items-center gap-2'>
-                        <h5 className='font-semibold text-2xl'>Get in Touch</h5>
-                        <ArrowRight className='text-red-500' />
-                  </button>
-            </Link>
-            <Link onClick={toggle} href={'/connexion'} className='hover:text-red-500 duration-300 text-2xl underline font-bold'>
-                  Sign in
-            </Link>
             </div>
       </div>
     </div>

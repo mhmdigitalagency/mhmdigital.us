@@ -3,7 +3,7 @@
 import React from 'react'
 import UserButton from '../UserButton'
 import SignInButton from '../SignInButton'
-import { useSession } from "next-auth/react";
+import { useSession } from '@/lib/auth-client';
 
 const UserOrSignIn = () => {
 
@@ -13,7 +13,7 @@ const UserOrSignIn = () => {
   return (
     <>
       { user && <UserButton user={user} />}
-      { !user && session.status !== "loading" && <SignInButton /> }
+      { !user && <SignInButton /> }
     </>
   )
 }

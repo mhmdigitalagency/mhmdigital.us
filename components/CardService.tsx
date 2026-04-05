@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 import image1 from '@/public/images/icon-1-service-marketing-template.svg'
 import {motion} from 'framer-motion'
-import { fadeIn } from '../variants'
+import { fadeIn } from '../lib/variants'
 
 interface Props {
       service: Services

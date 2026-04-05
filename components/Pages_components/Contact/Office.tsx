@@ -4,7 +4,7 @@ import { Minus } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import {motion} from 'framer-motion'
-import { opacite, fadeIn } from '../../../variants'
+import { opacite, fadeIn } from '../../../lib/variants'
 
 const Office = () => {
   return (

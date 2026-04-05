@@ -1,16 +1,16 @@
 "use client"
 
-import { Facebook, Instagram, Linkedin } from 'lucide-react'
+import { FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa'
 import { FaWhatsapp } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import Link from 'next/link'
 import React from 'react'
 import {motion} from 'framer-motion'
-import { fadeIn } from '../../../variants'
+import { fadeIn } from '../../../lib/variants'
 
 const Socials = () => {
   return (
-      <div className='pb-[100px] px-4 xl:px-14 xxl:px-[10rem] xll:px-[20rem] xxx:px-[22%] lll:px-[25%]'>
+      <div className='pb-25 px-4 xl:px-14 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]'>
             <div className='flex flex-col items-center justify-center'>
                   <h5 className="text-red-500 text-xl font-semibold">               
                         Follow Us
@@ -24,9 +24,9 @@ const Socials = () => {
                         initial="hidden"
                         whileInView={"show"}
                         viewport={{ once: false, amount: 0.2 }} 
-                        className='rounded-3xl bg-blue-500 p-7 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
+                        className='rounded-3xl bg-blue-500 p-7 shadow-[rgba(13,38,76,0.19)_0px_9px_20px]'>
                               <Link href={'https://www.linkedin.com/company/mhm-digital/'} target='_blank'>
-                                    <Linkedin size={42} className='text-white' />
+                                    <FaLinkedin size={42} className='text-white' />
                               </Link>
                         </motion.div>
                         <motion.div 
@@ -34,9 +34,9 @@ const Socials = () => {
                         initial="hidden"
                         whileInView={"show"}
                         viewport={{ once: false, amount: 0.2 }} 
-                        className='rounded-3xl bg-blue-600 p-7 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
+                        className='rounded-3xl bg-blue-600 p-7 shadow-[rgba(13,38,76,0.19)_0px_9px_20px]'>
                               <Link href={'https://www.facebook.com/mhmdigital.agency'} target='_blank'>
-                                    <Facebook size={42} className='text-white' />
+                                    <FaFacebook size={42} className='text-white' />
                               </Link>
                         </motion.div>
                         <motion.div 
@@ -44,7 +44,7 @@ const Socials = () => {
                         initial="hidden"
                         whileInView={"show"}
                         viewport={{ once: false, amount: 0.2 }}
-                        className='rounded-3xl bg-black p-7 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
+                        className='rounded-3xl bg-black p-7 shadow-[rgba(13,38,76,0.19)_0px_9px_20px]'>
                               <Link href={'https://x.com/mhm_digital'} target='_blank'>
                                     <FaXTwitter size={42} className='text-white' />
                               </Link>
@@ -54,7 +54,7 @@ const Socials = () => {
                         initial="hidden"
                         whileInView={"show"}
                         viewport={{ once: false, amount: 0.2 }} 
-                        className='rounded-3xl bg-yellow-300 p-7 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
+                        className='rounded-3xl bg-yellow-300 p-7 shadow-[rgba(13,38,76,0.19)_0px_9px_20px]'>
                               <Link href={'http://wa.me/12067710038'} target='_blank'>
                                     <FaWhatsapp size={42} className='text-white' />
                               </Link>
@@ -64,10 +64,10 @@ const Socials = () => {
                         initial="hidden"
                         whileInView={"show"}
                         viewport={{ once: false, amount: 0.2 }} 
-                        className='rounded-3xl p-7 bg-gradient-to-b from-[#833ab4] to-[#fd1d1d] via-[#fcb045]
-                        shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
+                        className='rounded-3xl p-7 bg-linear-to-b from-[#833ab4] to-[#fd1d1d] via-[#fcb045]
+                        shadow-[rgba(13,38,76,0.19)_0px_9px_20px]'>
                               <Link href={'https://www.instagram.com/mhmdigital/'} target='_blank'>
-                                    <Instagram size={42} className='text-white' />
+                                    <FaInstagram size={42} className='text-white' />
                               </Link>
                         </motion.div>
                   </div>

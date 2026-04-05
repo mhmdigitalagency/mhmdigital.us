@@ -7,8 +7,7 @@ import image1 from '@/public/images/image-1-home-about-marketing-template.svg'
 import image2 from '@/public/images/image-2-home-about-marketing-template.svg'
 import Image from 'next/image'
 import {motion} from 'framer-motion'
-import { fadeIn } from '../../../variants'
-import { opacite } from '../../../variants'
+import { fadeIn } from '@/lib/variants'
 
 const 
 About = () => {

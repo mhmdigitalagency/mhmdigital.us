@@ -6,7 +6,7 @@ import image2 from '@/public/images/image-2-about-mission-marketing-template.jpg
 import { Minus } from 'lucide-react'
 import Image from 'next/image'
 import {motion} from 'framer-motion'
-import { opacite, fadeIn } from '../../../variants'
+import { opacite, fadeIn } from '../../../lib/variants'
 
 const Mission = () => {
   return (

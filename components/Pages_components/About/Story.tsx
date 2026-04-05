@@ -3,7 +3,7 @@
 import { Minus } from 'lucide-react'
 import React from 'react'
 import {motion} from 'framer-motion'
-import { opacite, fadeIn } from '../../../variants'
+import { opacite, fadeIn } from '../../../lib/variants'
 
 const Story = () => {
   return (

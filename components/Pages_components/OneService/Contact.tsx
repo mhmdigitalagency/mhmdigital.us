@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { ArrowRight, Building, Mail, Smartphone, UserRound } from 'lucide-react'
 import {motion} from 'framer-motion'
-import { opacite } from '../../../variants'
+import { opacite } from '../../../lib/variants'
 import { contact } from '@/actions/contact'
 import { contactSchema } from '@/schemas';
 import { useForm } from 'react-hook-form';

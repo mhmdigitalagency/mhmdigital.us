@@ -7,7 +7,7 @@ import image2 from '@/public/images/image-2-about-hero-marketing-template-p-500.
 import image3 from '@/public/images/image-3-about-hero-marketing-template-p-1080.jpeg'
 import Image from 'next/image'
 import {motion} from 'framer-motion'
-import { fadeIn } from '../../../variants'
+import { fadeIn } from '../../../lib/variants'
 
 const Banner = () => {
   return (

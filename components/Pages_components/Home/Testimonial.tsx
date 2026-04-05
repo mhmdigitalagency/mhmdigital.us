@@ -16,7 +16,7 @@ import image2 from '@/public/images/image-1-testimonial-marketing-template.png'
 import image3 from '@/public/images/logo-1-companies-marketing-template.svg'
 import Image from 'next/image'
 import {motion} from 'framer-motion'
-import { opacite } from '../../../variants'
+import { opacite } from '../../../lib/variants'
 
 const Testimonial = () => {
   return (

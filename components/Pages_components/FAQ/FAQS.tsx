@@ -9,7 +9,7 @@ import {
       AccordionTrigger,
     } from "@/components/ui/accordion"
 import {motion} from 'framer-motion'
-import { fadeIn } from '../../../variants'
+import { fadeIn } from '../../../lib/variants'
 
 const FAQ = () => {
   return (

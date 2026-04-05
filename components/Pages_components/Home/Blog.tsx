@@ -8,7 +8,7 @@ import { Card } from '@/components/ui/card'
 import Link from 'next/link'
 import Image from 'next/image'
 import {motion} from 'framer-motion'
-import { opacite } from '../../../variants'
+import { opacite } from '../../../lib/variants'
 
 const Blog = () => {
   return (

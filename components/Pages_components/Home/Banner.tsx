@@ -61,16 +61,16 @@ import React from 'react'
 import { ArrowRight, Minus } from 'lucide-react';
 import Link from 'next/link';
 import {motion} from 'framer-motion'
-import { fadeIn,opacite } from '../../../variants'
+import { fadeIn,opacite } from '../../../lib/variants'
 
 const Banner = () => {
   return (
     <motion.div 
     initial={{ opacity: 0 }}
     animate={{ opacity: 1, transition: {duration: 2, delay: 0.5} }}
-    className='pb-[100px] px-4 xl:px-14 xxl:px-[10rem] xll:px-[20rem] xxx:px-[22%] lll:px-[25%]'>
+    className='pb-25 px-4 xl:px-14 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]'>
       <div 
-      className='mt-10 flex flex-col justify-center items-center bg-hero relative bg-no-repeat bg-cover z-0 rounded-[30px] overflow-hidden'>
+      className="mt-10 flex flex-col justify-center items-center bg-[url('/images/banner.jpeg')] relative bg-no-repeat bg-cover z-0 rounded-[30px] overflow-hidden">
             <motion.div
             className='w-full flex items-center flex-col justify-center relative top-0 left-0 h-full z-10 bg-black/50 py-24 px-5'>
                   <div className="flex items-center gap-2 mb-3"> 
@@ -91,7 +91,7 @@ const Banner = () => {
                               <motion.button 
                               whileHover={{ y: -10, transition: {type: 'spring'} }}
                               className='flex items-center gap-2 bg-red-500 text-white rounded-full px-10 py-5 
-                              shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] group'>
+                              shadow-[rgba(13,38,76,0.19)_0px_9px_20px] group cursor-pointer'>
                                     <h5 className='font-semibold text-[17px]'>Get in Touch</h5>
                                     <ArrowRight className='text-white group-hover:translate-x-2 transition-all duration-500' />
                               </motion.button>
@@ -99,7 +99,7 @@ const Banner = () => {
                         <Link href={'/services'}>
                               <motion.button
                                whileHover={{ y: -10, transition: {type: 'spring'} }} 
-                              className=' bg-white text-red-500 rounded-full px-10 py-5 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
+                              className='bg-white text-red-500 rounded-full px-10 py-5 shadow-[rgba(13,38,76,0.19)_0px_9px_20px] cursor-pointer'>
                                     <h5 className='font-semibold text-[17px]'>Browse Services</h5>
                               </motion.button>
                         </Link>

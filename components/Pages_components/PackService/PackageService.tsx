@@ -1,123 +1,132 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import image1 from "@/public/images/icon-1-packages-marketing-template.png";
 import Image from "next/image";
 import { Check } from "lucide-react";
 import image3 from "@/public/images/image-project-overview-marketing-template.svg";
-import { addToCart } from "@/lib/cartUtils";
-import { CartItem } from "@/types/carts";
-import { useRouter } from "next/navigation";
+import {
+  BillingCycle,
+  CartItem,
+  Package as CartPackage,
+} from "@/types/carts";
+import { useCart } from "@/context/CartContext";
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
 
 interface Props {
-  servicePack: Packages;
-}
-
-interface Packages {
-  service: {
-    id: string;
-    name: string;
-    description: string;
-    icon: string;
-  };
-  id: string;
-  serviceId: string | null;
-  name: string;
-  priceByYear: number | null;
-  priceByMonth: number | null;
-  price: number | null;
-  description: string;
-  points: string[];
-  image?: string | null;
+  servicePack: CartPackage;
 }
 
 const PackageService = ({ servicePack }: Props) => {
-  const [selectedPrice, setSelectedPrice] = useState<number>(
-    servicePack.priceByMonth || servicePack.price || 0
-  );
-  const [selectedDuration, setSelectedDuration] = useState<number>(
-    servicePack.priceByYear || servicePack.price || 0
-  );
-  const router = useRouter();
+  const { addToCart } = useCart();
+
+  const hasMonthly = servicePack.priceByMonth !== null;
+  const hasYearly = servicePack.priceByYear !== null;
+  const hasRecurringPricing = hasMonthly || hasYearly;
+
+  const defaultMode: BillingCycle = hasMonthly
+    ? "MONTHLY"
+    : hasYearly
+    ? "YEARLY"
+    : "ONE_TIME";
+
+  const [selectedMode, setSelectedMode] = useState<BillingCycle>(defaultMode);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const selectedPrice = useMemo(() => {
+    if (selectedMode === "MONTHLY") return servicePack.priceByMonth ?? 0;
+    if (selectedMode === "YEARLY") return servicePack.priceByYear ?? 0;
+    return servicePack.price ?? 0;
+  }, [selectedMode, servicePack]);
+
+  const priceLabel = useMemo(() => {
+    if (selectedMode === "MONTHLY") return "/ month";
+    if (selectedMode === "YEARLY") return "/ year";
+    return "";
+  }, [selectedMode]);
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = event.target.value;
-
-    if (selectedValue === "priceByYear" || selectedValue === "priceByMonth") {
-      setSelectedDuration(servicePack[selectedValue] || 0);
-      setSelectedPrice(servicePack[selectedValue] || 0);
-    }
+    const value = event.target.value as BillingCycle;
+    setSelectedMode(value);
   };
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const handleAddToCart = (
+    event?: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event?.preventDefault();
 
-  const handleAddToCart = () => {
     const item: CartItem = {
       package: servicePack,
       quantity: 1,
-      packageDuration: selectedDuration,
+      packageDuration: selectedMode,
       packageId: servicePack.id,
     };
+
     addToCart(item);
     setIsDialogOpen(true);
   };
 
   return (
     <>
-      <div className="mt-[100px] px-4 xl:px-14 xxl:px-[10rem] xll:px-[20rem] xxx:px-[22%] lll:px-[25%]">
+      <div className="mt-20 px-4 xl:px-14 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]">
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1, transition: { duration: 2, delay: 0.5 } }}
-          className="mb-24 md:flex justify-between items-start w-full block"
+          animate={{ opacity: 1, transition: { duration: 0.8, delay: 0.2 } }}
+          className="mb-24 block w-full items-start justify-between md:flex"
         >
           <div className="w-full md:w-[58%]">
-            <div className="w-full md:w-[60%] block items-center flex-col justify-center">
-              <p className="text-red-500 mb-2 font-extrabold">
+            <div className="flex w-full flex-col justify-center md:w-[60%]">
+              <p className="mb-2 font-extrabold text-red-500">
                 {servicePack.service?.name}
+                {servicePack.subService?.name
+                  ? ` • ${servicePack.subService.name}`
+                  : ""}
               </p>
+
               <motion.div
                 whileHover={{
                   rotate: 360,
                   transition: { type: "spring", duration: 2 },
                 }}
-                className="w-[20%] mb-2"
+                className="mb-2 w-[20%]"
               >
-                {/* <Image
-                  src={image1}
-                  alt="image1"
-                  priority
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  className="rounded-3xl"
-                /> */}
-                <img src={servicePack.image ?? ''} alt="image-package" className='rounded-3xl' />
+                {servicePack.image ? (
+                  <img
+                    src={servicePack.image}
+                    alt={servicePack.name}
+                    className="rounded-3xl"
+                  />
+                ) : (
+                  <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-gray-100 text-sm text-gray-400">
+                    No image
+                  </div>
+                )}
               </motion.div>
-              <h1 className="text-[40px] sm:text-[62px] font-bold leading-tight mb-3 text-left max-w-xl lg:max-w-4xl">
+
+              <h1 className="mb-3 max-w-xl text-left text-[40px] font-bold leading-tight sm:text-[62px] lg:max-w-4xl">
                 {servicePack.name}
               </h1>
-              <p className="text-[18px] leading-7 font-semibold text-gray-500 text-left">
+
+              <p className="text-left text-[18px] font-semibold leading-7 text-gray-500">
                 {servicePack.description}
               </p>
             </div>
+
             <div className="mt-10">
-              <h4 className="text-xl font-bold mb-2">What's included?</h4>
+              <h4 className="mb-2 text-xl font-bold">What&apos;s included?</h4>
+
               {servicePack.points.map((point, index) => (
                 <div className="mt-6 flex items-center gap-4" key={index}>
-                  <span className="w-7 h-7 p-1 rounded-full bg-red-500 text-white flex items-center justify-center">
-                    <Check />
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-red-500 p-1 text-white">
+                    <Check className="h-4 w-4" />
                   </span>
                   <h5 className="text-lg font-medium text-black">
                     {point || "Default point"}
@@ -126,68 +135,67 @@ const PackageService = ({ servicePack }: Props) => {
               ))}
             </div>
           </div>
-          <div className="w-full md:w-[42%] mt-20 md:mt-0">
-            <div className="bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] w-full px-10 py-14 rounded-[40px] border">
-              <h3 className="text-2l font-semibold mb-3">
+
+          <div className="mt-20 w-full md:mt-0 md:w-[42%]">
+            <div className="w-full rounded-[40px] border bg-white px-10 py-14 shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+              <h3 className="mb-3 text-2xl font-semibold">
                 Order your package today!
               </h3>
-              <p className="text-[17px] leading-7 font-semibold text-gray-500">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vitae
-                ipsum tempor feugiat augue.
+
+              <p className="text-[17px] font-semibold leading-7 text-gray-500">
+                Choose your preferred package option and add it directly to your cart.
               </p>
-              {servicePack.priceByYear || servicePack.priceByMonth ? (
+
+              {hasRecurringPricing ? (
                 <form onSubmit={handleAddToCart}>
                   <select
+                    value={selectedMode === "ONE_TIME" ? "" : selectedMode}
                     onChange={handleSelectChange}
                     required
-                    className="mt-16 w-full bg-white shadow-sm px-5 py-5 rounded-[40px] border hover:border-black transition-all duration-300 cursor-pointer"
+                    className="mt-16 w-full cursor-pointer rounded-[40px] border bg-white px-5 py-5 shadow-sm transition-all duration-300 hover:border-black"
                   >
                     <option value="">Package Duration</option>
-                    {servicePack.priceByYear && (
-                      <option
-                        value="priceByYear"
-                        key={servicePack.priceByYear}
-                        className="font-semibold text-gray-500"
-                      >
+
+                    {hasYearly && (
+                      <option value="YEARLY" className="font-semibold text-gray-500">
                         1 Year
                       </option>
                     )}
-                    {servicePack.priceByMonth && (
-                      <option
-                        value="priceByMonth"
-                        key={servicePack.priceByMonth}
-                        className="font-semibold text-gray-500"
-                      >
+
+                    {hasMonthly && (
+                      <option value="MONTHLY" className="font-semibold text-gray-500">
                         1 Month
                       </option>
                     )}
                   </select>
-                  <h4 className="text-3xl font-extrabold mt-10">
-                    ${selectedPrice}.00 /{" "}
-                    {selectedPrice === servicePack.priceByMonth ? "month" : "year"}
+
+                  <h4 className="mt-10 text-3xl font-extrabold">
+                    ${selectedPrice.toFixed(2)} {priceLabel}
                   </h4>
-                  <br />
+
                   <motion.button
                     whileHover={{ y: -10, transition: { type: "spring" } }}
-                    className="bg-red-500 text-white rounded-full px-10 py-5 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] w-full mt-10"
+                    className="mt-10 w-full rounded-full bg-red-500 px-10 py-5 text-white"
                     type="submit"
                   >
-                    <h5 className="font-semibold text-[17px] text-center">
+                    <h5 className="text-center text-[17px] font-semibold">
                       Add to Cart
                     </h5>
                   </motion.button>
                 </form>
               ) : (
                 <div>
-                  <h4 className="text-3xl font-extrabold mt-10">
-                    ${servicePack.price}.00
+                  <h4 className="mt-10 text-3xl font-extrabold">
+                    ${(servicePack.price ?? 0).toFixed(2)}
                   </h4>
+
                   <motion.button
                     whileHover={{ y: -10, transition: { type: "spring" } }}
-                    className="bg-red-500 text-white rounded-full px-10 py-5 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] w-full mt-10"
+                    className="mt-10 w-full cursor-pointer rounded-full bg-red-500 px-10 py-5 text-white"
                     onClick={handleAddToCart}
+                    type="button"
                   >
-                    <h5 className="font-semibold text-[17px] text-center">
+                    <h5 className="text-center text-[17px] font-semibold">
                       Add to Cart
                     </h5>
                   </motion.button>
@@ -196,13 +204,15 @@ const PackageService = ({ servicePack }: Props) => {
             </div>
           </div>
         </motion.div>
-        <div className="mt-[100px] mb-[100px]">
-          <div className="bg-slate-50 shadow-md w-[90%] md:w-[80%] lg:w-[70%] mx-auto rounded-[40px] px-6 md:px-10 lg:px-16 pt-24 pb-10">
-            <div className="mb-[80px]">
-              <h2 className="text-[30px] sm:text-[40px] font-bold">
+
+        <div className="my-25">
+          <div className="mx-auto w-[90%] rounded-[40px] bg-slate-50 px-6 pb-10 pt-24 shadow-md md:w-[80%] md:px-10 lg:w-[70%] lg:px-16">
+            <div className="mb-20">
+              <h2 className="text-[30px] font-bold sm:text-[40px]">
                 About the Package
               </h2>
-              <p className="text-base md:text-[18px] leading-8 font-semibold text-gray-500 mt-10">
+
+              <p className="mt-10 text-base font-semibold leading-8 text-gray-500 md:text-[18px]">
                 Proin sed libero enim sed faucibus turpis in. Nisi est sit amet
                 facilisis. Venenatis cras sed felis eget velit. A erat nam at
                 lectus urna duis convallis. Cras ornare arcu dui vivamus arcu
@@ -210,43 +220,43 @@ const PackageService = ({ servicePack }: Props) => {
                 gravida.
               </p>
 
-              <p className="text-base md:text-[18px] leading-8 font-semibold text-gray-500 mt-10">
+              <p className="mt-10 text-base font-semibold leading-8 text-gray-500 md:text-[18px]">
                 Tellus pellentesque eu tincidunt tortor aliquam nulla facilisi
                 cras. Et netus et malesuada fames. Vel orci porta non pulvinar
                 neque laoreet suspendisse. Malesuada fames ac turpis egestas
                 maecenas pharetra convallis.
               </p>
+
               <Image
                 src={image3}
-                alt="image1"
+                alt="package overview"
                 priority
                 width={0}
                 height={0}
                 sizes="100vw"
-                className="rounded-[50px] w-full mt-10"
+                className="mt-10 w-full rounded-[50px]"
               />
             </div>
           </div>
         </div>
       </div>
+
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <AlertDialogTrigger asChild>
-                  <button className='hidden' onClick={() => handleAddToCart}>Add to Cart</button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Package Added to Cart</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      The package has been successfully added to your cart!
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogAction onClick={() => window.location.reload()}>
-                      <p className='text-white'>0K</p>
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Package added to cart</AlertDialogTitle>
+            <AlertDialogDescription>
+              The package has been successfully added to your cart.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => setIsDialogOpen(false)}>
+              <span className="text-white">OK</span>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 };

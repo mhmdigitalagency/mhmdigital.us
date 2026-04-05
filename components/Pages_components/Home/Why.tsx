@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { ArrowRight, Check, Minus } from 'lucide-react'
 import Link from 'next/link'
 import {motion} from 'framer-motion'
-import { opacite } from '../../../variants'
+import { opacite } from '../../../lib/variants'
 
 const Why = () => {
   return (

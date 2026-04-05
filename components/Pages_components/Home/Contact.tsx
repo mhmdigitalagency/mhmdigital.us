@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { ArrowRight, Building, Mail, Smartphone, UserRound } from 'lucide-react'
 import {motion} from 'framer-motion'
-import { opacite } from '../../../variants'
+import { opacite } from '@/lib/variants'
 import { contact } from '@/actions/contact'
 import { contactSchema } from '@/schemas';
 import { useForm } from 'react-hook-form';
@@ -76,14 +76,14 @@ const Contact = ({services}: Props) => {
       }
 
   return (
-      <div className='px-4 xl:px-14 pb-[100px] xxl:px-[10rem] xll:px-[20rem] xxx:px-[22%] lll:px-[25%]'>
+      <div className='px-4 xl:px-14 pb-25 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]'>
             <hr />
             <motion.div
             variants={opacite("up", 0.3)}
             initial="hidden"
             whileInView={"show"}
             viewport={{ once: false, amount: 0.2 }} 
-            className='pt-[100px] flex flex-col xl:flex-row items-center justify-between gap-10'>
+            className='pt-25 flex flex-col xl:flex-row items-center justify-between gap-10'>
                   <div className='w-full xl:w-[48%]'>
                         <div className="mb-3">
                               <h5 className="text-red-500 text-[18px] font-extrabold"> 
@@ -108,7 +108,7 @@ const Contact = ({services}: Props) => {
                         </div>
                         <div className='flex items-center gap-3 pt-6'>
                               <Image src={image3} alt='image1' priority width={0} height={0} sizes='100vw' 
-                              className='rounded-lg w-[62px]' />
+                              className='rounded-lg w-15.5' />
                               <h5 className='text-xl text-gray-500 font-bold'>SEATTLE WA 98118</h5>
                         </div>
                   </div>
@@ -251,7 +251,7 @@ const Contact = ({services}: Props) => {
                                     <motion.button 
                                     whileHover={{ y: -12, transition: {type: 'spring'} }}
                                     className='flex items-center gap-2 bg-red-500 text-white 
-                                    rounded-full px-10 py-6 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]' type='submit'>
+                                    rounded-full px-10 py-6 shadow-[rgba(13,38,76,0.19)_0px_9px_20px]' type='submit'>
                                           <h5 className='font-semibold text-base sm:text-[20px]'>Get in Touch</h5>
                                           <ArrowRight className='text-white' />
                                     </motion.button>

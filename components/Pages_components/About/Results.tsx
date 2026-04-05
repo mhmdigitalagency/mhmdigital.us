@@ -3,7 +3,7 @@
 import { Plus } from 'lucide-react'
 import React from 'react'
 import {motion} from 'framer-motion'
-import { fadeIn } from '../../../variants'
+import { fadeIn } from '../../../lib/variants'
 
 const Results = () => {
   return (

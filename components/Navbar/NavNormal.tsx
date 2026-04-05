@@ -44,7 +44,7 @@ const NavNormal = () => {
                         href={link.path}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="capitalize font-medium hover:text-accent transition-all"
+                        className="capitalize font-medium hover:text-red-500 transition-all"
                     >
                         <h5>{link.name}</h5>
                     </a>
@@ -52,8 +52,8 @@ const NavNormal = () => {
                     <Link
                         key={index}
                         href={link.path}
-                        className={`${link.path === pathName && "text-accent border-b-2 border-accent"}
-                        capitalize font-medium hover:text-accent transition-all`}
+                        className={`${link.path === pathName && "text-red-500 border-b-2 border-red-500"}
+                        capitalize font-medium hover:text-red-500 transition-all`}
                     >
                         <h5>{link.name}</h5>
                     </Link>

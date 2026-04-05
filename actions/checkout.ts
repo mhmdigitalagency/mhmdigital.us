@@ -1,211 +1,158 @@
-'use server';
+"use server";
 
-import * as z from 'zod';
-import { checkoutSchema } from '@/schemas';
-import { db } from '@/lib/db';
-import getSession from "@/lib/getSession";
-import nodemailer from 'nodemailer';
-import handlebars from 'handlebars';
+import { headers } from "next/headers";
+import { prisma } from "@/lib/prisma";
+import { stripe } from "@/lib/stripe";
+import { generateOrderNumber } from "@/lib/order";
+import { auth } from "@/lib/auth";
+import { BillingCycle } from "@/app/generated/prisma/client";
 
-// Fonction pour envoyer l'email de confirmation au client
-const sendConfirmationEmail = async (orderDetails: any, userEmail: string) => {
-    const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: parseInt(process.env.SMTP_PORT || "465"),
-        secure: true,
-        auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS,
-        },
-    });
+type CheckoutPayloadItem = {
+  packageId: string;
+  quantity: number;
+  packageDuration: BillingCycle;
+};
 
-    // Template d'e-mail pour le client
-    const clientTemplate = `
-        <h2>Order confirmation</h2>
-        <p>Hello {{name}},</p>
-        <p>Thank you for your order. Here are the details :</p>
-        <ul>
-            <li>Order ID : {{orderId}}</li>
-            <li>Phone number : {{phoneNumber}}</li>
-            <li>Total price : {{price}}€</li>
-            <li>Billing address : {{billingAddress}}</li>
-            <li>Billing address city : {{billingCity}}</li>
-            <li>Shipping address : {{shippingAddress}}</li>
-            <li>Shipping address city : {{shippingCity}}</li>
-            <li>Packages ordered : {{packages}}</li>
-        </ul>
-        <p>Nous vous contacterons bientôt pour plus de détails.</p>
-        <p>Cordialement,</p>
-        <p>L'équipe de MHM Digital</p>
-    `;
+function getUnitPriceFromPackage(
+  pkg: {
+    price: number | null;
+    priceByMonth: number | null;
+    priceByYear: number | null;
+  },
+  billingCycle: BillingCycle
+) {
+  if (billingCycle === "MONTHLY") {
+    return Math.round((pkg.priceByMonth ?? 0) * 100);
+  }
 
-    // Compiler le template
-    const compiledClientTemplate = handlebars.compile(clientTemplate);
-    const clientHtmlToSend = compiledClientTemplate({
-        name: orderDetails.name,
-        orderId: orderDetails.id,
-        phoneNumber: orderDetails.phoneNumber,
-        price: orderDetails.price,
-        billingAddress: orderDetails.billingAddress,
-        billingCity: orderDetails.billingCity,
-        shippingAddress: orderDetails.shippingAddress,
-        shippingCity: orderDetails.shippingCity,
-        packages: orderDetails.packages.join(', '),
-    });
+  if (billingCycle === "YEARLY") {
+    return Math.round((pkg.priceByYear ?? 0) * 100);
+  }
 
-    const mailOptions = {
-        from: 'info@mhmdigital.us',
-        replyTo: orderDetails.email,
-        to: userEmail,
-        subject: `Order confirmation - ID ${orderDetails.id}`,
-        html: clientHtmlToSend,
+  return Math.round((pkg.price ?? 0) * 100);
+}
+
+export async function createCheckoutSession(items: CheckoutPayloadItem[]) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session?.user?.id || !session.user.email) {
+    throw new Error("You must be logged in to continue.");
+  }
+
+  if (!items.length) {
+    throw new Error("Your cart is empty.");
+  }
+
+  const packageIds = items.map((item) => item.packageId);
+
+  const packages = await prisma.package.findMany({
+    where: {
+      id: { in: packageIds },
+      isActive: true,
+    },
+    include: {
+      service: true,
+      subService: true,
+    },
+  });
+
+  if (packages.length !== items.length) {
+    throw new Error("Some packages were not found.");
+  }
+
+  const orderItemsData = items.map((cartItem) => {
+    const pkg = packages.find((p) => p.id === cartItem.packageId);
+
+    if (!pkg) {
+      throw new Error(`Package not found: ${cartItem.packageId}`);
+    }
+
+    const unitPrice = getUnitPriceFromPackage(pkg, cartItem.packageDuration);
+
+    if (unitPrice <= 0) {
+      throw new Error(`Invalid price for package: ${pkg.name}`);
+    }
+
+    return {
+      packageId: pkg.id,
+      quantity: cartItem.quantity,
+      billingCycle: cartItem.packageDuration,
+      unitPrice,
+      totalPrice: unitPrice * cartItem.quantity,
+      serviceName: pkg.service?.name ?? "Service",
+      subServiceName: pkg.subService?.name ?? null,
+      packageName: pkg.name,
+      packageDescription: pkg.description,
     };
+  });
 
-    try {
-        await transporter.sendMail(mailOptions);
-        console.log('Confirmation e-mail sent successfully.');
-    } catch (error) {
-        console.error('Error sending confirmation e-mail : ', error);
-    }
-};
+  const subtotal = orderItemsData.reduce((sum, item) => sum + item.totalPrice, 0);
 
-// Fonction pour envoyer l'email récapitulatif à l'admin (info@mhmdigital.us)
-const sendAdminEmail = async (orderDetails: any) => {
-    const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: parseInt(process.env.SMTP_PORT || "465"),
-        secure: true,
-        auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS,
+  const order = await prisma.order.create({
+    data: {
+      orderNumber: generateOrderNumber(),
+      userId: session.user.id,
+      status: "PENDING",
+      subtotal,
+      total: subtotal,
+      currency: "USD",
+      items: {
+        create: orderItemsData,
+      },
+      statusHistory: {
+        create: {
+          oldStatus: null,
+          newStatus: "PENDING",
+          note: "Order created before Stripe checkout.",
         },
-    });
+      },
+    },
+    include: {
+      items: true,
+    },
+  });
 
-    // Template d'e-mail pour l'admin
-    const adminTemplate = `
-        <h2>New order received</h2>
-        <p>A user has placed a new order. Here are the details :</p>
-        <ul>
-            <li>Client name : {{name}}</li>
-            <li>Client email : {{email}}</li>
-            <li>Phone number : {{phoneNumber}}</li>
-            <li>Order ID : {{orderId}}</li>
-            <li>Total price : {{price}}€</li>
-            <li>Billing address : {{billingAddress}}</li>
-            <li>Billing address city : {{billingCity}}</li>
-            <li>Shipping address : {{shippingAddress}}</li>
-            <li>Shipping address city : {{shippingCity}}</li>
-            <li>Packages ordered : {{packages}}</li>
-        </ul>
-    `;
+  const checkoutSession = await stripe.checkout.sessions.create({
+    mode: "payment",
+    customer_email: session.user.email,
+    client_reference_id: order.id,
+    metadata: {
+      orderId: order.id,
+      orderNumber: order.orderNumber,
+      userId: session.user.id,
+    },
+    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/orders/${order.id}?canceled=1`,
+    line_items: order.items.map((item) => ({
+      quantity: item.quantity,
+      price_data: {
+        currency: "usd",
+        unit_amount: item.unitPrice,
+        product_data: {
+          name: item.packageName,
+          description: [item.serviceName, item.subServiceName, item.billingCycle]
+            .filter(Boolean)
+            .join(" • "),
+        },
+      },
+    })),
+  });
 
-    // Compiler le template
-    const compiledAdminTemplate = handlebars.compile(adminTemplate);
-    const adminHtmlToSend = compiledAdminTemplate({
-        name: orderDetails.name,
-        email: orderDetails.email,
-        phoneNumber: orderDetails.phoneNumber,
-        orderId: orderDetails.id,
-        price: orderDetails.price,
-        billingAddress: orderDetails.billingAddress,
-        billingCity: orderDetails.billingCity,
-        shippingAddress: orderDetails.shippingAddress,
-        shippingCity: orderDetails.shippingCity,
-        packages: orderDetails.packages.join(', '),
-    });
+  await prisma.order.update({
+    where: { id: order.id },
+    data: {
+      stripeCheckoutSessionId: checkoutSession.id,
+    },
+  });
 
-    const mailOptions = {
-        from: 'info@mhmdigital.us',
-        to: 'info@mhmdigital.us',
-        subject: `New order - ID ${orderDetails.id}`,
-        html: adminHtmlToSend,
-    };
+  if (!checkoutSession.url) {
+    throw new Error("Stripe checkout URL not found.");
+  }
 
-    try {
-        await transporter.sendMail(mailOptions);
-        console.log('Summary e-mail successfully sent to l\'admin.');
-    } catch (error) {
-        console.error('Error sending l\'e-mail to l\'admin : ', error);
-    }
-};
-
-// Fonction checkOut pour traiter la commande
-export const checkOut = async (values: z.infer<typeof checkoutSchema>) => {
-    const session = await getSession();
-
-    if (!session) {
-        return { error: "User not authenticated!" };
-    }
-
-    const validateFields = checkoutSchema.safeParse(values);
-
-    if (!validateFields.success) {
-        return { error: "Invalid fields!" };
-    }
-
-    const { 
-        name, 
-        email, 
-        phoneNumber, 
-        packageIds, 
-        price, 
-        billingAddress, 
-        billingCity, 
-        billingPostal, shippingAddress, shippingCity, shippingPostal } = validateFields.data;
-
-    // Mise à jour ou création de l'utilisateur dans la base de données
-    const existingUser = await db.user.upsert({
-        where: { email },
-        update: { name, phoneNumber, billingAddress, shippingAddress, billingCity, billingPostal, shippingCity, shippingPostal },
-        create: { name, phoneNumber, email, billingAddress, shippingAddress, billingCity, billingPostal, shippingCity, shippingPostal }
-    });
-
-    // Préparation des données de commande
-    const packagesData = packageIds.map(packageId => ({
-        package: { connect: { id: packageId } }
-    }));
-
-    // Création de la commande dans la base de données
-    const newOrder = await db.order.create({
-        data: {
-            price,
-            userId: existingUser.id,
-            packages: {
-                create: packagesData
-            }
-        }
-    });
-
-    // Envoi des deux e-mails (client et admin)
-    await sendConfirmationEmail({
-        name,
-        phoneNumber,
-        email,
-        id: newOrder.id,
-        price,
-        billingAddress,
-        billingCity,
-        billingPostal,
-        shippingAddress,
-        shippingCity,
-        shippingPostal,
-        packages: packageIds,
-    }, email);
-
-    await sendAdminEmail({
-        name,
-        phoneNumber,
-        email,
-        id: newOrder.id,
-        price,
-        billingAddress,
-        billingCity,
-        billingPostal,
-        shippingAddress,
-        shippingCity,
-        shippingPostal,
-        packages: packageIds,
-    });
-
-    return { orderId: newOrder.id };
-};
+  return {
+    checkoutUrl: checkoutSession.url,
+    orderId: order.id,
+  };
+}

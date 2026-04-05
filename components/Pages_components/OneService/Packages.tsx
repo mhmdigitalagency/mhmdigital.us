@@ -1,30 +1,28 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import image1 from '@/public/images/icon-1-packages-marketing-template.png';
-import image2 from '@/public/images/icon-2-packages-marketing-template.png';
-import image3 from '@/public/images/icon-3-packages-marketing-template.png';
-import { Check } from 'lucide-react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { fadeIn } from '../../../variants';
-import { addToCart } from "@/lib/cartUtils";
-import { CartItem } from "@/types/carts";
-import Contact from './Contact';
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
+import React, { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
+import image1 from "@/public/images/icon-1-packages-marketing-template.png";
+import image2 from "@/public/images/icon-2-packages-marketing-template.png";
+import image3 from "@/public/images/icon-3-packages-marketing-template.png";
+import { Check } from "lucide-react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { fadeIn } from "../../../lib/variants";
+import { useCart } from "@/context/CartContext";
+import { BillingCycle, CartItem } from "@/types/carts";
+import Contact from "./Contact";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 
 interface Service {
   id: string;
@@ -41,6 +39,7 @@ interface Service {
     price: number | null;
     description: string;
     points: string[];
+    image?: string | null;
   }[];
   subServices: {
     id: string;
@@ -57,11 +56,12 @@ interface Service {
       price: number | null;
       description: string;
       points: string[];
+      image?: string | null;
     }[];
   }[];
 }
 
-interface Packages {
+interface PackageItem {
   id: string;
   serviceId: string | null;
   subServiceId: string | null;
@@ -72,7 +72,6 @@ interface Packages {
   description: string;
   points: string[];
   image?: string | null;
-  service?: Service; 
 }
 
 interface Props {
@@ -81,218 +80,220 @@ interface Props {
 
 const PackagesComponent: React.FC<Props> = ({ service }) => {
   const [selectedSubServiceId, setSelectedSubServiceId] = useState<string | null>(null);
-  const [selectedPriceType, setSelectedPriceType] = useState<'monthly' | 'yearly'>('monthly');
   const [isPriceTypeSwitchOn, setIsPriceTypeSwitchOn] = useState(true);
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [addedPackageName, setAddedPackageName] = useState("");
+  const { addToCart } = useCart();
 
   useEffect(() => {
-    if (service?.subServices && service?.subServices.length > 0) {
+    if (service?.subServices?.length > 0) {
       setSelectedSubServiceId(service.subServices[0].id);
     }
-  }, [service?.subServices]);
+  }, [service]);
 
-  const filteredPackages = selectedSubServiceId
-    ? service.subServices.find(sub => sub.id === selectedSubServiceId)?.packages || []
-    : service.packages;
+  const selectedSubService = useMemo(() => {
+    if (!selectedSubServiceId) return null;
+    return service.subServices.find((sub) => sub.id === selectedSubServiceId) ?? null;
+  }, [service.subServices, selectedSubServiceId]);
 
-  const handleAddToCart = (pack: Packages) => {
-    const selectedDuration =
-      pack.priceByMonth && pack.priceByYear
-        ? isPriceTypeSwitchOn
-          ? pack.priceByMonth
-          : pack.priceByYear
-        : pack.price;
+  const filteredPackages =
+    selectedSubServiceId && service.subServices.length > 0
+      ? selectedSubService?.packages || []
+      : service.packages;
 
-    const price = isPriceTypeSwitchOn ? pack.priceByMonth : pack.priceByYear;
-    
+  const hasRecurringPricing = (pack: PackageItem) =>
+    pack.priceByMonth !== null && pack.priceByYear !== null;
+
+  const getBillingCycle = (pack: PackageItem): BillingCycle => {
+    if (hasRecurringPricing(pack)) {
+      return isPriceTypeSwitchOn ? "MONTHLY" : "YEARLY";
+    }
+    return "ONE_TIME";
+  };
+
+  const getDisplayedPrice = (pack: PackageItem) => {
+    if (hasRecurringPricing(pack)) {
+      return isPriceTypeSwitchOn
+        ? `$ ${pack.priceByMonth?.toFixed(2)} / Month`
+        : `$ ${pack.priceByYear?.toFixed(2)} / Year`;
+    }
+
+    return `$ ${(pack.price ?? 0).toFixed(2)}`;
+  };
+
+  const handleAddToCart = (pack: PackageItem) => {
     const item: CartItem = {
       packageId: pack.id,
       quantity: 1,
-      packageDuration: selectedDuration,
-      package: { ...pack, service }
+      packageDuration: getBillingCycle(pack),
+      package: {
+        ...pack,
+        service: {
+          id: service.id,
+          name: service.name,
+          description: service.description,
+          icon: service.icon,
+        },
+        subService: selectedSubService
+          ? {
+              id: selectedSubService.id,
+              name: selectedSubService.name,
+              description: selectedSubService.description,
+            }
+          : null,
+      },
     };
 
     addToCart(item);
-
+    setAddedPackageName(pack.name);
     setIsDialogOpen(true);
+  };
+
+  const getPackageImage = (name: string) => {
+    if (name === "Starter") return image1;
+    if (name === "Growth") return image2;
+    if (name === "Ultimate") return image3;
+    return image1;
   };
 
   return (
     <>
-      {
-        service.packages.length <= 0 ? 
-        (
-          <div className='mt-32 flex flex-col items-center justify-center'>
-              <h1 className="text-[20px] text-gray-500 font-normal text-center mb-5 max-w-xl leading-snug">
-                <span className='font-bold text-black'>{service.name} </span> 
-                services, please contact us directly. We're here to assist you with all your notarial needs.
-              </h1>
-              <Contact service={service.name} />
+      {service.packages.length <= 0 && service.subServices.length <= 0 ? (
+        <div className="mt-32 flex flex-col items-center justify-center">
+          <h1 className="mb-5 max-w-xl text-center text-[20px] font-normal leading-snug text-gray-500">
+            <span className="font-bold text-black">{service.name} </span>
+            services, please contact us directly. We&apos;re here to assist you with all your needs.
+          </h1>
+          <Contact service={service.name} />
+        </div>
+      ) : (
+        <motion.div
+          variants={fadeIn("up", 0.3)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false, amount: 0.2 }}
+          className="mt-5"
+        >
+          <div className="flex flex-col items-center justify-center">
+            <h5 className="text-xl font-semibold text-red-500">Packages</h5>
+            <h1 className="mb-10 max-w-xl text-center text-3xl font-bold leading-tight md:text-[44px]">
+              Pricing plans for every need
+            </h1>
           </div>
-        ) 
-        : 
-        (
-          <motion.div
-            variants={fadeIn("up", 0.3)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: false, amount: 0.2 }}
-            className="mt-5"
-          >
-            <div className="flex flex-col items-center justify-center">
-              <h5 className="text-red-500 text-xl font-semibold">Packages</h5>
-              <h1 className="text-3xl md:text-[44px] text-center font-bold leading-tight mb-10 max-w-xl">
-                Pricing plans for every need
-              </h1>
-            </div>
 
-            {service?.subServices && service.subServices.length > 0 && (
-              <>
-                <div className="flex-wrap flex justify-center gap-4 mb-10">
-                  {service.subServices.map((subService) => (
-                    <button
-                      key={subService.id}
-                      onClick={() => setSelectedSubServiceId(subService.id)}
-                      className={`px-4 py-2 rounded-full hover:bg-red-500 transition-all duration-300 hover:text-white text-sm xl:text-base
-                        ${selectedSubServiceId === subService.id ? 'bg-red-500 text-white' : 'bg-gray-200'}`}
-                    >
-                      {subService.name}
-                    </button>
-                  ))}
+          {service.subServices.length > 0 && (
+            <>
+              <div className="mb-10 flex flex-wrap justify-center gap-4">
+                {service.subServices.map((subService) => (
+                  <button
+                    key={subService.id}
+                    onClick={() => setSelectedSubServiceId(subService.id)}
+                    className={`rounded-full px-4 py-2 text-sm transition-all duration-300 hover:bg-red-500 hover:text-white xl:text-base ${
+                      selectedSubServiceId === subService.id
+                        ? "bg-red-500 text-white"
+                        : "bg-gray-200 text-black"
+                    }`}
+                  >
+                    {subService.name}
+                  </button>
+                ))}
+              </div>
+
+              <div className="mb-10 flex flex-col items-center gap-4">
+                <div className="flex flex-col items-center gap-3 space-x-2">
+                  <Switch
+                    id="price-type-switch"
+                    checked={isPriceTypeSwitchOn}
+                    onCheckedChange={setIsPriceTypeSwitchOn}
+                    className={isPriceTypeSwitchOn ? "bg-red-500" : "bg-gray-200"}
+                  />
+                  <Label htmlFor="price-type-switch" className="text-xl font-semibold">
+                    {isPriceTypeSwitchOn ? "Monthly Price" : "Yearly Price"}
+                  </Label>
                 </div>
+              </div>
+            </>
+          )}
 
-                <div className="flex flex-col items-center gap-4 mb-10">
-                  <div className="flex items-center space-x-2 flex-col gap-3">
-                    <Switch
-                      id="price-type-switch"
-                      checked={isPriceTypeSwitchOn}
-                      onCheckedChange={(checked) => setIsPriceTypeSwitchOn(checked)}
-                      className={`${
-                        isPriceTypeSwitchOn ? 'bg-red-500' : 'bg-gray-200'
-                      } relative inline-flex items-center rounded-full`}
-                    >
-                      <span
-                        className={`${
-                          isPriceTypeSwitchOn ? 'translate-x-6' : 'translate-x-1'
-                        } inline-block transform rounded-full bg-white transition-transform`}
-                      />
-                    </Switch>
-                    <Label htmlFor="price-type-switch" className='text-xl font-semibold'>
-                      {isPriceTypeSwitchOn ? 'Monthly Price' : 'Yearly Price'}
-                    </Label>
-                  </div>
-                </div>
-              </>
-            )}
+          <div className="mt-10 flex flex-col gap-10 rounded-[40px] bg-white px-2 py-16 shadow-[rgba(7,65,210,0.1)_0px_9px_30px] xl:grid xl:grid-cols-3 xl:gap-0">
+            {filteredPackages.map((pack, index) => {
+              const isLast = index === filteredPackages.length - 1;
 
-            <div className="mt-10 py-16 px-2 bg-white shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] 
-            rounded-[40px] flex flex-col gap-10 xl:grid grid-cols-3 xl:gap-0">
-              {filteredPackages.map((pack, index) => (
+              return (
                 <div
-                  className="border-b xl:border-r last:border-none xl:border-b-0 pb-10 xl:pb-0 px-10 
-                  flex md:flex-row flex-col xl:flex-col items-center"
-                  key={index}
+                  key={pack.id}
+                  className={`flex flex-col items-center px-10 pb-10 md:flex-row xl:flex-col xl:pb-0 ${
+                    !isLast ? "border-b xl:border-b-0 xl:border-r" : ""
+                  }`}
                 >
                   <div className="w-full">
-                    <div className="w-[25%] mb-8">
+                    <div className="mb-8 w-[25%]">
                       <Link href={`/package/${pack.id}`}>
-                        {
-                          pack.name === 'Starter' &&
-                            <Image
-                            src={image1}
-                            alt="image1"
-                            priority
-                            width={0}
-                            height={0}
-                            sizes="100vw"
-                            className="rounded-3xl"
-                          />
-                        }
-                        {
-                          pack.name === 'Growth' &&
-                            <Image
-                            src={image2}
-                            alt="image1"
-                            priority
-                            width={0}
-                            height={0}
-                            sizes="100vw"
-                            className="rounded-3xl"
-                          />
-                        }
-                        {
-                          pack.name === 'Ultimate' &&
-                            <Image
-                            src={image3}
-                            alt="image1"
-                            priority
-                            width={0}
-                            height={0}
-                            sizes="100vw"
-                            className="rounded-3xl"
-                          />
-                        }
+                        <Image
+                          src={pack.image || getPackageImage(pack.name)}
+                          alt={pack.name}
+                          priority
+                          width={120}
+                          height={120}
+                          className="rounded-3xl object-cover"
+                        />
                       </Link>
                     </div>
-                    
-                    <h5 className="text-gray-500 mb-2 text-2xl">{pack.name || 'Default name'}</h5>
 
-                    <h4 className="text-2xl font-bold mb-6">
-                    {pack.priceByMonth !== null && pack.priceByYear !== null
-                      ? isPriceTypeSwitchOn
-                        ? `$ ${pack.priceByMonth}.00 USD / Month`
-                        : `$ ${pack.priceByYear}.00 USD / Year`
-                      : `$ ${pack.price || '1000'}.00 USD`
-                    }
+                    <h5 className="mb-2 text-2xl text-gray-500">{pack.name}</h5>
+
+                    <h4 className="mb-6 text-2xl font-bold">
+                      {getDisplayedPrice(pack)}
                     </h4>
 
-                    <p className="text-gray-500 text-lg mb-8">{pack.description || 'Default description'}</p>
+                    <p className="mb-8 text-lg text-gray-500">{pack.description}</p>
                   </div>
+
                   <div className="w-full">
-                    <h4 className="text-xl font-semibold mb-2">What's included?</h4>
-                    {pack.points.map((point, index) => (
-                      <div className="mt-6 flex items-start gap-4" key={index}>
-                        <span className="w-6 h-6 p-1 rounded-full bg-red-500 text-white flex items-center justify-center">
-                          <Check />
+                    <h4 className="mb-2 text-xl font-semibold">What&apos;s included?</h4>
+
+                    {pack.points.map((point, pointIndex) => (
+                      <div className="mt-6 flex items-start gap-4" key={pointIndex}>
+                        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-red-500 p-1 text-white">
+                          <Check className="h-4 w-4" />
                         </span>
-                        <h5 className="text-base font-medium text-gray-500">{point || 'Default point'}</h5>
+                        <h5 className="text-base font-medium text-gray-500">{point}</h5>
                       </div>
                     ))}
+
                     <div className="mt-10">
                       <motion.button
-                        whileHover={{ y: -10, transition: { type: 'spring' } }}
-                        className="flex items-center justify-center gap-2 w-full bg-red-500 text-white 
-                        rounded-full px-10 py-4 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] group"
+                        type="button"
+                        whileHover={{ y: -10, transition: { type: "spring" } }}
+                        className="group flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-red-500 px-10 py-4 text-white shadow-[rgba(7,65,210,0.1)_0px_9px_30px]"
                         onClick={() => handleAddToCart(pack)}
                       >
-                        <h5 className="font-semibold text-base">Add to cart</h5>
+                        <h5 className="text-base font-semibold">Add to cart</h5>
                       </motion.button>
                     </div>
                   </div>
                 </div>
-              ))}
-              <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <AlertDialogTrigger asChild>
-                  <button className='hidden' onClick={() => handleAddToCart}>Add to Cart</button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Package Added to Cart</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      The package has been successfully added to your cart!
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogAction onClick={() => window.location.reload()}>
-                      <p className='text-white'>0K</p>
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </div>
-          </motion.div>
-        )
-      }
+              );
+            })}
+          </div>
+
+          <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Package added to cart</AlertDialogTitle>
+                <AlertDialogDescription>
+                  <span className="font-medium">{addedPackageName}</span> has been successfully added to your cart.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogAction onClick={() => setIsDialogOpen(false)}>
+                  <span className="text-white">OK</span>
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </motion.div>
+      )}
     </>
   );
 };

@@ -16,8 +16,8 @@ import image2 from '@/public/images/image-2-process-marketing-template.svg'
 import image3 from '@/public/images/image-3-process-marketing-template.svg'
 import Image from 'next/image'
 import {motion} from 'framer-motion'
-import { fadeIn } from '../../../variants'
-import { opacite } from '../../../variants'
+import { fadeIn } from '../../../lib/variants'
+import { opacite } from '../../../lib/variants'
 
 const Process = () => {
   return (

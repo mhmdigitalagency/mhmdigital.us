@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar/Navbar";
-import Footer from "@/components/Footer/Footer";
-import { Toaster } from "@/components/ui/toaster";
-import { SessionProvider } from 'next-auth/react'
-import { auth } from "@/auth";
+import { Toaster } from "@/components/ui/sonner";
+import { CartProvider } from "@/context/CartContext";
 
 const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ["latin"],
 weight: ['200', '300', '400', '500', '600', '700', '800'] ,
@@ -13,30 +10,26 @@ variable: '--font-jetBrainsMomo'
  });
 
 export const metadata: Metadata = {
-  title: "MHM Digital Agency",
-  description: "",
+  title: "MHM Digital",
+  description: "Mhm Digital solves your printing needs with top-notch quality, unbeatable prices, and lightning-fast turnaround times. Experience the difference with Mhm Digital today!",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  const session = await auth()
-
   return (
-    <html lang="en">
-      <body className={plusJakartaSans.className}>
-        <SessionProvider session={session}>
-        <Navbar />
-        <div>
+    <html
+      lang="en"
+      className={`${plusJakartaSans.className} min-h-screen w-full overflow-x-hidden`}
+    >
+      <body className="min-h-full flex flex-col">
+        <CartProvider>
           {children}
-        </div>
-        <Footer />
-        <Toaster />
-        </SessionProvider>
-        </body>
+          <Toaster position="top-center" />
+        </CartProvider>
+      </body>
     </html>
   );
 }

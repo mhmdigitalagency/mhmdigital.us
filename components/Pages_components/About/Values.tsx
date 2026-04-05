@@ -7,7 +7,7 @@ import image3 from '@/public/images/icon-3-values-marketing-template.svg'
 import image4 from '@/public/images/icon-4-values-marketing-template.svg'
 import Image from 'next/image'
 import {motion} from 'framer-motion'
-import { opacite } from '../../../variants'
+import { opacite } from '../../../lib/variants'
 
 const Values = () => {
   return (

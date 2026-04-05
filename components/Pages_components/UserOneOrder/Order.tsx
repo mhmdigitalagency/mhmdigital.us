@@ -4,10 +4,12 @@ import React from 'react'
 
 interface User {
       id: string;
-      email: string;
+      baned: boolean;
       name: string;
-      password: string | null;
       phoneNumber: string | null;
+      userRole: string;
+      email: string;
+      image: string | null;
       company: string | null;
       billingAddress: string | null;
       shippingAddress: string | null;
@@ -28,7 +30,7 @@ const Order = ({user}: Props) => {
 
   return (
     <>
-    <div className='pt-[100px] pb-[100px] px-4 xl:px-14 xxl:px-[10rem] xll:px-[20rem] xxx:px-[22%] lll:px-[25%]'>
+    <div className='py-25 px-4 xl:px-14 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]'>
       <div className='w-full px-8 py-5 bg-slate-50'>
         <h1 className='text-3xl md:text-[40px] font-bold leading-tight mb-3 xl:max-w-xl'>
             {user.name} Orders

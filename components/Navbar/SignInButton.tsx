@@ -20,9 +20,9 @@ const SignInButton = () => {
       {
         link.map((item, index) => (
           <Link key={index} href={item.path} 
-            className={`${pathName === item.path && "text-blue-500"} 
-            hidden xl:flex hover:text-red-500 duration-300 text-base font-bold gap-1 items-start`}>
-                <User/><span>{item.name}</span>
+            className={`${pathName === item.path && "text-red-500 border-b-2 border-red-500"} 
+            flex hover:text-red-500 duration-300 text-sm md:text-[15.5px] font-medium gap-1 items-start`}>
+                <User className='size-5 md:size-6' /><span className='hidden sm:block'>{item.name}</span>
           </Link>
         ))
       }

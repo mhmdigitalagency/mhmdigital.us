@@ -29,13 +29,13 @@ const ServiceItem = ({service}: Props) => {
       whileHover={{ scale: 1.02, transition: {type: 'spring', duration: 0.7} }}
       >
             <Link href={`/service/${service.id}`} className='flex flex-col xl:flex-row items-start gap-4 xl:gap-1 border rounded-[50px]
-            bg-white px-10 py-12 shadow-[0_8px_30px_rgb(0,0,0,0.12)] group h-[400px] lg:h-[370px] xl:h-[280px]'>
+            bg-white px-10 py-12 shadow-[0_8px_30px_rgb(0,0,0,0.12)] group h-100 lg:h-92.5 xl:h-70'>
                   <div className='w-[40%]'>
                         {/* <Image src={image1} alt='image1' priority width={0} height={0} sizes='100vw' 
                         className='rounded-3xl' /> */}
                         <img src={service.icon} alt="image-service" className='rounded-3xl' />
                   </div>
-                  <div className='w-[100%]'>
+                  <div className='w-full'>
                         <h4 className='text-3xl font-bold mb-3'>{service.name || 'Default name'}</h4>
                         <p className='text-[17.5px] font-semibold text-gray-500 mb-5 leading-7'>
                               {service.description 

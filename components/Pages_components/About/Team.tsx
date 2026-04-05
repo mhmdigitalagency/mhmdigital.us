@@ -6,9 +6,10 @@ import image2 from '@/public/images/image-5-team-marketing-template-p-500.jpeg'
 import image3 from '@/public/images/image-6-team-marketing-template-p-500.jpeg'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, Facebook, Linkedin, Twitter } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
+import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa'
 import {motion} from 'framer-motion'
-import { opacite } from '../../../variants'
+import { opacite } from '../../../lib/variants'
 
 const Team = () => {
   return (
@@ -44,13 +45,13 @@ const Team = () => {
                         </Link>
                         <div className='mt-6 flex items-center gap-5'>
                               <span className='rounded-full p-3 bg-blue-500 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
-                                    <Facebook className='text-white' />
+                                    <FaFacebook className='text-white' />
                               </span>
                               <span className='rounded-full p-3 bg-blue-400 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
-                                    <Twitter className='text-white' />
+                                    <FaTwitter className='text-white' />
                               </span>
                               <span className='rounded-full p-3 bg-blue-500 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
-                                    <Linkedin className='text-white' />
+                                    <FaLinkedin className='text-white' />
                               </span>
                         </div>
                   </div>
@@ -73,13 +74,13 @@ const Team = () => {
                         </Link>
                         <div className='mt-6 flex items-center gap-5'>
                               <span className='rounded-full p-3 bg-blue-500 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
-                                    <Facebook className='text-white' />
+                                    <FaFacebook className='text-white' />
                               </span>
                               <span className='rounded-full p-3 bg-blue-400 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
-                                    <Twitter className='text-white' />
+                                    <FaTwitter className='text-white' />
                               </span>
                               <span className='rounded-full p-3 bg-blue-500 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
-                                    <Linkedin className='text-white' />
+                                    <FaLinkedin className='text-white' />
                               </span>
                         </div>
                   </div>
@@ -102,13 +103,13 @@ const Team = () => {
                         </Link>
                         <div className='mt-6 flex items-center gap-5'>
                               <span className='rounded-full p-3 bg-blue-500 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
-                                    <Facebook className='text-white' />
+                                    <FaFacebook className='text-white' />
                               </span>
                               <span className='rounded-full p-3 bg-blue-400 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
-                                    <Twitter className='text-white' />
+                                    <FaTwitter className='text-white' />
                               </span>
                               <span className='rounded-full p-3 bg-blue-500 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
-                                    <Linkedin className='text-white' />
+                                    <FaLinkedin className='text-white' />
                               </span>
                         </div>
                   </div>
