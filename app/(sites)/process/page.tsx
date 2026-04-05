@@ -1,11 +1,11 @@
 import Contact from '@/components/Pages_components/Home/Contact'
 import Process from '@/components/Pages_components/Home/Process'
-import { db } from '@/lib/db'
+import { prisma } from '@/lib/prisma'
 import React from 'react'
 
 const page = async () => {
 
-      const services = await db.service.findMany()
+      const services = await prisma.service.findMany()
 
   return (
     <div>
