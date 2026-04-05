@@ -15,7 +15,9 @@ export function getStripe() {
   }
 
   if (!stripeInstance) {
-    stripeInstance = new Stripe(secretKey);
+    stripeInstance = new Stripe(secretKey, {
+      apiVersion: "2025-12-15.clover",
+    });
   }
 
   return stripeInstance;
