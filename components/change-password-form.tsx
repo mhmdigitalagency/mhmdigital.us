@@ -2,16 +2,14 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { changePasswordAction } from "@/actions/change-password-action";
 import { toast } from "sonner";
-import { Eye, EyeOff, KeySquare } from "lucide-react";
+import { Eye, EyeOff, KeyRound } from "lucide-react";
 
 export const ChangePasswordForm = () => {
   const [isPending, setIsPending] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showPassword2, setShowPassword2] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
 
   async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
@@ -32,45 +30,78 @@ export const ChangePasswordForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md w-full space-y-4 mt-10">
-      <div className="relative mt-8 flex items-center gap-3">
-        <KeySquare className="size-6 md:size-8 text-gray-400" />
-        <input 
-        type={showPassword ? "text" : "password"} 
-        id="currentPassword" name="currentPassword" 
-        placeholder="Current password ****" 
-        className="peer w-full bg-transparent px-4 py-4 border rounded-full
-        focus:border-red-500 text-base placeholder-gray-500" />
-        <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-2 top-4 text-gray-400 hover:text-red-400"
-              aria-label={showPassword ? "Hide password" : "Show password"}
+    <form onSubmit={handleSubmit} className="w-full max-w-xl space-y-5">
+      <div>
+        <label
+          htmlFor="currentPassword"
+          className="mb-2 block text-sm font-semibold text-gray-700"
         >
-              {showPassword ? <EyeOff className="w-6 h-6" /> : <Eye className="w-6 h-6" />}
-        </button>
+          Current password
+        </label>
+
+        <div className="relative flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 transition-all duration-300 focus-within:border-red-300 focus-within:bg-white focus-within:shadow-sm">
+          <KeyRound className="h-5 w-5 text-gray-400" />
+          <input
+            type={showCurrentPassword ? "text" : "password"}
+            id="currentPassword"
+            name="currentPassword"
+            placeholder="Enter your current password"
+            className="w-full bg-transparent pr-10 text-base text-gray-900 outline-none placeholder:text-gray-400"
+          />
+          <button
+            type="button"
+            onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+            className="absolute right-4 text-gray-400 transition hover:text-red-400"
+            aria-label={showCurrentPassword ? "Hide password" : "Show password"}
+          >
+            {showCurrentPassword ? (
+              <EyeOff className="h-5 w-5" />
+            ) : (
+              <Eye className="h-5 w-5" />
+            )}
+          </button>
+        </div>
       </div>
 
-      <div className="relative mt-8 flex items-center gap-3">
-        <KeySquare className="size-6 md:size-8 text-gray-400" />
-        <input 
-        type={showPassword2 ? "text" : "password"} 
-        id="newPassword" name="newPassword" 
-        placeholder="New password ****" 
-        className="peer w-full bg-transparent px-4 py-4 border rounded-full
-        focus:border-red-500 text-base placeholder-gray-500" />
-        <button
-              type="button"
-              onClick={() => setShowPassword2(!showPassword2)}
-              className="absolute right-2 top-4 text-gray-400 hover:text-red-400"
-              aria-label={showPassword2 ? "Hide password" : "Show password"}
+      <div>
+        <label
+          htmlFor="newPassword"
+          className="mb-2 block text-sm font-semibold text-gray-700"
         >
-              {showPassword2 ? <EyeOff className="size-6" /> : <Eye className="size-6" />}
-        </button>
+          New password
+        </label>
+
+        <div className="relative flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 transition-all duration-300 focus-within:border-red-300 focus-within:bg-white focus-within:shadow-sm">
+          <KeyRound className="h-5 w-5 text-gray-400" />
+          <input
+            type={showNewPassword ? "text" : "password"}
+            id="newPassword"
+            name="newPassword"
+            placeholder="Enter your new password"
+            className="w-full bg-transparent pr-10 text-base text-gray-900 outline-none placeholder:text-gray-400"
+          />
+          <button
+            type="button"
+            onClick={() => setShowNewPassword(!showNewPassword)}
+            className="absolute right-4 text-gray-400 transition hover:text-red-400"
+            aria-label={showNewPassword ? "Hide password" : "Show password"}
+          >
+            {showNewPassword ? (
+              <EyeOff className="h-5 w-5" />
+            ) : (
+              <Eye className="h-5 w-5" />
+            )}
+          </button>
+        </div>
       </div>
 
-      <Button size="lg" type="submit" disabled={isPending} className="p-6 rounded-full bg-red-500 hover:bg-red-600 transition-all duration-300 cursor-pointer text-xs md:text-sm mt-4">
-        Change password
+      <Button
+        size="lg"
+        type="submit"
+        disabled={isPending}
+        className="rounded-full bg-red-500 px-6 py-6 text-sm font-semibold text-white transition-all duration-300 hover:bg-red-600"
+      >
+        {isPending ? "Updating..." : "Change password"}
       </Button>
     </form>
   );

@@ -14,15 +14,7 @@ import { BillingCycle, CartItem } from "@/types/carts";
 import Contact from "./Contact";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogAction,
-} from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 
 interface Service {
   id: string;
@@ -81,8 +73,6 @@ interface Props {
 const PackagesComponent: React.FC<Props> = ({ service }) => {
   const [selectedSubServiceId, setSelectedSubServiceId] = useState<string | null>(null);
   const [isPriceTypeSwitchOn, setIsPriceTypeSwitchOn] = useState(true);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [addedPackageName, setAddedPackageName] = useState("");
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -145,8 +135,10 @@ const PackagesComponent: React.FC<Props> = ({ service }) => {
     };
 
     addToCart(item);
-    setAddedPackageName(pack.name);
-    setIsDialogOpen(true);
+
+    toast.success("Package added to cart", {
+      description: `${pack.name} has been successfully added to your cart.`,
+    });
   };
 
   const getPackageImage = (name: string) => {
@@ -169,8 +161,6 @@ const PackagesComponent: React.FC<Props> = ({ service }) => {
       ) : (
         <motion.div
           variants={fadeIn("up", 0.3)}
-          initial="hidden"
-          whileInView="show"
           viewport={{ once: false, amount: 0.2 }}
           className="mt-5"
         >
@@ -276,22 +266,6 @@ const PackagesComponent: React.FC<Props> = ({ service }) => {
               );
             })}
           </div>
-
-          <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Package added to cart</AlertDialogTitle>
-                <AlertDialogDescription>
-                  <span className="font-medium">{addedPackageName}</span> has been successfully added to your cart.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogAction onClick={() => setIsDialogOpen(false)}>
-                  <span className="text-white">OK</span>
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
         </motion.div>
       )}
     </>

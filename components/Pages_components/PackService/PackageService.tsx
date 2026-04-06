@@ -11,15 +11,7 @@ import {
   Package as CartPackage,
 } from "@/types/carts";
 import { useCart } from "@/context/CartContext";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 
 interface Props {
   servicePack: CartPackage;
@@ -39,7 +31,6 @@ const PackageService = ({ servicePack }: Props) => {
     : "ONE_TIME";
 
   const [selectedMode, setSelectedMode] = useState<BillingCycle>(defaultMode);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const selectedPrice = useMemo(() => {
     if (selectedMode === "MONTHLY") return servicePack.priceByMonth ?? 0;
@@ -71,7 +62,10 @@ const PackageService = ({ servicePack }: Props) => {
     };
 
     addToCart(item);
-    setIsDialogOpen(true);
+
+    toast.success("Package added to cart", {
+      description: `${servicePack.name} has been successfully added to your cart.`,
+    });
   };
 
   return (
@@ -240,23 +234,6 @@ const PackageService = ({ servicePack }: Props) => {
           </div>
         </div>
       </div>
-
-      <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Package added to cart</AlertDialogTitle>
-            <AlertDialogDescription>
-              The package has been successfully added to your cart.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-
-          <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setIsDialogOpen(false)}>
-              <span className="text-white">OK</span>
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </>
   );
 };

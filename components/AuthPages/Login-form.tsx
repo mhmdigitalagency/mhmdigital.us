@@ -50,7 +50,6 @@ const LoginForm = ({
       }
 
       toast.success("Logged in successfully.");
-
       router.replace(redirectTo || "/profile");
       router.refresh();
       window.location.reload();
@@ -65,73 +64,84 @@ const LoginForm = ({
     <form className="w-full" onSubmit={handleSubmit} noValidate>
       <input type="hidden" name="callbackURL" value={callbackURL} />
 
-      <div className="w-full">
-        <div className="relative flex items-center gap-3">
-          <Mail className="size-6 md:size-8 text-gray-400" />
-          <input
-            name="email"
-            type="email"
-            id="email"
-            required
-            autoComplete="email"
-            inputMode="email"
-            maxLength={200}
-            className="border rounded-full peer w-full bg-transparent px-4 py-4 
-          focus:border-red-500 text-base placeholder-gray-500"
-            placeholder="Email *"
-          />
-        </div>
-
-        <div className="relative mt-8 flex items-center gap-3">
-          <KeySquare className="size-6 md:size-8 text-gray-400" />
-          <input
-            name="password"
-            type={showPassword ? "text" : "password"}
-            id="password"
-            required
-            autoComplete="current-password"
-            maxLength={200}
-            className="border rounded-full peer w-full bg-transparent px-4 py-4 
-          focus:border-red-500 text-base placeholder-gray-500"
-            placeholder="Password *"
-          />
-
-          <button
-            type="button"
-            onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute right-2 top-4 text-gray-400 hover:text-red-400 transition"
-            aria-label={showPassword ? "Hide password" : "Show password"}
+      <div className="space-y-5">
+        <div>
+          <label
+            htmlFor="email"
+            className="mb-2 block text-sm font-semibold text-gray-700"
           >
-            {showPassword ? (
-              <EyeOff className="size-6" />
-            ) : (
-              <Eye className="size-6" />
-            )}
-          </button>
+            Email address
+          </label>
+
+          <div className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 transition-all duration-300 focus-within:border-red-300 focus-within:bg-white focus-within:shadow-sm">
+            <Mail className="h-5 w-5 text-gray-400" />
+            <input
+              name="email"
+              type="email"
+              id="email"
+              required
+              autoComplete="email"
+              inputMode="email"
+              maxLength={200}
+              className="w-full bg-transparent text-base text-gray-900 outline-none placeholder:text-gray-400"
+              placeholder="Enter your email"
+            />
+          </div>
         </div>
 
-        <div className="mt-6 flex flex-col items-end">
+        <div>
+          <label
+            htmlFor="password"
+            className="mb-2 block text-sm font-semibold text-gray-700"
+          >
+            Password
+          </label>
+
+          <div className="relative flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 transition-all duration-300 focus-within:border-red-300 focus-within:bg-white focus-within:shadow-sm">
+            <KeySquare className="h-5 w-5 text-gray-400" />
+            <input
+              name="password"
+              type={showPassword ? "text" : "password"}
+              id="password"
+              required
+              autoComplete="current-password"
+              maxLength={200}
+              className="w-full bg-transparent pr-10 text-base text-gray-900 outline-none placeholder:text-gray-400"
+              placeholder="Enter your password"
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-4 text-gray-400 transition hover:text-red-400"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? (
+                <EyeOff className="h-5 w-5" />
+              ) : (
+                <Eye className="h-5 w-5" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        <div className="flex justify-end">
           <Link
             href="/auth/forgot-password"
-            className="text-sm italic text-black hover:text-red-400 transition-all duration-300"
+            className="text-sm font-medium text-gray-500 transition hover:text-red-500"
           >
             Forgot password?
           </Link>
         </div>
       </div>
 
-      <div className="mt-10 w-full block sm:flex items-center gap-3">
-        <Button
-          disabled={isPending}
-          type="submit"
-          className="bg-red-500 text-white font-semibold px-16 py-8 w-full rounded-full shadow-md flex items-center gap-2 transition-all duration-300 hover:bg-red-600 cursor-pointer 
-          disabled:opacity-60 disabled:cursor-not-allowed shadow-[rgba(13,38,76,0.19)_0px_9px_20px]"
-        >
-          <h5 className="text-center text-white">
-            {isPending ? "Loading..." : "Login"}
-          </h5>
-        </Button>
-      </div>
+      <Button
+        disabled={isPending}
+        type="submit"
+        className="cursor-pointer mt-8 w-full rounded-full bg-red-500 px-6 py-7 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(239,68,68,0.25)] transition-all duration-300 hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {isPending ? "Loading..." : "Sign in"}
+      </Button>
     </form>
   );
 };

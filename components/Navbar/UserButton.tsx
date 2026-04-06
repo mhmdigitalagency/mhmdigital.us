@@ -26,7 +26,7 @@ export default function UserButton({ user }: UserButtonProps) {
         render={
           <button
             type="button"
-            className="flex items-center justify-center aspect-square w-10 h-10 rounded-full bg-gray-400 text-white cursor-pointer"
+            className="flex items-center justify-center aspect-square w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-400 text-white cursor-pointer"
           />
         }
       >

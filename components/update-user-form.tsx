@@ -1,13 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { updateUser } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { Image, UserRound } from "lucide-react";
+import { UserRound } from "lucide-react";
 
 interface UpdateUserFormProps {
   name: string;
@@ -23,7 +21,7 @@ export const UpdateUserForm = ({ name }: UpdateUserFormProps) => {
     const name = String(formData.get("name"));
 
     if (!name) {
-      return toast.error("Please enter a name or image");
+      return toast.error("Please enter your name");
     }
 
     await updateUser({
@@ -40,7 +38,6 @@ export const UpdateUserForm = ({ name }: UpdateUserFormProps) => {
         },
         onSuccess: () => {
           toast.success("User updated successfully");
-          (evt.target as HTMLFormElement).reset();
           router.refresh();
         },
       },
@@ -48,22 +45,34 @@ export const UpdateUserForm = ({ name }: UpdateUserFormProps) => {
   }
 
   return (
-    <form className="max-w-md w-full space-y-4 mt-10" onSubmit={handleSubmit}>
-      <div className="mt-8 flex items-center gap-3">
-        <UserRound className="size-6 md:size-8 text-gray-400" />
-        <input id="name" name="name" defaultValue={name} className="border rounded-full peer w-full bg-transparent px-4 py-4 
-        focus:border-red-500 text-base placeholder-gray-500" />
+    <form className="w-full max-w-xl space-y-5" onSubmit={handleSubmit}>
+      <div>
+        <label
+          htmlFor="name"
+          className="mb-2 block text-sm font-semibold text-gray-700"
+        >
+          Full name
+        </label>
+
+        <div className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 transition-all duration-300 focus-within:border-red-300 focus-within:bg-white focus-within:shadow-sm">
+          <UserRound className="h-5 w-5 text-gray-400" />
+          <input
+            id="name"
+            name="name"
+            defaultValue={name}
+            placeholder="Enter your full name"
+            className="w-full bg-transparent text-base text-gray-900 outline-none placeholder:text-gray-400"
+          />
+        </div>
       </div>
 
-      {/* <div className="relative mt-8">
-        <Label htmlFor="image" className="text-lg">Image</Label>
-        <Image className="absolute top-9 text-blue-300" />
-        <input id="image" name="image" defaultValue={image} className="w-full border-b border-blue-300 pl-9 py-2 focus:outline-none 
-      hover:border-b-red-500 transition-all duration-300 bg-transparent" />
-      </div> */}
-
-      <Button size="lg" type="submit" disabled={isPending} className="p-6 rounded-full bg-red-500 hover:bg-red-600 transition-all duration-300 cursor-pointer text-xs md:text-sm mt-4">
-        Update user
+      <Button
+        size="lg"
+        type="submit"
+        disabled={isPending}
+        className="rounded-full bg-red-500 px-6 py-6 text-sm font-semibold text-white transition-all duration-300 hover:bg-red-600"
+      >
+        {isPending ? "Updating..." : "Update profile"}
       </Button>
     </form>
   );

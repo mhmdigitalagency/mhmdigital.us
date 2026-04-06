@@ -44,13 +44,13 @@ const NavMobile = () => {
 
   return (
     <div className='xl:hidden'>
-      <button className='size-8 md:size-10 
+      <button className='size-8 sm:size-10 
       rounded-full flex items-center justify-center bg-red-500 text-white 
       shadow-[rgba(13,38,76,0.19)_0px_9px_20px]'>
             <div onClick={toggle}>
                   {
-                        open ? <RiCloseFill color='white' className='text-lg md:text-2xl cursor-pointer' /> : 
-                        <RiMenu3Fill color='white' className='text-lg md:text-2xl cursor-pointer' />
+                        open ? <RiCloseFill color='white' className='text-base md:text-xl cursor-pointer' /> : 
+                        <RiMenu3Fill color='white' className='text-base md:text-xl cursor-pointer' />
                   }
                   
             </div>

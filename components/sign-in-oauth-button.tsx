@@ -46,17 +46,14 @@ const SignInOAuthButton = ({
   const action = signUp ? "up" : "in";
   const providerName = provider === "google" ? "Google" : "GitHub";
 
-  const logo =
-    provider === "google"
-      ? "/images/G.png"
-      : "/images/G.png"; 
+  const logo = provider === "google" ? "/images/G.png" : "/images/G.png";
 
   return (
     <Button
       type="button"
       onClick={handleClick}
       disabled={isPending}
-      className="flex items-center justify-center gap-3 py-8 border-gray-200 rounded-full bg-transparent hover:bg-black/10 w-full transition-all duration-300 cursor-pointer"
+      className="cursor-pointer flex w-full items-center justify-center gap-3 rounded-full border border-gray-200 bg-white px-5 py-6 text-black shadow-sm transition-all duration-300 hover:bg-gray-50 hover:shadow-md"
     >
       <Image
         src={logo}
@@ -66,9 +63,9 @@ const SignInOAuthButton = ({
         className="object-contain"
       />
 
-      <h5 className="text-sm text-black">
+      <span className="text-sm font-semibold">
         {isPending ? "Redirecting..." : `Sign ${action} with ${providerName}`}
-      </h5>
+      </span>
     </Button>
   );
 };

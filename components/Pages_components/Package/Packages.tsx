@@ -10,15 +10,7 @@ import { useCart } from "@/context/CartContext";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import Contact from "./Conctact";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 
 interface Package {
   id: string;
@@ -53,8 +45,6 @@ const Packages: React.FC<Props> = ({ services, isLoggedIn }) => {
   const [selectedServiceId, setSelectedServiceId] = useState<string | null>(null);
   const [selectedSubServiceId, setSelectedSubServiceId] = useState<string | null>(null);
   const [isMonthly, setIsMonthly] = useState(true);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [addedPackageName, setAddedPackageName] = useState("");
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -165,19 +155,21 @@ const Packages: React.FC<Props> = ({ services, isLoggedIn }) => {
     };
 
     addToCart(item);
-    setAddedPackageName(pack.name);
-    setIsDialogOpen(true);
+
+    toast.success("Package added to cart", {
+      description: `${pack.name} has been successfully added to your cart.`,
+    });
   };
 
-  if(!isLoggedIn) return (
-        <div className="py-20 text-center font-bold text-2xl">
-          <p>Please log in to view the packages.</p>
-        </div>
-  );
+  if (!isLoggedIn)
+    return (
+      <div className="py-20 text-center font-bold text-2xl">
+        <p>Please log in to view the packages.</p>
+      </div>
+    );
 
   return (
     <div className="mt-20 px-4 xl:px-14 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]">
-
       <div className="flex flex-col items-center justify-center">
         <h5 className="text-xl font-semibold text-red-500">Packages</h5>
         <h1 className="mb-10 max-w-xl text-center text-3xl font-bold leading-tight md:text-[44px]">
@@ -317,22 +309,6 @@ const Packages: React.FC<Props> = ({ services, isLoggedIn }) => {
           <Contact serviceName={selectedService?.name || ""} />
         </div>
       )}
-
-      <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Package added to cart</AlertDialogTitle>
-            <AlertDialogDescription>
-              <span className="font-medium">{addedPackageName}</span> has been successfully added to your cart.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setIsDialogOpen(false)}>
-              <span className="text-white">OK</span>
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 };
