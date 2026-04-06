@@ -1,8 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { resetPassword } from "@/lib/auth-client";
 import { Eye, EyeOff, KeySquare } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -24,7 +22,7 @@ export const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
     const formData = new FormData(evt.currentTarget);
 
     const password = String(formData.get("password"));
-    if (!password) return toast.error("Please enter your email.");
+    if (!password) return toast.error("Please enter your new password.");
 
     const confirmPassword = String(formData.get("confirmPassword"));
 
@@ -54,43 +52,82 @@ export const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
   }
 
   return (
-    <form className="w-full space-y-4 mt-10" onSubmit={handleSubmit}>
-      <div className="relative mt-8 flex items-center gap-3">
-        <KeySquare className="size-6 md:size-8 text-gray-400" />
-        <input type={showPassword ? "text" : "password"} id="password" name="password" placeholder="New password *" 
-        className="border rounded-full peer w-full bg-transparent px-4 py-4 
-                focus:border-red-500 text-base placeholder-gray-500" />
-                                
-        {/* Toggle icon */}
-        <button
+    <form className="w-full" onSubmit={handleSubmit}>
+      <div className="space-y-5">
+        <div>
+          <label
+            htmlFor="password"
+            className="mb-2 block text-sm font-semibold text-gray-700"
+          >
+            New password
+          </label>
+
+          <div className="relative flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 transition-all duration-300 focus-within:border-red-300 focus-within:bg-white focus-within:shadow-sm">
+            <KeySquare className="h-5 w-5 text-gray-400" />
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name="password"
+              placeholder="Enter your new password"
+              className="w-full bg-transparent pr-10 text-base text-gray-900 outline-none placeholder:text-gray-400"
+            />
+
+            <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-2 top-4 text-gray-400 hover:text-blue-400 transition"
+              className="absolute right-4 text-gray-400 transition hover:text-red-400"
               aria-label={showPassword ? "Hide password" : "Show password"}
-        >
-              {showPassword ? <EyeOff /> : <Eye />}
-        </button>
-      </div>
+            >
+              {showPassword ? (
+                <EyeOff className="h-5 w-5" />
+              ) : (
+                <Eye className="h-5 w-5" />
+              )}
+            </button>
+          </div>
+        </div>
 
-      <div className="relative mt-8 flex items-center gap-3">
-        <KeySquare className="size-6 md:size-8 text-gray-400" />
-        <input type={showPassword2 ? "text" : "password"} id="confirmPassword" name="confirmPassword" placeholder="Confirm password *" 
-        className="border rounded-full peer w-full bg-transparent px-4 py-4 
-                focus:border-red-500 text-base placeholder-gray-500" />
-                                
-        {/* Toggle icon */}
-        <button
+        <div>
+          <label
+            htmlFor="confirmPassword"
+            className="mb-2 block text-sm font-semibold text-gray-700"
+          >
+            Confirm password
+          </label>
+
+          <div className="relative flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 transition-all duration-300 focus-within:border-red-300 focus-within:bg-white focus-within:shadow-sm">
+            <KeySquare className="h-5 w-5 text-gray-400" />
+            <input
+              type={showPassword2 ? "text" : "password"}
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="Confirm your new password"
+              className="w-full bg-transparent pr-10 text-base text-gray-900 outline-none placeholder:text-gray-400"
+            />
+
+            <button
               type="button"
               onClick={() => setShowPassword2(!showPassword2)}
-              className="absolute right-2 top-4 text-gray-400 hover:text-blue-400 transition"
+              className="absolute right-4 text-gray-400 transition hover:text-red-400"
               aria-label={showPassword2 ? "Hide password" : "Show password"}
-        >
-              {showPassword2 ? <EyeOff /> : <Eye />}
-        </button>
+            >
+              {showPassword2 ? (
+                <EyeOff className="h-5 w-5" />
+              ) : (
+                <Eye className="h-5 w-5" />
+              )}
+            </button>
+          </div>
+        </div>
       </div>
 
-      <Button size='lg' type="submit" disabled={isPending} className="p-6 rounded-full cursor-pointer transition-all duration-300 bg-red-500 hover:bg-red-600">
-        Reset password
+      <Button
+        size="lg"
+        type="submit"
+        disabled={isPending}
+        className="cursor-pointer mt-8 w-full rounded-full bg-red-500 px-6 py-7 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(239,68,68,0.25)] transition-all duration-300 hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {isPending ? "Updating..." : "Reset password"}
       </Button>
     </form>
   );

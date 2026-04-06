@@ -29,7 +29,7 @@ const page = async ({ searchParams }: Props) => {
       <div className="px-4 py-10 md:py-16 xl:px-14 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]">
         <ReturnButton href="/" label="Back to home" />
 
-        <div className="mt-8 grid items-stretch gap-8 lg:grid-cols-[1fr_500px]">
+        <div className="mt-8 grid items-stretch gap-8 lg:grid-cols-[1fr_580px]">
           <div className="hidden rounded-[36px] border border-gray-200 bg-white p-8 shadow-[0_20px_60px_rgba(0,0,0,0.06)] lg:flex lg:flex-col lg:justify-between">
             <div>
               <div className="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-2 text-sm font-semibold text-red-500">

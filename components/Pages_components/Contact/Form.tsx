@@ -1,47 +1,54 @@
-"use client"
+"use client";
 
-import React, { useState, useTransition } from 'react'
-import { z } from 'zod'
-import { useToast } from '@/components/ui/use-toast'
-import { Input } from "@/components/ui/input"
-import Image from 'next/image'
-import image1 from '@/public/images/icon-1-contact-marketing-template.svg'
-import image2 from '@/public/images/icon-2-contact-marketing-template.svg'
-import image3 from '@/public/images/V13.png'
-import { Textarea } from "@/components/ui/textarea"
-import { ArrowRight, Building, Mail, Smartphone, UserRound } from 'lucide-react'
-import { motion } from 'framer-motion'
+import React, { useState, useTransition } from "react";
+import { z } from "zod";
+import { useToast } from "@/components/ui/use-toast";
+import { Input } from "@/components/ui/input";
+import Image from "next/image";
+import image1 from "@/public/images/icon-1-contact-marketing-template.svg";
+import image2 from "@/public/images/icon-2-contact-marketing-template.svg";
+import image3 from "@/public/images/V13.png";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  ArrowRight,
+  Building,
+  Mail,
+  MapPin,
+  Smartphone,
+  UserRound,
+} from "lucide-react";
+import { motion } from "framer-motion";
 import {
   Form as Forms,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/ui/form"
-import { FormError } from '@/components/form-error'
-import { contact } from '@/actions/contact'
-import { contactSchema } from '@/schemas'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import Link from 'next/link'
+} from "@/components/ui/form";
+import { FormError } from "@/components/form-error";
+import { contact } from "@/actions/contact";
+import { contactSchema } from "@/schemas";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 
-type ContactFormValues = z.infer<typeof contactSchema>
+type ContactFormValues = z.infer<typeof contactSchema>;
 
 interface Services {
-  id: string
-  name: string
-  description: string
-  icon: string
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
 }
 
 interface Props {
-  services: Services[]
+  services: Services[];
 }
 
 const Form = ({ services }: Props) => {
-  const { toast } = useToast()
-  const [error, setError] = useState<string | undefined>("")
-  const [isPending, startTransition] = useTransition()
+  const { toast } = useToast();
+  const [error, setError] = useState<string | undefined>("");
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
@@ -53,212 +60,240 @@ const Form = ({ services }: Props) => {
       description: "",
       company: "",
     },
-  })
+  });
 
   const onSubmit = (values: ContactFormValues) => {
-    setError("")
+    setError("");
 
     startTransition(async () => {
-      const data = await contact(values)
+      const data = await contact(values);
 
       if (data.success) {
         toast({
           title: "Success",
           description: data.message || "Message sent successfully.",
           variant: "default",
-        })
+        });
 
-        form.reset()
+        form.reset();
       } else {
-        setError(data.error)
+        setError(data.error);
 
         toast({
           title: "Error",
           description: data.error || "Something went wrong.",
           variant: "destructive",
-        })
+        });
       }
-    })
-  }
+    });
+  };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: 2, delay: 0.5 } }}
-      className='px-4 xl:px-14 pb-45 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]'
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0, transition: { duration: 0.7 } }}
+      className="bg-linear-to-b from-white via-red-50/20 to-white px-4 pb-28 pt-24 xl:px-14 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]"
     >
-      <div className='pt-37.5 flex flex-col xl:flex-row items-center justify-between gap-10'>
-        <div className='w-full xl:w-[48%]'>
-          <div className="mb-3">
-            <h5 className="text-red-500 text-[18px] font-extrabold">
-              Get in touch
-            </h5>
+      <div className="grid items-start gap-10 xl:grid-cols-[1fr_1.1fr] xl:gap-12">
+        <div className="w-full">
+          <div className="inline-flex rounded-full bg-red-50 px-4 py-2 text-sm font-semibold text-red-500">
+            Get in touch
           </div>
 
-          <h1 className='text-[32px] sm:text-[40px] font-bold leading-tight mb-3'>
+          <h1 className="mt-5 text-4xl font-bold leading-tight text-gray-900 sm:text-5xl">
             Ready to elevate your brand?
           </h1>
 
-          <p className='text-[18px] font-medium text-gray-500 mb-10'>
-            Contact us to discuss your project and discover how we can help you achieve your goals.
+          <p className="mt-5 max-w-xl text-lg leading-8 text-gray-500">
+            Contact us to discuss your project and discover how we can help you
+            grow with design, printing, digital solutions, and more.
           </p>
 
-          <div className='flex items-center gap-3'>
-            <Image
-              src={image1}
-              alt='Email icon'
-              priority
-              width={0}
-              height={0}
-              sizes='100vw'
-              className='rounded-xl'
-            />
-            <h5 className='text-lg font-semibold'>contact@mhmdigital.us</h5>
+          <div className="mt-10 grid gap-4">
+            <div className="flex items-center gap-4 rounded-3xl border border-gray-200 bg-white p-5 shadow-sm">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50">
+                <Image
+                  src={image1}
+                  alt="Email icon"
+                  priority
+                  width={28}
+                  height={28}
+                  className="rounded-xl object-contain"
+                />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-400">Email us</p>
+                <h5 className="text-base font-semibold text-gray-900 sm:text-lg">
+                  contact@mhmdigital.us
+                </h5>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4 rounded-3xl border border-gray-200 bg-white p-5 shadow-sm">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50">
+                <Image
+                  src={image2}
+                  alt="Phone icon"
+                  priority
+                  width={28}
+                  height={28}
+                  className="rounded-xl object-contain"
+                />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-400">Call us</p>
+                <h5 className="text-base font-semibold text-gray-900 sm:text-lg">
+                  +1 206 771 0038
+                </h5>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4 rounded-3xl border border-gray-200 bg-white p-5 shadow-sm">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50">
+                <Image
+                  src={image3}
+                  alt="Location icon"
+                  priority
+                  width={28}
+                  height={28}
+                  className="rounded-xl object-contain"
+                />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-400">Location</p>
+                <h5 className="text-base font-semibold uppercase text-gray-900 sm:text-lg">
+                  Seattle, WA 98118
+                </h5>
+              </div>
+            </div>
           </div>
 
-          <div className='flex items-center gap-3 pt-6'>
-            <Image
-              src={image2}
-              alt='Phone icon'
-              priority
-              width={0}
-              height={0}
-              sizes='100vw'
-              className='rounded-xl'
-            />
-            <h5 className='text-xl text-gray-500 font-bold'>+1 206 771 0038</h5>
-          </div>
-
-          <div className='flex items-center gap-3 pt-6'>
-            <Image
-              src={image3}
-              alt='Location icon'
-              priority
-              width={0}
-              height={0}
-              sizes='100vw'
-              className='rounded-lg w-15.5'
-            />
-            <h5 className='text-xl text-gray-500 font-bold'>SEATTLE WA 98118</h5>
+          <div className="mt-8 rounded-[32px] border border-gray-200 bg-white p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-gray-900">
+              Let&apos;s talk about your project
+            </h3>
+            <p className="mt-3 text-sm leading-7 text-gray-500">
+              Fill out the form and tell us what you need. We’ll review your
+              request and get back to you as soon as possible.
+            </p>
           </div>
         </div>
 
-        <div className='w-full xl:w-[52%]'>
+        <div className="w-full">
           <Forms {...form}>
             <form
-              className='px-8 py-20 border rounded-[50px] bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)]'
+              className="rounded-[36px] border border-gray-200 bg-white px-6 py-8 shadow-[0_20px_60px_rgba(0,0,0,0.08)] sm:px-8 md:px-10"
               onSubmit={form.handleSubmit(onSubmit)}
             >
-              <div className='flex flex-col sm:flex-row items-center justify-between gap-5 mb-7'>
-                <div className='w-full'>
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem className='w-full'>
-                        <div className='flex items-center justify-between gap-2'>
-                          <UserRound className='text-gray-400 shrink-0' size={36} />
-                          <FormControl>
-                            <Input
-                              placeholder="Full name *"
-                              {...field}
-                              disabled={isPending}
-                              className='border h-14 rounded-full text-sm placeholder:text-base hover:border-black transition-all duration-300'
-                            />
-                          </FormControl>
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className='w-full'>
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem className='w-full'>
-                        <div className='flex items-center justify-between gap-2'>
-                          <Mail className='text-gray-400 shrink-0' size={36} />
-                          <FormControl>
-                            <Input
-                              type="email"
-                              placeholder="Email *"
-                              {...field}
-                              disabled={isPending}
-                              className='border h-14 rounded-full text-sm placeholder:text-base hover:border-black transition-all duration-300'
-                            />
-                          </FormControl>
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+              <div className="mb-8 border-b border-gray-100 pb-6">
+                <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">
+                  Send us a message
+                </h2>
+                <p className="mt-2 text-sm leading-6 text-gray-500">
+                  Complete the form below and we’ll contact you shortly.
+                </p>
               </div>
 
-              <div className='flex flex-col sm:flex-row items-center justify-between gap-5 mb-7'>
-                <div className='w-full'>
-                  <FormField
-                    control={form.control}
-                    name="phoneNumber"
-                    render={({ field }) => (
-                      <FormItem className='w-full'>
-                        <div className='flex items-center justify-between gap-2'>
-                          <Smartphone className='text-gray-400 shrink-0' size={36} />
-                          <FormControl>
-                            <Input
-                              type="tel"
-                              placeholder="Phone number *"
-                              {...field}
-                              disabled={isPending}
-                              className='border h-14 rounded-full text-sm placeholder:text-base hover:border-black transition-all duration-300'
-                            />
-                          </FormControl>
+              <div className="grid gap-5 sm:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormControl>
+                        <div className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 transition-all duration-300 focus-within:border-red-300 focus-within:bg-white focus-within:shadow-sm">
+                          <UserRound className="h-5 w-5 shrink-0 text-gray-400" />
+                          <Input
+                            placeholder="Full name *"
+                            {...field}
+                            disabled={isPending}
+                            className="border-0 bg-transparent p-0 shadow-none focus-visible:ring-0"
+                          />
                         </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                <div className='w-full'>
-                  <FormField
-                    control={form.control}
-                    name="company"
-                    render={({ field }) => (
-                      <FormItem className='w-full'>
-                        <div className='flex items-center justify-between gap-2'>
-                          <Building className='text-gray-400 shrink-0' size={36} />
-                          <FormControl>
-                            <Input
-                              placeholder="Company name"
-                              {...field}
-                              disabled={isPending}
-                              className='border h-14 rounded-full text-sm placeholder:text-base hover:border-black transition-all duration-300'
-                            />
-                          </FormControl>
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormControl>
+                        <div className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 transition-all duration-300 focus-within:border-red-300 focus-within:bg-white focus-within:shadow-sm">
+                          <Mail className="h-5 w-5 shrink-0 text-gray-400" />
+                          <Input
+                            type="email"
+                            placeholder="Email *"
+                            {...field}
+                            disabled={isPending}
+                            className="border-0 bg-transparent p-0 shadow-none focus-visible:ring-0"
+                          />
                         </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="phoneNumber"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormControl>
+                        <div className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 transition-all duration-300 focus-within:border-red-300 focus-within:bg-white focus-within:shadow-sm">
+                          <Smartphone className="h-5 w-5 shrink-0 text-gray-400" />
+                          <Input
+                            type="tel"
+                            placeholder="Phone number *"
+                            {...field}
+                            disabled={isPending}
+                            className="border-0 bg-transparent p-0 shadow-none focus-visible:ring-0"
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="company"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormControl>
+                        <div className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 transition-all duration-300 focus-within:border-red-300 focus-within:bg-white focus-within:shadow-sm">
+                          <Building className="h-5 w-5 shrink-0 text-gray-400" />
+                          <Input
+                            placeholder="Company name"
+                            {...field}
+                            disabled={isPending}
+                            className="border-0 bg-transparent p-0 shadow-none focus-visible:ring-0"
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
 
-              <div className='mb-7'>
+              <div className="mt-5">
                 <FormField
                   control={form.control}
                   name="service"
                   render={({ field }) => (
-                    <FormItem className='w-full'>
+                    <FormItem className="w-full">
                       <FormControl>
                         <select
                           onChange={field.onChange}
                           value={field.value}
                           disabled={isPending}
-                          className='w-full bg-white px-5 py-5 rounded-[40px] border hover:border-black transition-all duration-300 cursor-pointer'
+                          className="w-full cursor-pointer rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 text-base text-gray-700 transition-all duration-300 hover:border-black focus:border-red-300 focus:bg-white focus:outline-none"
                         >
                           <option value="">Select a service *</option>
                           {services.map((item) => (
@@ -274,18 +309,18 @@ const Form = ({ services }: Props) => {
                 />
               </div>
 
-              <div className='mb-7'>
+              <div className="mt-5">
                 <FormField
                   control={form.control}
                   name="description"
                   render={({ field }) => (
-                    <FormItem className='w-full'>
+                    <FormItem className="w-full">
                       <FormControl>
                         <Textarea
                           placeholder="Describe your project..."
                           {...field}
                           disabled={isPending}
-                          className='rounded-3xl pt-5 pb-20 px-6 text-base placeholder:text-base hover:border-black transition-all duration-300'
+                          className="min-h-42.5 rounded-3xl border-gray-200 bg-gray-50 px-5 py-4 text-base placeholder:text-gray-400 transition-all duration-300 hover:border-black focus:border-red-300 focus:bg-white"
                         />
                       </FormControl>
                       <FormMessage />
@@ -294,31 +329,35 @@ const Form = ({ services }: Props) => {
                 />
               </div>
 
-              <FormError message={error} />
+              <div className="mt-5">
+                <FormError message={error} />
+              </div>
 
-              <div className='mt-6 flex items-center gap-5 flex-col justify-start'>
+              <div className="mt-8 flex flex-col gap-4">
                 <motion.button
-                  whileHover={{ y: -12, transition: { type: 'spring' } }}
+                  whileHover={{ y: -6 }}
+                  whileTap={{ scale: 0.98 }}
                   disabled={isPending}
-                  className='flex items-center justify-center gap-2 bg-red-500 text-white cursor-pointer rounded-full px-10 py-5 shadow-lg w-full disabled:opacity-70 disabled:cursor-not-allowed'
-                  type='submit'
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-red-500 px-8 py-4 text-white shadow-[0_12px_30px_rgba(239,68,68,0.25)] transition-all duration-300 hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-70"
+                  type="submit"
                 >
-                  <h5 className='font-semibold text-base sm:text-[20px]'>
+                  <span className="text-base font-semibold sm:text-lg">
                     {isPending ? "Sending..." : "Submit"}
-                  </h5>
-                  <ArrowRight className='text-white' />
+                  </span>
+                  <ArrowRight className="h-5 w-5 text-white" />
                 </motion.button>
 
-                <h5>Or</h5>
+                <div className="text-center text-sm text-gray-400">or</div>
 
-                <Link href='/appointment' className='w-full'>
+                <Link href="/appointment" className="w-full">
                   <motion.div
-                    whileHover={{ y: -12, transition: { type: 'spring' } }}
-                    className='flex items-center gap-2 justify-center bg-black text-white cursor-pointer rounded-full px-10 py-5 shadow-lg w-full'
+                    whileHover={{ y: -6 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="flex w-full items-center justify-center gap-2 rounded-full bg-gray-900 px-8 py-4 text-white shadow-lg transition-all duration-300 hover:bg-black"
                   >
-                    <h5 className='font-semibold text-base sm:text-[20px]'>
+                    <span className="text-base font-semibold sm:text-lg">
                       Schedule an appointment
-                    </h5>
+                    </span>
                   </motion.div>
                 </Link>
               </div>
@@ -326,8 +365,8 @@ const Form = ({ services }: Props) => {
           </Forms>
         </div>
       </div>
-    </motion.div>
-  )
-}
+    </motion.section>
+  );
+};
 
-export default Form
+export default Form;

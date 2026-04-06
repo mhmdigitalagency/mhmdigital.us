@@ -78,13 +78,13 @@ const CartPage = () => {
               package that fits your needs.
             </p>
 
-            <Link
+            {/* <Link
               href="/"
               className="mt-8 inline-flex items-center gap-2 rounded-full bg-red-500 px-7 py-3.5 font-semibold text-white transition-all duration-300 hover:bg-red-600 hover:shadow-lg"
             >
-              Continue shopping
+              Home
               <ArrowRight className="h-4 w-4" />
-            </Link>
+            </Link> */}
           </div>
 
           <div className="grid gap-4 border-t border-gray-100 px-8 py-8 md:grid-cols-3">
@@ -323,12 +323,12 @@ const CartPage = () => {
                 <ArrowRight className="h-4 w-4" />
               </Link>
 
-              <Link
+              {/* <Link
                 href="/"
                 className="mt-3 inline-flex w-full items-center justify-center rounded-full border border-gray-300 bg-white px-6 py-4 text-center font-semibold text-gray-700 transition-all duration-300 hover:border-red-200 hover:bg-red-50 hover:text-red-500"
               >
                 Continue shopping
-              </Link>
+              </Link> */}
 
               <div className="mt-6 grid grid-cols-3 gap-3">
                 <div className="rounded-2xl bg-gray-50 p-3 text-center">

@@ -1,8 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Mail } from "lucide-react";
 import { requestPasswordReset } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
@@ -15,10 +13,13 @@ export const ForgotPasswordForm = () => {
 
   async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
+
     const formData = new FormData(evt.currentTarget);
     const email = String(formData.get("email"));
 
-    if (!email) return toast.error("Please enter your email.");
+    if (!email) {
+      return toast.error("Please enter your email.");
+    }
 
     await requestPasswordReset({
       email,
@@ -42,24 +43,37 @@ export const ForgotPasswordForm = () => {
   }
 
   return (
-    <form className="w-full space-y-4 mt-10" onSubmit={handleSubmit}>
-      <div className="relative mt-8 flex items-center gap-3">
-            <Mail className="size-6 md:size-8 text-gray-400" />
-            <input
-                  name='email'
-                  type="email"
-                  id="email"
-                  required
-                  autoComplete="email"
-                  inputMode="email"
-                  className="border rounded-full peer w-full bg-transparent px-4 py-4 
-                focus:border-red-500 text-base placeholder-gray-500" 
-                placeholder="Email *"
-            />
+    <form className="w-full" onSubmit={handleSubmit}>
+      <div>
+        <label
+          htmlFor="email"
+          className="mb-2 block text-sm font-semibold text-gray-700"
+        >
+          Email address
+        </label>
+
+        <div className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 transition-all duration-300 focus-within:border-red-300 focus-within:bg-white focus-within:shadow-sm">
+          <Mail className="h-5 w-5 text-gray-400" />
+          <input
+            name="email"
+            type="email"
+            id="email"
+            required
+            autoComplete="email"
+            inputMode="email"
+            className="w-full bg-transparent text-base text-gray-900 outline-none placeholder:text-gray-400"
+            placeholder="Enter your email"
+          />
+        </div>
       </div>
 
-      <Button size="lg" type="submit" disabled={isPending} className="p-6 rounded-full bg-red-500 cursor-pointer transition-all duration-300 hover:bg-red-600">
-        Send reset link
+      <Button
+        size="lg"
+        type="submit"
+        disabled={isPending}
+        className="cursor-pointer mt-8 w-full rounded-full bg-red-500 px-6 py-7 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(239,68,68,0.25)] transition-all duration-300 hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {isPending ? "Sending..." : "Send reset link"}
       </Button>
     </form>
   );

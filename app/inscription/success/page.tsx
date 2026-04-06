@@ -40,7 +40,7 @@ const page = async ({ searchParams }: PageProps) => {
           </div>
 
           {/* Actions */}
-          <div className="mt-10 flex flex-col gap-4">
+          {/* <div className="mt-10 flex flex-col gap-4">
             <Link
               href="/connexion"
               className="flex items-center justify-center gap-2 rounded-full bg-red-500 px-6 py-4 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(239,68,68,0.25)] transition-all duration-300 hover:bg-red-600"
@@ -55,7 +55,7 @@ const page = async ({ searchParams }: PageProps) => {
             >
               Continue to your account →
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
