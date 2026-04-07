@@ -16,7 +16,7 @@ const Navbar = async () => {
                         <Link className='flex items-center gap-1' href={'/'}>
                               <Image src={image1} alt='image1' priority width={0} height={0} sizes='100vw'
                                     className='w-[16%] md:w-[20%]' />
-                              <span className='text-red-500 font-bold text-[22px] md:text-[28px]'>MHM</span><span className='text-[22px] md:text-[28px]'>Digital</span>
+                              <span className='text-red-500 font-bold text-lg xs:text-[22px] md:text-[28px]'>MHM</span><span className='text-lg xs:text-[22px] md:text-[28px]'>Digital</span>
                         </Link>
                   </div>
                   <NavNormal />

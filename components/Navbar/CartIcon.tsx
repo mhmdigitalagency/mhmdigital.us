@@ -110,7 +110,7 @@ const CartIcon = () => {
                       onClick={() => setIsOpen(false)}
                       className="mt-5 rounded-full bg-red-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-600 cursor-pointer"
                     >
-                      Continue shopping
+                      Explore more services
                     </button>
                   </div>
                 ) : (

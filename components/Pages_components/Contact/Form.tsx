@@ -143,7 +143,7 @@ const Form = ({ services }: Props) => {
               <div>
                 <p className="text-sm font-medium text-gray-400">Call us</p>
                 <h5 className="text-base font-semibold text-gray-900 sm:text-lg">
-                  +1 206 771 0038
+                  +1 888 903 7679
                 </h5>
               </div>
             </div>

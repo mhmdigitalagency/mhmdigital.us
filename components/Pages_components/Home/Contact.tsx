@@ -102,7 +102,7 @@ const Contact = ({services}: Props) => {
                         <div className='flex items-center gap-3 pt-6'>
                               <Image src={image2} alt='image1' priority width={0} height={0} sizes='100vw' 
                               className='rounded-xl' />
-                              <h5 className='text-xl text-gray-500 font-bold'>+1 206 771 0038</h5>
+                              <h5 className='text-xl text-gray-500 font-bold'>+1 888 903 7679</h5>
                         </div>
                         <div className='flex items-center gap-3 pt-6'>
                               <Image src={image3} alt='image1' priority width={0} height={0} sizes='100vw' 
