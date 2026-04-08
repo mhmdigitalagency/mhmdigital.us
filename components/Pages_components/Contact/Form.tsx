@@ -100,7 +100,7 @@ const Form = ({ services }: Props) => {
             Get in touch
           </div>
 
-          <h1 className="mt-5 text-4xl font-bold leading-tight text-gray-900 sm:text-5xl">
+          <h1 className="mt-5 text-3xl md:text-4xl font-bold leading-tight text-gray-900 sm:text-5xl">
             Ready to elevate your brand?
           </h1>
 
@@ -355,7 +355,7 @@ const Form = ({ services }: Props) => {
                     whileTap={{ scale: 0.98 }}
                     className="flex w-full items-center justify-center gap-2 rounded-full bg-gray-900 px-8 py-4 text-white shadow-lg transition-all duration-300 hover:bg-black"
                   >
-                    <span className="text-base font-semibold sm:text-lg">
+                    <span className="text-center text-base font-semibold sm:text-lg">
                       Schedule an appointment
                     </span>
                   </motion.div>

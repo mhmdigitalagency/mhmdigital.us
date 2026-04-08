@@ -13,7 +13,7 @@ import { fadeIn } from '../../../lib/variants'
 
 const FAQ = () => {
   return (
-    <div className='py-[100px] px-4 xl:px-14 xxl:px-[10rem] xll:px-[20rem] xxx:px-[22%] lll:px-[25%]'>
+    <div className='py-25 px-4 xl:px-14 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]'>
       <div className='flex flex-col xl:flex-row xl:items-center justify-between gap-5 mb-10'>
             <div className='w-full xl:w-[52%]'>
                   <div className="flex items-end gap-2"> 
@@ -22,7 +22,7 @@ const FAQ = () => {
                         FAQs
                         </h5> 
                   </div>
-                  <h2 className='text-[45px] font-bold leading-tight mb-4'>
+                  <h2 className='text-3xl md:text-[45px] font-bold leading-tight mb-4'>
                   Frequently Asked Questions
                   </h2>
             </div>
@@ -39,7 +39,7 @@ const FAQ = () => {
             <div>
                   <Accordion type="single" collapsible 
                   className="w-full bg-white
-                  shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]
+                  shadow-[rgba(50,50,105,0.15)_0px_2px_5px_0px,rgba(0,0,0,0.05)_0px_1px_1px_0px]
                   rounded-3xl
                   p-5
                   ">
@@ -58,7 +58,7 @@ const FAQ = () => {
             <div>
                   <Accordion type="single" collapsible 
                   className="w-full bg-white
-                  shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]
+                  shadow-[rgba(50,50,105,0.15)_0px_2px_5px_0px,rgba(0,0,0,0.05)_0px_1px_1px_0px]
                   rounded-3xl
                   p-5
                   ">
@@ -85,7 +85,7 @@ const FAQ = () => {
             <div>
                   <Accordion type="single" collapsible 
                   className="w-full bg-white
-                  shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]
+                  shadow-[rgba(50,50,105,0.15)_0px_2px_5px_0px,rgba(0,0,0,0.05)_0px_1px_1px_0px]
                   rounded-3xl
                   p-5
                   ">
@@ -103,7 +103,7 @@ const FAQ = () => {
             <div>
                   <Accordion type="single" collapsible 
                   className="w-full bg-white
-                  shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]
+                  shadow-[rgba(50,50,105,0.15)_0px_2px_5px_0px,rgba(0,0,0,0.05)_0px_1px_1px_0px]
                   rounded-3xl
                   p-5
                   ">

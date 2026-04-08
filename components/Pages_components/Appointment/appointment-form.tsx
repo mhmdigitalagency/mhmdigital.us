@@ -164,7 +164,7 @@ export default function AppointmentForm() {
   const progress = (step / steps.length) * 100
 
   return (
-    <section className="relative overflow-hidden py-10 md:py-16">
+    <section className="relative overflow-hidden">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(239,68,68,0.12),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.08),transparent_28%),linear-gradient(to_bottom,#fff,#fff,#f8fafc)]" />
 
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -172,7 +172,7 @@ export default function AppointmentForm() {
           <Card className="sticky top-24 h-fit overflow-hidden rounded-3xl border-slate-200/80 bg-white/90 shadow-xl shadow-slate-200/50 backdrop-blur">
             <div className="h-2 w-full bg-slate-100">
               <div
-                className="h-full rounded-r-full bg-gradient-to-r from-red-500 to-red-600 transition-all duration-300"
+                className="h-full rounded-r-full bg-linear-to-r from-red-500 to-red-600 transition-all duration-300"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -282,13 +282,13 @@ export default function AppointmentForm() {
                   <div className="space-y-8">
                     <div className="space-y-3">
                       <p className="text-sm font-semibold uppercase tracking-[0.18em] text-red-600">Step 1</p>
-                      <h2 className="text-3xl font-bold tracking-tight text-slate-900">Choose a date</h2>
+                      <h2 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 pt-10 xl:pt-0">Choose a date</h2>
                       <p className="max-w-2xl text-base leading-7 text-slate-600">
                         Select the day that works best for you. Past dates are automatically disabled.
                       </p>
                     </div>
 
-                    <div className="rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-4 md:p-6">
+                    <div className="rounded-[28px] border border-slate-200 bg-linear-to-br from-white to-slate-50 p-4 md:p-6">
                       <Calendar
                         mode="single"
                         selected={selectedDate}
@@ -339,7 +339,7 @@ export default function AppointmentForm() {
                               key={slot}
                               type="button"
                               onClick={() => setSelectedTime(slot)}
-                              className={`group flex min-h-[72px] items-center justify-center gap-2 rounded-2xl border px-4 py-4 text-sm font-semibold transition-all duration-200 ${
+                              className={`group flex min-h-18 items-center justify-center gap-2 rounded-2xl border px-4 py-4 text-sm font-semibold transition-all duration-200 ${
                                 isSelected
                                   ? 'border-red-600 bg-red-600 text-white shadow-lg shadow-red-200'
                                   : 'border-slate-200 bg-white text-slate-800 hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50'
@@ -461,7 +461,7 @@ export default function AppointmentForm() {
                       </p>
                     </div>
 
-                    <div className="grid gap-4 rounded-[28px] border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-5 text-sm text-slate-700 md:p-6">
+                    <div className="grid gap-4 rounded-[28px] border border-slate-200 bg-linear-to-br from-slate-50 to-white p-5 text-sm text-slate-700 md:p-6">
                       <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3">
                         <CalendarIcon className="h-4 w-4 text-red-600" />
                         <span className="font-medium text-slate-500">Date</span>
