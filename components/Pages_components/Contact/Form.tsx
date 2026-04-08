@@ -338,7 +338,7 @@ const Form = ({ services }: Props) => {
                   whileHover={{ y: -6 }}
                   whileTap={{ scale: 0.98 }}
                   disabled={isPending}
-                  className="flex w-full items-center justify-center gap-2 rounded-full bg-red-500 px-8 py-4 text-white shadow-[0_12px_30px_rgba(239,68,68,0.25)] transition-all duration-300 hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-70"
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-red-500 px-8 py-4 text-white shadow-[0_12px_30px_rgba(239,68,68,0.25)] transition-all duration-300 hover:bg-red-600 cursor-pointer disabled:cursor-not-allowed disabled:opacity-70"
                   type="submit"
                 >
                   <span className="text-base font-semibold sm:text-lg">
