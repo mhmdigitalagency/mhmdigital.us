@@ -184,7 +184,7 @@ const Footer = () => {
         <hr />
         <div className='py-2.5 flex items-center gap-1'>
           <p>Copyright ©2024</p>
-          <Link className='text-blue-600' href={'/'}>
+          <Link className='text-red-500' href={'/'}>
             MHM Digital Agency
           </Link>
         </div>
