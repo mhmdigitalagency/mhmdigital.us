@@ -270,11 +270,11 @@ const Contact = ({services}: Props) => {
                         whileHover={{ y: -6 }}
                         whileTap={{ scale: 0.98 }}
                         disabled={isPending}
-                        className='flex w-full items-center justify-center gap-2 rounded-full bg-red-500 px-8 py-4 text-white shadow-[0_12px_30px_rgba(239,68,68,0.25)] transition-all duration-300 hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-70'
+                        className='flex w-full items-center justify-center gap-2 rounded-full bg-red-500 px-8 py-4 text-white shadow-[0_12px_30px_rgba(239,68,68,0.25)] transition-all duration-300 hover:bg-red-600 cursor-pointer disabled:cursor-not-allowed disabled:opacity-70'
                         type='submit'
                         >
                         <h5 className='font-semibold text-base sm:text-lg'>
-                              {isPending ? "Sending..." : "Get in Touch"}
+                              {isPending ? "Sending..." : "Get in touch"}
                         </h5>
                         <ArrowRight className='h-5 w-5 text-white' />
                         </motion.button>
