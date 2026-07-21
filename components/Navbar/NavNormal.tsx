@@ -24,6 +24,10 @@ const NavNormal = () => {
             path: "/services",
         },
         {
+            name: "portfolio",
+            path: "/portfolio",
+        },
+        {
             name: "packages",
             path: "/packages",
         },

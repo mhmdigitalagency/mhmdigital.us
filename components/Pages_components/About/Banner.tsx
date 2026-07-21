@@ -14,13 +14,13 @@ const Banner = () => {
       <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: {duration: 2, delay: 0.5} }} 
-      className='mt-[100px] relative px-4 xl:px-14 xxl:px-[10rem] xll:px-[20rem] xxx:px-[22%] lll:px-[25%]'>
+      className='mt-25 relative px-4 xl:px-14 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]'>
             <motion.div
             variants={fadeIn("up", 0.5)}
             initial="hidden"
             whileInView={"show"}
             viewport={{ once: false, amount: 0.7 }} 
-            className='flex flex-col lg:flex-row lg:items-center gap-20 justify-between pb-10 xl:pb-[100px]'>
+            className='flex flex-col lg:flex-row lg:items-center gap-20 justify-between pb-10 xl:pb-25'>
                   <div className='w-full lg:w-[60%] xl:w-[50%]'>
                         <div className="flex items-center gap-2 mb-3"> 
                               <Minus className='text-red-500' />
@@ -37,7 +37,7 @@ const Banner = () => {
                   </div>
                   <div className='w-[50%]'>
                         <Image src={image1} alt='image1' priority width={0} height={0} sizes='100vw' 
-                        className='rounded-[50px] shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px] w-full' />
+                        className='rounded-[50px] shadow-[rgba(0,0,0,0.4)_0px_30px_90px] w-full' />
                   </div>
             </motion.div>
             {/* <div className='flex items-center justify-between gap-20'>
