@@ -61,7 +61,7 @@ const NavMobile = () => {
       </button>
       <div className={`absolute shadow-sm transition-all duration-500 
             ${open ? 'top-[6.3rem] bg-white left-0 right-0 z-50 transition-all duration-500 ease-in-out min-h-screen' 
-            : '-top-250 left-0 right-0 transition-all duration-500 ease-in-out min-h-screen'}`}>
+            : '-top-272 left-0 right-0 transition-all duration-500 ease-in-out min-h-screen'}`}>
             <hr />
             <div className='px-4 flex flex-col items-start justify-start gap-10 py-8'>
             {links.map((link, index) => (

@@ -57,7 +57,7 @@ export function PortfolioGrid() {
   return (
     <section
       id="projects"
-      className="px-5 py-20 md:px-8 md:py-28"
+      className="py-20 md:py-28 px-4 xl:px-14 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]"
     >
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">

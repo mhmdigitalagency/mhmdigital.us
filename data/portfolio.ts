@@ -455,6 +455,168 @@ export const portfolioProjects: PortfolioProject[] = [
       "Production deployment on Vercel",
     ],
   },
+  {
+  title: "El Sabor Katracho",
+  slug: "el-sabor-katracho",
+  client: "El Sabor Katracho Honduras Restaurant",
+  industry: "Restaurant & Food",
+  categories: [
+    "Websites",
+    "Branding",
+    "Print & Design",
+  ],
+  shortDescription:
+    "A professional restaurant website presenting authentic Honduran cuisine, the complete menu, business information, and online ordering options.",
+  fullDescription:
+    "El Sabor Katracho is an authentic Honduran restaurant website designed to showcase traditional dishes, communicate the restaurant’s identity, and connect customers with menus, location information, social media, and delivery platforms.",
+  services: [
+    "Website design",
+    "Website development",
+    "Restaurant branding",
+    "Menu integration",
+    "Online ordering integration",
+    "Responsive design",
+    "SEO configuration",
+    "Promotional graphics",
+  ],
+  technologies: [
+    "Next.js",
+    "TypeScript",
+    "Tailwind CSS",
+    "Responsive Web Design",
+    "SEO",
+  ],
+  coverImage:
+    "/images/portfolio/el-sabor-katracho-cover.jpg",
+  gallery: [
+    "/images/portfolio/el-sabor-katracho-1.jpg",
+    "/images/portfolio/el-sabor-katracho-2.jpg",
+    "/images/portfolio/el-sabor-katracho-3.jpg",
+  ],
+  projectUrl: "https://elsaborkatracho.com/",
+  featured: true,
+  completionYear: 2026,
+  challenge:
+    "Create an attractive and professional online presence that communicates the restaurant’s authentic Honduran identity while making its menu, location, hours, and ordering options easy to access.",
+  solution:
+    "We developed a responsive restaurant website with strong food presentation, clear navigation, an organized menu, restaurant information, social media connections, and direct links to online ordering and delivery services.",
+  results: [
+    "Professional restaurant website",
+    "Complete digital menu presentation",
+    "Improved visibility of Honduran dishes",
+    "Connected online ordering platforms",
+    "Responsive mobile experience",
+    "Consistent restaurant branding",
+  ],
+},
+{
+  title: "Taamine",
+  slug: "taamine",
+  client: "Taamine.com",
+  industry: "Insurance Technology",
+  categories: [
+    "Websites",
+    "Web Apps",
+  ],
+  shortDescription:
+    "A digital insurance comparison platform helping users explore and compare auto, health, home, motorcycle, and other insurance products.",
+  fullDescription:
+    "Taamine.com is an insurance technology platform designed to simplify insurance discovery and comparison. It allows users to explore different insurance categories and identify offers adapted to their individual needs.",
+  services: [
+    "Product strategy",
+    "UI/UX design",
+    "Website development",
+    "Insurance category architecture",
+    "Comparison workflow design",
+    "Responsive design",
+    "Content organization",
+  ],
+  technologies: [
+    "Next.js",
+    "TypeScript",
+    "Tailwind CSS",
+    "Form Management",
+    "Responsive Web Design",
+  ],
+  coverImage:
+    "/images/portfolio/taamine-cover.jpg",
+  gallery: [
+    "/images/portfolio/taamine-1.jpg",
+    "/images/portfolio/taamine-2.jpg",
+    "/images/portfolio/taamine-3.jpg",
+  ],
+  projectUrl: "https://taamine.com/",
+  featured: true,
+  completionYear: 2026,
+  challenge:
+    "Make insurance products easier to understand and compare while organizing multiple categories, providers, guides, and customer information within one digital platform.",
+  solution:
+    "We structured a user-friendly insurance comparison experience with clear categories, calls to action, provider presentation, informational content, and workflows designed to guide users toward suitable insurance offers.",
+  results: [
+    "Centralized insurance comparison experience",
+    "Clear insurance-category navigation",
+    "Simplified customer discovery journey",
+    "Responsive platform structure",
+    "Scalable foundation for additional insurers",
+    "Improved presentation of insurance offers",
+  ],
+},
+{
+  title: "BMF Technology",
+  slug: "bmf-technology",
+  client: "BMF Technology",
+  industry: "Technology & Digital Transformation",
+  categories: [
+    "Websites",
+    "Branding",
+    "Web Apps",
+  ],
+  shortDescription:
+    "A premium corporate technology website presenting software development, digital transformation, cloud, consulting, UX/UI, and professional training services.",
+  fullDescription:
+    "BMF Technology is a technology company helping organizations accelerate digital transformation through custom software development, technology consulting, process automation, cloud infrastructure, product design, and innovation.",
+  services: [
+    "Digital strategy",
+    "Corporate website design",
+    "UI/UX design",
+    "Website development",
+    "Brand presentation",
+    "Service architecture",
+    "Content organization",
+    "Responsive design",
+    "SEO configuration",
+  ],
+  technologies: [
+    "Next.js",
+    "TypeScript",
+    "Tailwind CSS",
+    "Responsive Web Design",
+    "SEO",
+    "Performance Optimization",
+  ],
+  coverImage:
+    "/images/portfolio/bmf-technology-cover.jpg",
+  gallery: [
+    "/images/portfolio/bmf-technology-1.jpg",
+    "/images/portfolio/bmf-technology-2.jpg",
+    "/images/portfolio/bmf-technology-3.jpg",
+  ],
+  projectUrl: "https://bmf-technology.com/",
+  featured: true,
+  completionYear: 2026,
+  challenge:
+    "Present a broad range of technology services and industry expertise through a modern corporate website capable of building trust with businesses and prospective partners.",
+  solution:
+    "We created a structured technology website with a premium hero section, detailed service presentation, industry solutions, project showcases, methodology, company values, career information, and conversion-focused calls to action.",
+  results: [
+    "Premium corporate technology presence",
+    "Clear presentation of technology services",
+    "Structured industry-specific solutions",
+    "Professional project showcase",
+    "Improved lead-generation pathways",
+    "Scalable content and service architecture",
+  ],
+},
 ];
 
 export const portfolioCategories: Array<

@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 export default function PortfolioPage() {
   return (
     <main className="min-h-screen bg-white">
-      <section className="relative overflow-hidden px-5 pb-24 pt-32 md:px-8 md:pb-32 md:pt-40">
+      <section className="relative overflow-hidden pb-24 pt-32 md:pb-32 md:pt-40 px-4 xl:px-14 py-8 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]">
         <div className="absolute -right-40 -top-40 h-h-130 w-h-130 rounded-full bg-red-500/20 blur-3xl" />
 
         <div className="absolute -bottom-72 left-1/4 h-h-130 w-h-130 rounded-full bg-red-500/10 blur-3xl" />
@@ -62,7 +62,7 @@ export default function PortfolioPage() {
 
       <PortfolioGrid />
 
-      <section className="px-5 pb-20 md:px-8 md:pb-28">
+      <section className="pb-20 md:pb-28 px-4 xl:px-14 py-8 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]">
         <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 overflow-hidden rounded-[34px] bg-[#ff2f3d] px-7 py-12 text-white md:flex-row md:items-center md:px-12 md:py-14">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.22em] text-white/75">
