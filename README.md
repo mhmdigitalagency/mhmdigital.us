@@ -11,6 +11,46 @@ Seattle-based digital growth agency platform — marketing website, e-commerce, 
 - **Tailwind CSS 4** + shadcn/ui
 - **Nodemailer** (transactional email)
 
+## Database Setup
+
+### 1. Create `.env.local`
+
+```bash
+cp .env.example .env.local
+```
+
+Edit `.env.local` and set a real **`POSTGRES_URL`** (not placeholders):
+
+```bash
+# Local PostgreSQL example
+POSTGRES_URL=postgresql://postgres:postgres@localhost:5432/mhm_digital
+
+# Neon example
+POSTGRES_URL=postgresql://user:pass@ep-xxxx.us-east-2.aws.neon.tech/neondb?sslmode=require
+
+# Supabase example
+POSTGRES_URL=postgresql://postgres:pass@db.xxxx.supabase.co:5432/postgres
+```
+
+> **Vercel:** Copy `POSTGRES_URL` from your Vercel project → Settings → Environment Variables.
+
+### 2. Run migrations and seed
+
+```bash
+npm run db:migrate   # Apply all migrations
+npm run db:seed      # Seed services, packages, CMS defaults
+# Or both at once:
+npm run db:setup
+```
+
+### Troubleshooting
+
+| Error | Fix |
+|-------|-----|
+| `datasource.url property is required` | Create `.env.local` with `POSTGRES_URL` |
+| `getaddrinfo EAI_AGAIN base` | Your URL contains a placeholder hostname — set a real database host |
+| `Can't reach database server` | Check DB is running and URL/credentials are correct |
+
 ## Local Setup
 
 ```bash

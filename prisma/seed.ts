@@ -1,5 +1,6 @@
-import { PrismaClient, ServiceType, PackagePricingType } from "@/app/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
+import "@/lib/env";
+import { ServiceType, PackagePricingType } from "@/app/generated/prisma/client";
 
 function slugify(value: string) {
   return value

@@ -9,7 +9,11 @@
     "lint": "eslint",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "db:migrate": "tsx scripts/check-db-env.ts && prisma migrate deploy",
+    "db:seed": "tsx scripts/check-db-env.ts && tsx prisma/seed.ts",
+    "db:setup": "tsx scripts/check-db-env.ts && prisma migrate deploy && tsx prisma/seed.ts",
+    "db:studio": "prisma studio"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",
@@ -30,6 +34,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "dotenv": "^16.6.1",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.38.0",
     "handlebars": "^4.7.8",
