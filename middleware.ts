@@ -1,15 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
 
-const protectedPrefixes = ["/profile", "/checkout", "/admin"];
+const protectedPrefixes = [
+  "/profile",
+  "/checkout",
+  "/admin",
+  "/dashboard",
+  "/orders",
+];
 
 function isProtected(pathname: string) {
-  return protectedPrefixes.some((p) => pathname === p || pathname.startsWith(p + "/"));
+  return protectedPrefixes.some(
+    (p) => pathname === p || pathname.startsWith(p + "/")
+  );
 }
 
 function isAuthRoute(pathname: string) {
-  return pathname === "/connexion" || pathname.startsWith("/connexion/")
-    || pathname === "/inscription" || pathname.startsWith("/inscription/");
+  return (
+    pathname === "/connexion" ||
+    pathname.startsWith("/connexion/") ||
+    pathname === "/inscription" ||
+    pathname.startsWith("/inscription/")
+  );
 }
 
 export function middleware(req: NextRequest) {
@@ -27,7 +39,7 @@ export function middleware(req: NextRequest) {
 
   if (isAuthRoute(pathname) && isLoggedIn) {
     const cb = nextUrl.searchParams.get("callbackURL");
-    const safeCb = cb && cb.startsWith("/") ? cb : "/profile";
+    const safeCb = cb && cb.startsWith("/") && !cb.startsWith("//") ? cb : "/dashboard";
     return NextResponse.redirect(new URL(safeCb, req.url));
   }
 
@@ -35,5 +47,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)"],
 };

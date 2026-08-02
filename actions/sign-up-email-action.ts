@@ -3,6 +3,8 @@
 import { auth, ErrorCode } from "@/lib/auth";
 import { APIError } from "better-auth/api";
 import { z } from "zod";
+import { prisma } from "@/lib/prisma";
+import { UserRole, AccountType } from "@/app/generated/prisma/enums";
 
 type SignUpActionResult = {
   error: string | null;
@@ -35,6 +37,7 @@ const signUpSchema = z.object({
     .max(200, { error: "Password is too long." }),
 
   callbackURL: z.string().optional(),
+  accountType: z.enum(["individual", "company"]).optional(),
 
   // honeypot: must stay empty
   website: z
@@ -44,7 +47,7 @@ const signUpSchema = z.object({
     .optional(),
 });
 
-function safeCallback(raw: unknown, fallback = "/profile") {
+function safeCallback(raw: unknown, fallback = "/dashboard") {
   const cb = typeof raw === "string" ? raw.trim() : "";
 
   if (!cb) return fallback;
@@ -135,7 +138,7 @@ export async function signUpEmailAction(
     email: formData.get("email"),
     password: formData.get("password"),
     callbackURL: formData.get("callbackURL"),
-    website: formData.get("website"),
+    accountType: formData.get("accountType"),
   });
 
   if (!parsed.success) {
@@ -148,8 +151,9 @@ export async function signUpEmailAction(
     };
   }
 
-  const { name, email, password, callbackURL, website } = parsed.data;
+  const { name, email, password, callbackURL, website, accountType } = parsed.data;
   const safeCb = safeCallback(callbackURL);
+  const isCompany = accountType === "company";
 
   // Honeypot: act like success, do nothing
   if (website && website.length > 0) {
@@ -181,9 +185,19 @@ export async function signUpEmailAction(
 
     clearRateLimit(rateLimitKey);
 
+    if (isCompany) {
+      await prisma.user.update({
+        where: { email },
+        data: {
+          accountType: AccountType.COMPANY,
+          role: UserRole.COMPANY_ADMIN,
+        },
+      });
+    }
+
     return {
       error: null,
-      redirectTo: `/inscription/success?callbackURL=${encodeURIComponent(safeCb)}`,
+      redirectTo: `/inscription/success?callbackURL=${encodeURIComponent(isCompany ? "/dashboard/company" : safeCb)}`,
     };
   } catch (err) {
     if (err instanceof APIError) {

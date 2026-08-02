@@ -737,6 +737,63 @@ async function main() {
     });
   }
 
+  // CMS defaults
+  const stats = [
+    { key: "projects", label: "Projects Completed", value: "150", suffix: "+", sortOrder: 0 },
+    { key: "businesses", label: "Businesses Supported", value: "80", suffix: "+", sortOrder: 1 },
+    { key: "industries", label: "Industries Served", value: "12", suffix: "+", sortOrder: 2 },
+    { key: "satisfaction", label: "Customer Satisfaction", value: "98", suffix: "%", sortOrder: 3 },
+    { key: "experience", label: "Years Combined Experience", value: "15", suffix: "+", sortOrder: 4 },
+  ];
+
+  for (const stat of stats) {
+    await prisma.siteStatistic.upsert({
+      where: { key: stat.key },
+      update: stat,
+      create: stat,
+    });
+  }
+
+  await prisma.testimonial.deleteMany();
+  await prisma.testimonial.createMany({
+    data: [
+      {
+        name: "Sarah Johnson",
+        role: "CEO",
+        company: "TechStart Inc.",
+        content: "MHM Digital transformed our online presence. Our website traffic increased 300% within three months.",
+        rating: 5,
+        sortOrder: 0,
+      },
+      {
+        name: "Michael Chen",
+        role: "Marketing Director",
+        company: "GrowthCo",
+        content: "Professional, responsive, and delivered exactly what we needed. Outstanding print quality.",
+        rating: 5,
+        sortOrder: 1,
+      },
+    ],
+  });
+
+  const existingPopup = await prisma.popupSettings.findFirst();
+  if (!existingPopup) {
+    await prisma.popupSettings.create({
+      data: {
+        enabled: false,
+        title: "Welcome to MHM Digital",
+        description: "Get a free quote on your next project. Limited time offer for new clients.",
+        buttonText: "Get a Free Quote",
+        buttonUrl: "/quote",
+        secondaryText: "Browse Services",
+        secondaryUrl: "/services",
+        displayDelay: 5,
+        showOnceSession: true,
+        showOnceUser: true,
+      },
+    });
+  }
+
   console.log("Seed completed successfully.");
 }
 

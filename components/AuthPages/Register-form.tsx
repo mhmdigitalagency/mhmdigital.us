@@ -8,17 +8,18 @@ import { Button } from "@/components/ui/button";
 import { signUpEmailAction } from "@/actions/sign-up-email-action";
 
 function safeCallback(cb?: string | null) {
-  if (!cb) return "/profile";
-  if (!cb.startsWith("/")) return "/profile";
-  if (cb.startsWith("//")) return "/profile";
+  if (!cb) return "/dashboard";
+  if (!cb.startsWith("/")) return "/dashboard";
+  if (cb.startsWith("//")) return "/dashboard";
   return cb;
 }
 
 type Props = {
   callbackURL?: string;
+  accountType?: "individual" | "company";
 };
 
-const RegisterForm = ({ callbackURL }: Props) => {
+const RegisterForm = ({ callbackURL, accountType = "individual" }: Props) => {
   const [isPending, setPending] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -48,6 +49,7 @@ const RegisterForm = ({ callbackURL }: Props) => {
     try {
       const formData = new FormData(evt.currentTarget);
       formData.set("callbackURL", cb);
+      formData.set("accountType", accountType);
 
       const result = await signUpEmailAction(formData);
 

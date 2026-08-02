@@ -2,6 +2,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Logo } from "@/components/brand/Logo";
 import { requireStaff } from "@/lib/auth-redirect";
+
+export const dynamic = "force-dynamic";
 import {
   LayoutDashboard,
   Users,

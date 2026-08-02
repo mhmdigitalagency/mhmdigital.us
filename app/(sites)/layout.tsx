@@ -4,6 +4,8 @@ import Footer from "@/components/Footer/Footer";
 import BackToTop from "@/components/BackToTop";
 import "../globals.css";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   description:
     "Mhm Digital solves your printing needs with top-notch quality, unbeatable prices, and lightning-fast turnaround times. Experience the difference with Mhm Digital today!",

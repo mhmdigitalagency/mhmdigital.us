@@ -4,6 +4,8 @@ import { Logo } from "@/components/brand/Logo";
 import { requireCustomer } from "@/lib/auth-redirect";
 import { isCompanyRole } from "@/lib/rbac";
 import { UserRole } from "@/app/generated/prisma/enums";
+
+export const dynamic = "force-dynamic";
 import {
   LayoutDashboard,
   FolderKanban,

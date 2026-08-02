@@ -8,6 +8,7 @@ import { hashPassword, verifyPassword } from "@/lib/argon2";
 import { createAuthMiddleware, APIError } from "better-auth/api";
 import { getValidDomains, normalizeName } from "@/lib/utils";
 import { UserRole } from "@/app/generated/prisma/enums";
+import { STAFF_ROLES } from "@/lib/rbac";
 import { ac, roles } from "@/lib/permissions";
 import { sendEmailAction } from "@/actions/send-email-action";
 
@@ -124,7 +125,7 @@ const options = {
                               const ADMIN_EMAILS = process.env.ADMIN_EMAILS?.split(";") ?? [];
 
                               if (user.email && ADMIN_EMAILS.includes(user.email)) {
-                                    return { data: { ...user, role: UserRole.ADMIN } };
+                                    return { data: { ...user, role: UserRole.SUPER_ADMIN } };
                               }
 
                               return { data: user };
@@ -135,8 +136,13 @@ const options = {
       user: {
             additionalFields: {
                   role: {
-                        type: ["USER", "ADMIN"] as Array<UserRole>,
+                        type: ["SUPER_ADMIN", "ADMIN", "MANAGER", "SALES", "CUSTOMER_SERVICE", "PROJECT_MANAGER", "DESIGNER", "DEVELOPER", "MARKETING", "PRINT_PRODUCTION", "ACCOUNTING", "USER", "COMPANY_ADMIN", "COMPANY_MEMBER"] as Array<UserRole>,
                         input: false
+                  },
+                  accountType: {
+                        type: ["INDIVIDUAL", "COMPANY"] as const,
+                        input: false,
+                        defaultValue: "INDIVIDUAL"
                   }
             }
       },
@@ -161,7 +167,7 @@ const options = {
             nextCookies(),
             admin({
                   defaultRole: UserRole.USER,
-                  adminRoles: [UserRole.ADMIN],
+                  adminRoles: STAFF_ROLES,
                   ac,
                   roles,
             }),
@@ -197,7 +203,8 @@ export const auth = betterAuth({
                               email: user.email,
                               image: user.image,
                               createdAt: user.createdAt,
-                              role: user.role
+                              role: user.role,
+                              accountType: user.accountType
                         }
                   }
             }, options)

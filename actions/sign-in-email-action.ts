@@ -6,6 +6,8 @@ import { z } from "zod";
 import { APIError } from "better-auth/api";
 
 import { auth, ErrorCode } from "@/lib/auth";
+import { resolveLoginRedirect } from "@/lib/auth-redirect";
+import { UserRole } from "@/app/generated/prisma/enums";
 
 type SignInActionResult = {
   error: string | null;
@@ -161,9 +163,15 @@ export async function signInEmailAction(
 
     clearRateLimit(rateLimitKey);
 
+    const session = await auth.api.getSession({ headers: reqHeaders });
+    const redirectTo = resolveLoginRedirect(
+      session?.user?.role as UserRole | undefined,
+      safeCb
+    );
+
     return {
       error: null,
-      redirectTo: safeCb,
+      redirectTo,
     };
   } catch (err) {
     if (err instanceof APIError) {

@@ -91,7 +91,7 @@ export default async function OrdersPage() {
   });
 
   if (!session?.user?.id) {
-    redirect("/sign-in");
+    redirect("/connexion");
   }
 
   const orders = await prisma.order.findMany({

@@ -8,20 +8,26 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String      @id @default(cuid())
   name          String
-  email         String    @unique
-  emailVerified Boolean   @default(false)
+  email         String      @unique
+  emailVerified Boolean     @default(false)
   image         String?
-  role          UserRole  @default(USER)
-  banned        Boolean   @default(false)
+  role          UserRole    @default(USER)
+  accountType   AccountType @default(INDIVIDUAL)
+  banned        Boolean     @default(false)
   banReason     String?
   banExpiresAt  DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 
-  company     String?
-  phoneNumber String?
+  company         String?
+  phoneNumber     String?
+  companyId       String?
+  department      String?
+  jobTitle        String?
+  notificationEmail Boolean @default(true)
+  notificationSms   Boolean @default(false)
 
   billingAddress  String?
   shippingAddress String?
@@ -29,15 +35,30 @@ model User {
   billingPostal   String?
   shippingCity    String?
   shippingPostal  String?
+  taxId           String?
+  purchaseOrder   String?
 
-  orders   Order[]
-  accounts Account[]
-  sessions Session[]
-  requests ServiceRequest[]
-  payments Payment[]
+  orders            Order[]
+  accounts          Account[]
+  sessions          Session[]
+  requests          ServiceRequest[]
+  payments          Payment[]
+  companyProfile    Company?         @relation("CompanyMembers", fields: [companyId], references: [id], onDelete: SetNull)
+  ownedCompany      Company?         @relation("CompanyOwner")
+  projects          Project[]        @relation("ProjectCustomer")
+  assignedProjects  Project[]        @relation("ProjectAssignee")
+  quotes            Quote[]
+  invoices          Invoice[]
+  files             CustomerFile[]
+  sentMessages      Message[]        @relation("MessageSender")
+  supportTickets    SupportTicket[]
+  printOrders       PrintOrder[]
+  auditLogs         AuditLog[]
 
   @@index([email])
   @@index([role])
+  @@index([companyId])
+  @@index([accountType])
   @@map("users")
 }
 
@@ -108,6 +129,7 @@ model Service {
   packages    Package[]
   subServices SubService[]
   requests    ServiceRequest[]
+  projects    Project[]
 
   @@index([slug])
   @@index([serviceType])
@@ -330,8 +352,25 @@ model Appointment {
 }
 
 enum UserRole {
+  SUPER_ADMIN
   ADMIN
+  MANAGER
+  SALES
+  CUSTOMER_SERVICE
+  PROJECT_MANAGER
+  DESIGNER
+  DEVELOPER
+  MARKETING
+  PRINT_PRODUCTION
+  ACCOUNTING
   USER
+  COMPANY_ADMIN
+  COMPANY_MEMBER
+}
+
+enum AccountType {
+  INDIVIDUAL
+  COMPANY
 }
 
 enum ServiceType {
@@ -377,4 +416,529 @@ enum ServiceRequestStatus {
   CONTACTED
   COMPLETED
   CANCELED
+}
+
+enum ProjectStatus {
+  DRAFT
+  ACTIVE
+  ON_HOLD
+  AWAITING_APPROVAL
+  REVISION_REQUESTED
+  COMPLETED
+  CANCELED
+}
+
+enum QuoteStatus {
+  DRAFT
+  SENT
+  VIEWED
+  ACCEPTED
+  DECLINED
+  EXPIRED
+  CONVERTED
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PARTIALLY_PAID
+  PAID
+  OVERDUE
+  CANCELED
+  REFUNDED
+}
+
+enum PrintOrderStatus {
+  DRAFT
+  QUOTE_REQUESTED
+  AWAITING_FILES
+  ARTWORK_REVIEW
+  PROOF_READY
+  AWAITING_APPROVAL
+  APPROVED
+  IN_PRODUCTION
+  QUALITY_CHECK
+  READY_FOR_PICKUP
+  SHIPPED
+  DELIVERED
+  COMPLETED
+  CANCELLED
+}
+
+enum FileCategory {
+  REQUIREMENT
+  BRAND_ASSET
+  DESIGN
+  PRINT_READY
+  PROOF
+  CONTRACT
+  INVOICE
+  DELIVERABLE
+  OTHER
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  PROPOSAL
+  NEGOTIATION
+  WON
+  LOST
+}
+
+enum SupportTicketStatus {
+  OPEN
+  IN_PROGRESS
+  WAITING_CUSTOMER
+  RESOLVED
+  CLOSED
+}
+
+model Company {
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique
+  industry        String?
+  website         String?
+  phone           String?
+  email           String?
+  taxId           String?
+  billingAddress  String?
+  shippingAddress String?
+  ownerId         String   @unique
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  owner    User     @relation("CompanyOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  members  User[]   @relation("CompanyMembers")
+  projects Project[]
+  quotes   Quote[]
+  invoices Invoice[]
+  printOrders PrintOrder[]
+
+  @@index([slug])
+  @@map("companies")
+}
+
+model Project {
+  id          String        @id @default(cuid())
+  title       String
+  description String?
+  status      ProjectStatus @default(DRAFT)
+  userId      String
+  companyId   String?
+  assigneeId  String?
+  serviceId   String?
+  dueDate     DateTime?
+  completedAt DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  user      User                @relation("ProjectCustomer", fields: [userId], references: [id], onDelete: Cascade)
+  company   Company?            @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  assignee  User?               @relation("ProjectAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  service   Service?            @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  milestones ProjectMilestone[]
+  files     CustomerFile[]
+  messages  Message[]
+  quotes    Quote[]
+
+  @@index([userId])
+  @@index([companyId])
+  @@index([status])
+  @@map("projects")
+}
+
+model ProjectMilestone {
+  id          String    @id @default(cuid())
+  projectId   String
+  title       String
+  description String?
+  dueDate     DateTime?
+  completedAt DateTime?
+  sortOrder   Int       @default(0)
+  createdAt   DateTime  @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@map("project_milestones")
+}
+
+model Quote {
+  id          String      @id @default(cuid())
+  quoteNumber String      @unique
+  userId      String
+  companyId   String?
+  projectId   String?
+  status      QuoteStatus @default(DRAFT)
+  subtotal    Int         @default(0)
+  discount    Int         @default(0)
+  tax         Int         @default(0)
+  total       Int         @default(0)
+  currency    String      @default("USD")
+  notes       String?
+  expiresAt   DateTime?
+  sentAt      DateTime?
+  acceptedAt  DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company  Company?        @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  project  Project?        @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  lineItems QuoteLineItem[]
+  invoice  Invoice?
+
+  @@index([userId])
+  @@index([status])
+  @@map("quotes")
+}
+
+model QuoteLineItem {
+  id          String @id @default(cuid())
+  quoteId     String
+  description String
+  quantity    Int    @default(1)
+  unitPrice   Int
+  totalPrice  Int
+  sortOrder   Int    @default(0)
+
+  quote Quote @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+
+  @@index([quoteId])
+  @@map("quote_line_items")
+}
+
+model Invoice {
+  id            String        @id @default(cuid())
+  invoiceNumber String        @unique
+  userId        String
+  companyId     String?
+  quoteId       String?       @unique
+  orderId       String?
+  status        InvoiceStatus @default(DRAFT)
+  subtotal      Int           @default(0)
+  discount      Int           @default(0)
+  tax           Int           @default(0)
+  total         Int           @default(0)
+  amountPaid    Int           @default(0)
+  currency      String        @default("USD")
+  dueDate       DateTime?
+  paidAt        DateTime?
+  notes         String?
+  purchaseOrder String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company   Company?          @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  quote     Quote?            @relation(fields: [quoteId], references: [id], onDelete: SetNull)
+  lineItems InvoiceLineItem[]
+
+  @@index([userId])
+  @@index([status])
+  @@map("invoices")
+}
+
+model InvoiceLineItem {
+  id          String @id @default(cuid())
+  invoiceId   String
+  description String
+  quantity    Int    @default(1)
+  unitPrice   Int
+  totalPrice  Int
+  sortOrder   Int    @default(0)
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@index([invoiceId])
+  @@map("invoice_line_items")
+}
+
+model CustomerFile {
+  id           String       @id @default(cuid())
+  userId       String
+  projectId    String?
+  printOrderId String?
+  name         String
+  originalName String
+  mimeType     String
+  size         Int
+  url          String
+  category     FileCategory @default(OTHER)
+  uploadedBy   String?
+  createdAt    DateTime     @default(now())
+
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project    Project?    @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  printOrder PrintOrder? @relation(fields: [printOrderId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([projectId])
+  @@map("customer_files")
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  projectId String?
+  ticketId  String?
+  senderId  String
+  body      String
+  isStaff   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  project Project?       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  ticket  SupportTicket? @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  sender  User           @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([ticketId])
+  @@map("messages")
+}
+
+model SupportTicket {
+  id        String              @id @default(cuid())
+  userId    String
+  subject   String
+  status    SupportTicketStatus @default(OPEN)
+  priority  String              @default("normal")
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages Message[]
+
+  @@index([userId])
+  @@index([status])
+  @@map("support_tickets")
+}
+
+model PrintProduct {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String
+  category    String
+  image       String?
+  basePrice   Int?
+  isActive    Boolean  @default(true)
+  isBulk      Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  orders PrintOrder[]
+
+  @@index([slug])
+  @@index([category])
+  @@map("print_products")
+}
+
+model PrintOrder {
+  id              String           @id @default(cuid())
+  orderNumber     String           @unique
+  userId          String
+  companyId       String?
+  productId       String?
+  status          PrintOrderStatus @default(DRAFT)
+  productName     String
+  quantity        Int              @default(1)
+  size            String?
+  material        String?
+  finishing       String?
+  turnaround      String?
+  shippingMethod  String?
+  trackingNumber  String?
+  subtotal        Int              @default(0)
+  total           Int              @default(0)
+  currency        String           @default("USD")
+  notes           String?
+  proofApproved   Boolean          @default(false)
+  proofApprovedAt DateTime?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company  Company?       @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  product  PrintProduct?  @relation(fields: [productId], references: [id], onDelete: SetNull)
+  files    CustomerFile[]
+
+  @@index([userId])
+  @@index([status])
+  @@map("print_orders")
+}
+
+model Lead {
+  id        String     @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  company   String?
+  source    String?
+  service   String?
+  message   String?
+  status    LeadStatus @default(NEW)
+  assigneeId String?
+  notes     String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@map("leads")
+}
+
+model SiteStatistic {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  label     String
+  value     String
+  suffix    String?
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+
+  @@map("site_statistics")
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  role      String?
+  company   String?
+  content   String
+  rating    Int      @default(5)
+  image     String?
+  isActive  Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@map("testimonials")
+}
+
+model PartnerLogo {
+  id        String   @id @default(cuid())
+  name      String
+  imageUrl  String
+  url       String?
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+
+  @@map("partner_logos")
+}
+
+model PortfolioItem {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  client          String
+  industry        String
+  shortDescription String
+  fullDescription String
+  services        String[]
+  results         String[]
+  coverImage      String
+  gallery         String[]
+  projectUrl      String?
+  featured        Boolean  @default(false)
+  completionYear  Int?
+  isActive        Boolean  @default(true)
+  sortOrder       Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([slug])
+  @@index([featured])
+  @@map("portfolio_items")
+}
+
+model BlogPost {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  excerpt     String
+  content     String
+  coverImage  String?
+  author      String?
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+  seoTitle    String?
+  seoDescription String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([slug])
+  @@index([published])
+  @@map("blog_posts")
+}
+
+model FaqItem {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  category  String   @default("general")
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+
+  @@map("faq_items")
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  bio       String?
+  image     String?
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+
+  @@map("team_members")
+}
+
+model PopupSettings {
+  id              String    @id @default(cuid())
+  enabled         Boolean   @default(false)
+  title           String?
+  description     String?
+  imageUrl        String?
+  buttonText      String?
+  buttonUrl       String?
+  secondaryText   String?
+  secondaryUrl    String?
+  backgroundStyle String    @default("light")
+  startDate       DateTime?
+  endDate         DateTime?
+  targetPages     String[]  @default([])
+  targetAccount   String    @default("all")
+  newVisitorsOnly Boolean   @default(false)
+  loggedInOnly    Boolean   @default(false)
+  displayDelay    Int       @default(3)
+  showOnceSession Boolean   @default(true)
+  showOnceUser    Boolean   @default(true)
+  showMobile      Boolean   @default(true)
+  showDesktop     Boolean   @default(true)
+  updatedAt       DateTime  @updatedAt
+
+  @@map("popup_settings")
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  resource  String
+  resourceId String?
+  details   String?
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("audit_logs")
 }

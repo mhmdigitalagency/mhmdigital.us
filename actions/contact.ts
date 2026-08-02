@@ -4,6 +4,7 @@ import { contactSchema } from '@/schemas'
 import nodemailer from 'nodemailer'
 import { z } from 'zod'
 import handlebars from 'handlebars'
+import { prisma } from '@/lib/prisma'
 
 type ContactValues = z.infer<typeof contactSchema>
 
@@ -121,6 +122,30 @@ ${data.description}
 
   try {
     await transporter.sendMail(mailOptions)
+
+    await prisma.contact.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
+        company: data.company,
+        service: data.service,
+        description: data.description,
+      },
+    })
+
+    await prisma.lead.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        phone: data.phoneNumber,
+        company: data.company,
+        service: data.service,
+        message: data.description,
+        source: "contact-form",
+        status: "NEW",
+      },
+    })
 
     return {
       success: true,

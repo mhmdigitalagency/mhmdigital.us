@@ -13,9 +13,9 @@ interface SignInOAuthButtonProps {
 }
 
 function safeCallback(cb?: string) {
-  if (!cb) return "/profile";
-  if (!cb.startsWith("/")) return "/profile";
-  if (cb.startsWith("//")) return "/profile";
+  if (!cb) return "/dashboard";
+  if (!cb.startsWith("/")) return "/dashboard";
+  if (cb.startsWith("//")) return "/dashboard";
   return cb;
 }
 

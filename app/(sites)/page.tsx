@@ -1,32 +1,45 @@
-import About from '@/components/Pages_components/Home/About'
-import Banner from '@/components/Pages_components/Home/Banner'
-import Blog from '@/components/Pages_components/Home/Blog'
-import Case from '@/components/Pages_components/Home/Case'
-import Contact from '@/components/Pages_components/Home/Contact'
-import Process from '@/components/Pages_components/Home/Process'
-import Services from '@/components/Pages_components/Home/Services'
-import Testimonial from '@/components/Pages_components/Home/Testimonial'
-import Why from '@/components/Pages_components/Home/Why'
-import { prisma } from '@/lib/prisma'
-import React from 'react'
+import Banner from "@/components/Pages_components/Home/Banner";
+import TrustSection from "@/components/Pages_components/Home/TrustSection";
+import HomeServices from "@/components/Pages_components/Home/HomeServices";
+import PrintServicesSection from "@/components/Pages_components/Home/PrintServicesSection";
+import HomeProcess from "@/components/Pages_components/Home/HomeProcess";
+import HomeTestimonials from "@/components/Pages_components/Home/HomeTestimonials";
+import Case from "@/components/Pages_components/Home/Case";
+import HomeCTA from "@/components/Pages_components/Home/HomeCTA";
+import Contact from "@/components/Pages_components/Home/Contact";
+import { PromotionalPopup } from "@/components/PromotionalPopup";
+import { prisma } from "@/lib/prisma";
+import type { Metadata } from "next";
 
-async function page () {
+export const metadata: Metadata = {
+  title: "MHM Digital | Seattle Digital Agency & Printing Services",
+  description:
+    "MHM Digital is a Seattle-based digital growth agency offering branding, web design, digital marketing, software development, and professional printing for startups and businesses.",
+  openGraph: {
+    title: "MHM Digital | Digital Growth Agency",
+    description: "We Help startups & businesses grow. Branding, websites, marketing, software, and printing.",
+    url: "https://mhmdigital.us",
+    siteName: "MHM Digital",
+    locale: "en_US",
+    type: "website",
+  },
+};
 
-  const services = await prisma.service.findMany()
+export default async function HomePage() {
+  const services = await prisma.service.findMany({ where: { isActive: true }, take: 20 });
 
   return (
-    <div>
+    <>
       <Banner />
-      {/* <Services />
-      <Why />
-      <About />
-      <Process /> */}
-      {/* <Case /> */}
-      {/* <Testimonial /> */}
-      {/* <Blog /> */}
+      <TrustSection />
+      <HomeServices />
+      <PrintServicesSection />
+      <HomeProcess />
+      <Case />
+      <HomeTestimonials />
+      <HomeCTA />
       <Contact services={services} />
-    </div>
-  )
+      <PromotionalPopup />
+    </>
+  );
 }
-
-export default page

@@ -104,7 +104,7 @@ export default async function OrderDetailsPage({
   });
 
   if (!session?.user?.id) {
-    redirect("/sign-in");
+    redirect("/connexion");
   }
 
   const order = await prisma.order.findFirst({
