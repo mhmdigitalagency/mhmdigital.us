@@ -1,6 +1,7 @@
 import Link from "next/link";
 import RegisterForm from "@/components/AuthPages/Register-form";
 import SignInOAuthButton from "@/components/sign-in-oauth-button";
+import { Logo } from "@/components/brand/Logo";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

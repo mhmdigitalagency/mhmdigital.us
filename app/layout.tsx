@@ -39,8 +39,8 @@ export const metadata: Metadata = {
     description: "We Help startups & businesses grow.",
   },
   icons: {
-    icon: "/images/logo.png",
-    apple: "/images/logo.png",
+    icon: "/images/icon.png",
+    apple: "/images/icon.png",
   },
   robots: { index: true, follow: true },
 };
@@ -56,7 +56,7 @@ const organizationJsonLd = {
   "@type": "Organization",
   name: "MHM Digital",
   url: "https://mhmdigital.us",
-  logo: "https://mhmdigital.us/images/logo.png",
+  logo: "https://mhmdigital.us/images/icon.png",
   description: "Digital growth agency and printing services in Seattle, Washington.",
   address: {
     "@type": "PostalAddress",

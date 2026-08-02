@@ -1,9 +1,8 @@
 import LoginForm from "@/components/AuthPages/Login-form";
 import ReturnButton from "@/components/return-button";
 import SignInOAuthButton from "@/components/sign-in-oauth-button";
+import { Logo } from "@/components/brand/Logo";
 import Link from "next/link";
-import Image from "next/image";
-import image1 from "@/public/images/3.png";
 import { ShieldCheck, ShoppingBag, Zap } from "lucide-react";
 
 type Props = {
@@ -81,16 +80,7 @@ const page = async ({ searchParams }: Props) => {
 
           <div className="w-full rounded-[36px] border border-gray-200 bg-white px-6 py-8 shadow-[0_20px_60px_rgba(0,0,0,0.08)] sm:px-8 md:px-10">
             <div className="mb-8 flex flex-col items-center justify-center border-b border-gray-100 pb-6 text-center">
-              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-50">
-                <Image
-                  src={image1}
-                  alt="Logo"
-                  priority
-                  width={40}
-                  height={40}
-                  className="object-contain"
-                />
-              </div>
+              <Logo variant="full" size="lg" className="mb-4" />
 
               <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">
                 Sign in
