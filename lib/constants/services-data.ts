@@ -116,7 +116,7 @@ export const MAIN_SERVICES: ServiceItem[] = [
     benefits: ["Display design", "Content management", "Hardware setup", "Remote updates"],
     icon: serviceImage("digital-signage"),
     image: serviceImage("digital-signage"),
-    href: "/quote?service=digital-signage",
+    href: "/services",
   },
   {
     slug: "printing-services",

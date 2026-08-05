@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import "@/lib/env";
 import { ServiceType, PackagePricingType } from "@/app/generated/prisma/client";
 
-const PRICE_DISCOUNT = 240;
+const PRICE_DISCOUNT = 241;
 
 function discounted(price: number | null): number | null {
   if (price === null) return null;
@@ -84,34 +84,14 @@ async function main() {
       position: 5,
     },
     {
-      name: "Printing",
-      slug: "printing",
-      description:
-        "We offer high-quality printing services for business cards, flyers, banners, and more. Customize your prints with various paper types, finishes, and options such as double-sided printing or custom die-cuts to create professional marketing materials that leave a lasting impression.",
-      icon: "/images/Printing.png",
-      image: "/images/Printing.png",
-      serviceType: ServiceType.REQUEST,
-      position: 6,
-    },
-    {
-      name: "Mobile & Online Notarization",
-      slug: "mobile-and-online-notarization",
-      description:
-        "Our Mobile & Online Notarization service provides businesses and individuals with convenient, secure notarization solutions. Whether you're on the go or need remote notary assistance, we offer certified notary services for legal documents, contracts, and more. With the flexibility of mobile and online options, we ensure that your notarization needs are met quickly and efficiently, saving you time and hassle.",
-      icon: "/images/Notary_public.png",
-      image: "/images/Notary_public.png",
-      serviceType: ServiceType.REQUEST,
-      position: 7,
-    },
-    {
       name: "Digital Signage",
       slug: "digital-signage",
       description:
-        "Professional digital signage solutions for storefronts, offices, events, and retail. We design, install, and manage displays with custom content and remote updates.",
+        "Professional digital signage for storefronts, offices, restaurants, and retail. We design screen content, configure displays, and help you keep messaging fresh with remote updates and scheduled playlists.",
       icon: "/images/services/digital-signage.jpg",
       image: "/images/services/digital-signage.jpg",
-      serviceType: ServiceType.REQUEST,
-      position: 8,
+      serviceType: ServiceType.PACKAGE,
+      position: 6,
     },
   ];
 
@@ -724,6 +704,70 @@ async function main() {
       ],
       image: "/images/icon-3-packages-marketing-template.png",
       position: 2,
+    },
+
+    // Digital Signage
+    {
+      serviceName: "Digital Signage",
+      subServiceName: null,
+      name: "Starter",
+      slug: "digital-signage-starter",
+      pricingType: PackagePricingType.ONE_TIME,
+      price: 921,
+      priceByMonth: null,
+      priceByYear: null,
+      description: "Ideal for a single-screen setup with essential branded content.",
+      points: [
+        "1 display screen configured (up to 55\").",
+        "3 custom slide designs (menus, promos, or announcements).",
+        "Basic playlist setup and scheduling.",
+        "On-site or remote display configuration.",
+        "One round of content revisions.",
+      ],
+      image: "/images/icon-1-packages-marketing-template.png",
+      position: 1,
+    },
+    {
+      serviceName: "Digital Signage",
+      subServiceName: null,
+      name: "Growth",
+      slug: "digital-signage-growth",
+      pricingType: PackagePricingType.ONE_TIME,
+      price: 1691,
+      priceByMonth: null,
+      priceByYear: null,
+      description: "For businesses needing multiple screens and ongoing content support.",
+      points: [
+        "Up to 3 display screens configured.",
+        "10 custom slide or video designs.",
+        "Scheduled playlists for daypart messaging.",
+        "3 months of content updates (2 updates per month).",
+        "Remote management setup and training.",
+        "Two rounds of revisions.",
+      ],
+      image: "/images/icon-2-packages-marketing-template.png",
+      position: 2,
+    },
+    {
+      serviceName: "Digital Signage",
+      subServiceName: null,
+      name: "Ultimate",
+      slug: "digital-signage-ultimate",
+      pricingType: PackagePricingType.ONE_TIME,
+      price: 3041,
+      priceByMonth: null,
+      priceByYear: null,
+      description: "Full signage network with premium content and long-term management.",
+      points: [
+        "Up to 6 display screens across locations.",
+        "Unlimited initial slide designs (first month).",
+        "Motion graphics and animated promos.",
+        "6 months of content management and updates.",
+        "Priority remote support and display monitoring.",
+        "Quarterly content strategy review.",
+      ],
+      image: "/images/icon-3-packages-marketing-template.png",
+      position: 3,
     },
   ];
 

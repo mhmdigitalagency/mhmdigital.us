@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 type LogoProps = {
   className?: string;
-  /** full = horizontal logo; mark = icon + wordmark; icon = app icon only; fullDark = white text logo for dark backgrounds */
+  /** full = horizontal logo; mark = icon + wordmark; icon = app icon only; fullDark = logo on dark backgrounds */
   variant?: "full" | "mark" | "icon" | "fullDark";
   size?: "sm" | "md" | "lg";
 };
@@ -40,8 +40,8 @@ export function Logo({ className, variant = "mark", size = "md" }: LogoProps) {
         <Image
           src="/images/logo.png"
           alt="MHM Digital"
-          width={1024}
-          height={1024}
+          width={7582}
+          height={1453}
           priority
           className={cn(fullSizes[size], "object-contain object-left")}
         />

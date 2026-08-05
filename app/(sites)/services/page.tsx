@@ -8,7 +8,7 @@ import { MAIN_SERVICES } from "@/lib/constants/services-data";
 import { getServiceIcon } from "@/lib/constants/service-icons";
 
 const ADDITIONAL_SERVICES = MAIN_SERVICES.filter((s) =>
-  ["digital-signage", "business-automation", "crm-saas-solutions"].includes(s.slug)
+  ["business-automation", "crm-saas-solutions"].includes(s.slug)
 );
 
 const page = async () => {
