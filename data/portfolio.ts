@@ -28,15 +28,15 @@ export type PortfolioProject = {
 
 export const portfolioProjects: PortfolioProject[] = [
   {
-    title: "PrimePrint",
-    slug: "primeprint",
+    title: "PrimePrint Online",
+    slug: "primeprint-online",
     client: "PrimePrint",
     industry: "Printing Technology",
     categories: ["Web Apps", "E-commerce"],
     shortDescription:
-      "A modern print-ordering platform for file upload, print configuration, checkout, order tracking, and store pickup.",
+      "Online print-ordering platform for file upload, print configuration, checkout, order tracking, and store pickup.",
     fullDescription:
-      "PrimePrint is a smart printing ecosystem designed to simplify online ordering, file management, production, and store pickup.",
+      "PrimePrint Online is the web storefront at primeprint.net — a smart printing ecosystem that simplifies online ordering, file management, production, and store pickup for customers and partner stores.",
     services: [
       "Product strategy",
       "UI/UX design",
@@ -44,18 +44,12 @@ export const portfolioProjects: PortfolioProject[] = [
       "E-commerce architecture",
       "Brand system",
     ],
-    technologies: [
-      "Next.js",
-      "TypeScript",
-      "Tailwind CSS",
-      "Prisma",
-      "PostgreSQL",
-    ],
-    coverImage: "/images/portfolio/primeprint-cover.jpg",
+    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Prisma", "PostgreSQL"],
+    coverImage: "/images/portfolio/primeprint-online-cover.svg",
     gallery: [
-      "/images/portfolio/primeprint-1.jpg",
-      "/images/portfolio/primeprint-2.jpg",
-      "/images/portfolio/primeprint-3.jpg",
+      "/images/portfolio/primeprint-online-1.svg",
+      "/images/portfolio/primeprint-online-2.svg",
+      "/images/portfolio/primeprint-online-3.svg",
     ],
     projectUrl: "https://primeprint.net",
     featured: true,
@@ -69,6 +63,82 @@ export const portfolioProjects: PortfolioProject[] = [
       "Reusable product and pricing architecture",
       "Customer and administration workflows",
       "Foundation for mobile and partner-store expansion",
+    ],
+  },
+  {
+    title: "PrimePrint App",
+    slug: "primeprint-app",
+    client: "PrimePrint",
+    industry: "Printing Technology",
+    categories: ["Web Apps", "E-commerce"],
+    shortDescription:
+      "Mobile-first print ecosystem with analytics, order management, and partner store tools at primeprint.app.",
+    fullDescription:
+      "PrimePrint App extends the PrimePrint ecosystem with a dedicated platform for analytics, mobile ordering, partner store management, and operational insights.",
+    services: [
+      "Product strategy",
+      "Mobile UX design",
+      "Platform development",
+      "Analytics integration",
+      "Partner store workflows",
+    ],
+    technologies: ["Next.js", "TypeScript", "React Native", "PostgreSQL", "Analytics APIs"],
+    coverImage: "/images/portfolio/primeprint-app-cover.svg",
+    gallery: [
+      "/images/portfolio/primeprint-app-1.svg",
+      "/images/portfolio/primeprint-app-2.svg",
+      "/images/portfolio/primeprint-app-3.svg",
+    ],
+    projectUrl: "https://primeprint.app",
+    featured: true,
+    completionYear: 2026,
+    challenge:
+      "Give print partners and customers a connected mobile experience that complements the online storefront.",
+    solution:
+      "We built a scalable app platform with role-based dashboards, order visibility, and analytics for store operators and customers.",
+    results: [
+      "Mobile-ready print ecosystem",
+      "Partner store management tools",
+      "Analytics and performance visibility",
+      "Connected customer ordering experience",
+    ],
+  },
+  {
+    title: "Notary Public & Signing Agent",
+    slug: "notary-public-signing-agent",
+    client: "MHM Digital",
+    industry: "Business Support Services",
+    categories: ["Web Apps", "Print & Design"],
+    shortDescription:
+      "Digital presence for notary public and signing agent services — document prep, mobile notary, and business compliance support.",
+    fullDescription:
+      "A dedicated service platform for notary public and signing agent offerings, helping businesses and individuals schedule services, prepare documents, and complete compliant signings.",
+    services: [
+      "Service website design",
+      "Booking workflow",
+      "Document preparation support",
+      "Brand and print collateral",
+      "Compliance-focused UX",
+    ],
+    technologies: ["Next.js", "TypeScript", "Tailwind CSS"],
+    coverImage: "/images/portfolio/notary-public-cover.svg",
+    gallery: [
+      "/images/portfolio/notary-public-1.svg",
+      "/images/portfolio/notary-public-2.svg",
+      "/images/portfolio/notary-public-3.svg",
+    ],
+    projectUrl: "https://Notary.mhmdigital.us/",
+    featured: true,
+    completionYear: 2026,
+    challenge:
+      "Present notary and signing services clearly while building trust and making booking straightforward for busy clients.",
+    solution:
+      "We created a focused service site with clear offerings, contact pathways, and professional presentation for mobile and in-office signings.",
+    results: [
+      "Clear notary service presentation",
+      "Professional business support branding",
+      "Streamlined client inquiry flow",
+      "Integrated with MHM Digital service ecosystem",
     ],
   },
   {
@@ -89,11 +159,11 @@ export const portfolioProjects: PortfolioProject[] = [
       "Platform planning",
     ],
     technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase"],
-    coverImage: "/images/portfolio/mybosa-cover.jpg",
+    coverImage: "/images/portfolio/mybosa-cover.svg",
     gallery: [
-      "/images/portfolio/mybosa-1.jpg",
-      "/images/portfolio/mybosa-2.jpg",
-      "/images/portfolio/mybosa-3.jpg",
+      "/images/portfolio/mybosa-1.svg",
+      "/images/portfolio/mybosa-2.svg",
+      "/images/portfolio/mybosa-3.svg",
     ],
     projectUrl: "https://mybosa.com",
     featured: true,
@@ -127,11 +197,11 @@ export const portfolioProjects: PortfolioProject[] = [
       "Program branding",
     ],
     technologies: ["Next.js", "TypeScript", "Tailwind CSS"],
-    coverImage: "/images/portfolio/madda-walabu-cover.jpg",
+    coverImage: "/images/portfolio/madda-walabu-cover.svg",
     gallery: [
-      "/images/portfolio/madda-walabu-1.jpg",
-      "/images/portfolio/madda-walabu-2.jpg",
-      "/images/portfolio/madda-walabu-3.jpg",
+      "/images/portfolio/madda-walabu-1.svg",
+      "/images/portfolio/madda-walabu-2.svg",
+      "/images/portfolio/madda-walabu-3.svg",
     ],
     projectUrl: "https://maddawalabu.org",
     featured: true,
@@ -165,11 +235,11 @@ export const portfolioProjects: PortfolioProject[] = [
       "Social media assets",
     ],
     technologies: ["Shopify", "Liquid", "Adobe Creative Cloud"],
-    coverImage: "/images/portfolio/waguess-cover.jpg",
+    coverImage: "/images/portfolio/waguess-cover.svg",
     gallery: [
-      "/images/portfolio/waguess-1.jpg",
-      "/images/portfolio/waguess-2.jpg",
-      "/images/portfolio/waguess-3.jpg",
+      "/images/portfolio/waguess-1.svg",
+      "/images/portfolio/waguess-2.svg",
+      "/images/portfolio/waguess-3.svg",
     ],
     featured: true,
     completionYear: 2026,
@@ -202,11 +272,11 @@ export const portfolioProjects: PortfolioProject[] = [
       "Digital setup",
     ],
     technologies: ["Next.js", "TypeScript", "Adobe Creative Cloud"],
-    coverImage: "/images/portfolio/truuf-cover.jpg",
+    coverImage: "/images/portfolio/truuf-cover.svg",
     gallery: [
-      "/images/portfolio/truuf-1.jpg",
-      "/images/portfolio/truuf-2.jpg",
-      "/images/portfolio/truuf-3.jpg",
+      "/images/portfolio/truuf-1.svg",
+      "/images/portfolio/truuf-2.svg",
+      "/images/portfolio/truuf-3.svg",
     ],
     featured: true,
     completionYear: 2026,
@@ -222,74 +292,6 @@ export const portfolioProjects: PortfolioProject[] = [
     ],
   },
   {
-    title: "PrimePrint Supply",
-    slug: "primeprint-supply",
-    client: "PrimePrint Supply",
-    industry: "Office & Printing Supplies",
-    categories: ["E-commerce", "Websites"],
-    shortDescription:
-      "An e-commerce storefront for printing supplies, office products, furniture, technology, packaging, and business essentials.",
-    fullDescription:
-      "PrimePrint Supply is an online store for printing and office supplies with a scalable product-category system.",
-    services: [
-      "E-commerce strategy",
-      "Shopify design",
-      "Category architecture",
-      "Content design",
-      "Conversion optimization",
-    ],
-    technologies: ["Shopify", "Liquid", "CSS"],
-    coverImage: "/images/portfolio/primeprint-supply-cover.jpg",
-    gallery: [
-      "/images/portfolio/primeprint-supply-1.jpg",
-      "/images/portfolio/primeprint-supply-2.jpg",
-      "/images/portfolio/primeprint-supply-3.jpg",
-    ],
-    featured: true,
-    completionYear: 2026,
-    challenge:
-      "Organize a large product catalog while maintaining a clean and business-friendly shopping experience.",
-    solution:
-      "We designed a structured storefront with clear categories, promotional sections, and scalable collection pages.",
-    results: [
-      "Clear product-category hierarchy",
-      "Professional B2B presentation",
-      "Scalable Shopify storefront",
-      "Consistent promotional system",
-    ],
-  },
-  {
-    title: "PrimePrint Store",
-    slug: "primeprint-store",
-    client: "PrimePrint Store",
-    industry: "Retail Print Services",
-    categories: ["E-commerce", "Web Apps"],
-    shortDescription:
-      "A retail print and business-services experience designed for online ordering and in-store fulfillment.",
-    fullDescription:
-      "PrimePrint Store extends the PrimePrint ecosystem with printing, passport photos, notary, scanning, and business services.",
-    services: [
-      "Product design",
-      "E-commerce",
-      "Service architecture",
-      "UI/UX design",
-    ],
-    technologies: ["Next.js", "TypeScript", "Prisma", "PostgreSQL"],
-    coverImage: "/images/portfolio/primeprint-store-cover.jpg",
-    gallery: [],
-    featured: false,
-    completionYear: 2026,
-    challenge:
-      "Present many in-store services while enabling supplier and fulfillment integrations.",
-    solution:
-      "We created a modular storefront architecture for services, packages, checkout, and order management.",
-    results: [
-      "Scalable service catalog",
-      "Foundation for supplier integrations",
-      "Reusable product and package system",
-    ],
-  },
-  {
     title: "Avaria Market",
     slug: "avaria-market",
     client: "Avaria Market",
@@ -301,7 +303,7 @@ export const portfolioProjects: PortfolioProject[] = [
       "Avaria Market was planned as a scalable marketplace with customer, vendor, product, order, and category experiences.",
     services: ["Marketplace strategy", "UI/UX design", "Product architecture"],
     technologies: ["Next.js", "TypeScript", "PostgreSQL"],
-    coverImage: "/images/portfolio/avaria-market-cover.jpg",
+    coverImage: "/images/portfolio/avaria-market-cover.svg",
     gallery: [],
     featured: false,
     completionYear: 2026,
@@ -325,13 +327,9 @@ export const portfolioProjects: PortfolioProject[] = [
       "A B2B and B2C marketplace concept for seafood suppliers, restaurants, retailers, and consumers.",
     fullDescription:
       "The concept focuses on seafood sourcing, supplier onboarding, local delivery, and express shipping.",
-    services: [
-      "Product strategy",
-      "Marketplace planning",
-      "UX architecture",
-    ],
+    services: ["Product strategy", "Marketplace planning", "UX architecture"],
     technologies: ["Next.js", "TypeScript", "API integrations"],
-    coverImage: "/images/portfolio/northwest-seafood-cover.jpg",
+    coverImage: "/images/portfolio/northwest-seafood-cover.svg",
     gallery: [],
     featured: false,
     completionYear: 2026,
@@ -355,13 +353,9 @@ export const portfolioProjects: PortfolioProject[] = [
       "A delivery application concept with customer, driver, and administration experiences.",
     fullDescription:
       "A-Z Mofila is designed to manage deliveries, stock options, driver assignments, and order status.",
-    services: [
-      "Mobile product design",
-      "Workflow design",
-      "Admin architecture",
-    ],
+    services: ["Mobile product design", "Workflow design", "Admin architecture"],
     technologies: ["React Native", "Expo", "TypeScript"],
-    coverImage: "/images/portfolio/a-z-mofila-cover.jpg",
+    coverImage: "/images/portfolio/a-z-mofila-cover.svg",
     gallery: [],
     featured: false,
     completionYear: 2026,
@@ -387,7 +381,7 @@ export const portfolioProjects: PortfolioProject[] = [
       "Glow by K needed a polished visual identity for social media, printed materials, and future digital channels.",
     services: ["Logo design", "Business card design", "Brand direction"],
     technologies: ["Adobe Illustrator", "Adobe Photoshop"],
-    coverImage: "/images/portfolio/glow-by-k-cover.jpg",
+    coverImage: "/images/portfolio/glow-by-k-cover.svg",
     gallery: [],
     featured: false,
     completionYear: 2026,
@@ -395,28 +389,21 @@ export const portfolioProjects: PortfolioProject[] = [
       "Create an elegant and recognizable identity suitable for a growing beauty brand.",
     solution:
       "We developed a clean logo system and coordinated business materials with a premium visual direction.",
-    results: [
-      "Professional logo system",
-      "Print-ready brand materials",
-    ],
+    results: ["Professional logo system", "Print-ready brand materials"],
   },
   {
-    title: "RO’MOTORS",
+    title: "RO'MOTORS",
     slug: "ro-motors",
-    client: "RO’MOTORS",
+    client: "RO'MOTORS",
     industry: "Automotive",
     categories: ["Print & Design"],
     shortDescription:
       "Large-format banners and promotional materials designed for an automotive business.",
     fullDescription:
-      "RO’MOTORS required bold, legible, and print-ready graphics suitable for exterior and promotional use.",
-    services: [
-      "Banner design",
-      "Large-format production design",
-      "Advertising",
-    ],
+      "RO'MOTORS required bold, legible, and print-ready graphics suitable for exterior and promotional use.",
+    services: ["Banner design", "Large-format production design", "Advertising"],
     technologies: ["Adobe Photoshop", "Adobe Illustrator"],
-    coverImage: "/images/portfolio/ro-motors-cover.jpg",
+    coverImage: "/images/portfolio/ro-motors-cover.svg",
     gallery: [],
     featured: false,
     completionYear: 2026,
@@ -424,10 +411,7 @@ export const portfolioProjects: PortfolioProject[] = [
       "Create high-impact graphics that remain readable and attractive at large scale.",
     solution:
       "We used strong hierarchy, automotive imagery, and production-ready layouts.",
-    results: [
-      "Print-ready banner system",
-      "Improved roadside visibility",
-    ],
+    results: ["Print-ready banner system", "Improved roadside visibility"],
   },
   {
     title: "Guy Akakpo Portfolio",
@@ -441,7 +425,7 @@ export const portfolioProjects: PortfolioProject[] = [
       "The portfolio presents a finance and operations profile in a clear, modern, and accessible format.",
     services: ["UI design", "Frontend development", "Deployment"],
     technologies: ["React", "TypeScript", "Tailwind CSS", "Vercel"],
-    coverImage: "/images/portfolio/guy-akakpo-cover.jpg",
+    coverImage: "/images/portfolio/guy-akakpo-cover.svg",
     gallery: [],
     projectUrl: "https://guy-akakpo-portfolio.vercel.app/",
     featured: false,
@@ -450,178 +434,129 @@ export const portfolioProjects: PortfolioProject[] = [
       "Present professional experience and skills in a polished format that is simple to maintain.",
     solution:
       "We built a responsive portfolio with clear navigation, contact actions, and CV access.",
+    results: ["Responsive portfolio website", "Production deployment on Vercel"],
+  },
+  {
+    title: "El Sabor Katracho",
+    slug: "el-sabor-katracho",
+    client: "El Sabor Katracho Honduras Restaurant",
+    industry: "Restaurant & Food",
+    categories: ["Websites", "Branding", "Print & Design"],
+    shortDescription:
+      "A professional restaurant website presenting authentic Honduran cuisine, the complete menu, and online ordering.",
+    fullDescription:
+      "El Sabor Katracho is an authentic Honduran restaurant website designed to showcase traditional dishes, communicate the restaurant's identity, and connect customers with menus, location information, and delivery platforms.",
+    services: [
+      "Website design",
+      "Website development",
+      "Restaurant branding",
+      "Menu integration",
+      "Online ordering integration",
+      "Responsive design",
+      "SEO configuration",
+      "Promotional graphics",
+    ],
+    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Responsive Web Design", "SEO"],
+    coverImage: "/images/portfolio/el-sabor-katracho-cover.svg",
+    gallery: [
+      "/images/portfolio/el-sabor-katracho-1.svg",
+      "/images/portfolio/el-sabor-katracho-2.svg",
+      "/images/portfolio/el-sabor-katracho-3.svg",
+    ],
+    projectUrl: "https://elsaborkatracho.com/",
+    featured: true,
+    completionYear: 2026,
+    challenge:
+      "Create an attractive online presence that communicates authentic Honduran identity while making menu and ordering easy to access.",
+    solution:
+      "We developed a responsive restaurant website with strong food presentation, clear navigation, and direct links to ordering services.",
     results: [
-      "Responsive portfolio website",
-      "Production deployment on Vercel",
+      "Professional restaurant website",
+      "Complete digital menu presentation",
+      "Connected online ordering platforms",
+      "Responsive mobile experience",
     ],
   },
   {
-  title: "El Sabor Katracho",
-  slug: "el-sabor-katracho",
-  client: "El Sabor Katracho Honduras Restaurant",
-  industry: "Restaurant & Food",
-  categories: [
-    "Websites",
-    "Branding",
-    "Print & Design",
-  ],
-  shortDescription:
-    "A professional restaurant website presenting authentic Honduran cuisine, the complete menu, business information, and online ordering options.",
-  fullDescription:
-    "El Sabor Katracho is an authentic Honduran restaurant website designed to showcase traditional dishes, communicate the restaurant’s identity, and connect customers with menus, location information, social media, and delivery platforms.",
-  services: [
-    "Website design",
-    "Website development",
-    "Restaurant branding",
-    "Menu integration",
-    "Online ordering integration",
-    "Responsive design",
-    "SEO configuration",
-    "Promotional graphics",
-  ],
-  technologies: [
-    "Next.js",
-    "TypeScript",
-    "Tailwind CSS",
-    "Responsive Web Design",
-    "SEO",
-  ],
-  coverImage:
-    "/images/portfolio/el-sabor-katracho-cover.jpg",
-  gallery: [
-    "/images/portfolio/el-sabor-katracho-1.jpg",
-    "/images/portfolio/el-sabor-katracho-2.jpg",
-    "/images/portfolio/el-sabor-katracho-3.jpg",
-  ],
-  projectUrl: "https://elsaborkatracho.com/",
-  featured: true,
-  completionYear: 2026,
-  challenge:
-    "Create an attractive and professional online presence that communicates the restaurant’s authentic Honduran identity while making its menu, location, hours, and ordering options easy to access.",
-  solution:
-    "We developed a responsive restaurant website with strong food presentation, clear navigation, an organized menu, restaurant information, social media connections, and direct links to online ordering and delivery services.",
-  results: [
-    "Professional restaurant website",
-    "Complete digital menu presentation",
-    "Improved visibility of Honduran dishes",
-    "Connected online ordering platforms",
-    "Responsive mobile experience",
-    "Consistent restaurant branding",
-  ],
-},
-{
-  title: "Taamine",
-  slug: "taamine",
-  client: "Taamine.com",
-  industry: "Insurance Technology",
-  categories: [
-    "Websites",
-    "Web Apps",
-  ],
-  shortDescription:
-    "A digital insurance comparison platform helping users explore and compare auto, health, home, motorcycle, and other insurance products.",
-  fullDescription:
-    "Taamine.com is an insurance technology platform designed to simplify insurance discovery and comparison. It allows users to explore different insurance categories and identify offers adapted to their individual needs.",
-  services: [
-    "Product strategy",
-    "UI/UX design",
-    "Website development",
-    "Insurance category architecture",
-    "Comparison workflow design",
-    "Responsive design",
-    "Content organization",
-  ],
-  technologies: [
-    "Next.js",
-    "TypeScript",
-    "Tailwind CSS",
-    "Form Management",
-    "Responsive Web Design",
-  ],
-  coverImage:
-    "/images/portfolio/taamine-cover.jpg",
-  gallery: [
-    "/images/portfolio/taamine-1.jpg",
-    "/images/portfolio/taamine-2.jpg",
-    "/images/portfolio/taamine-3.jpg",
-  ],
-  projectUrl: "https://taamine.com/",
-  featured: true,
-  completionYear: 2026,
-  challenge:
-    "Make insurance products easier to understand and compare while organizing multiple categories, providers, guides, and customer information within one digital platform.",
-  solution:
-    "We structured a user-friendly insurance comparison experience with clear categories, calls to action, provider presentation, informational content, and workflows designed to guide users toward suitable insurance offers.",
-  results: [
-    "Centralized insurance comparison experience",
-    "Clear insurance-category navigation",
-    "Simplified customer discovery journey",
-    "Responsive platform structure",
-    "Scalable foundation for additional insurers",
-    "Improved presentation of insurance offers",
-  ],
-},
-{
-  title: "BMF Technology",
-  slug: "bmf-technology",
-  client: "BMF Technology",
-  industry: "Technology & Digital Transformation",
-  categories: [
-    "Websites",
-    "Branding",
-    "Web Apps",
-  ],
-  shortDescription:
-    "A premium corporate technology website presenting software development, digital transformation, cloud, consulting, UX/UI, and professional training services.",
-  fullDescription:
-    "BMF Technology is a technology company helping organizations accelerate digital transformation through custom software development, technology consulting, process automation, cloud infrastructure, product design, and innovation.",
-  services: [
-    "Digital strategy",
-    "Corporate website design",
-    "UI/UX design",
-    "Website development",
-    "Brand presentation",
-    "Service architecture",
-    "Content organization",
-    "Responsive design",
-    "SEO configuration",
-  ],
-  technologies: [
-    "Next.js",
-    "TypeScript",
-    "Tailwind CSS",
-    "Responsive Web Design",
-    "SEO",
-    "Performance Optimization",
-  ],
-  coverImage:
-    "/images/portfolio/bmf-technology-cover.jpg",
-  gallery: [
-    "/images/portfolio/bmf-technology-1.jpg",
-    "/images/portfolio/bmf-technology-2.jpg",
-    "/images/portfolio/bmf-technology-3.jpg",
-  ],
-  projectUrl: "https://bmf-technology.com/",
-  featured: true,
-  completionYear: 2026,
-  challenge:
-    "Present a broad range of technology services and industry expertise through a modern corporate website capable of building trust with businesses and prospective partners.",
-  solution:
-    "We created a structured technology website with a premium hero section, detailed service presentation, industry solutions, project showcases, methodology, company values, career information, and conversion-focused calls to action.",
-  results: [
-    "Premium corporate technology presence",
-    "Clear presentation of technology services",
-    "Structured industry-specific solutions",
-    "Professional project showcase",
-    "Improved lead-generation pathways",
-    "Scalable content and service architecture",
-  ],
-},
+    title: "Taamine",
+    slug: "taamine",
+    client: "Taamine.com",
+    industry: "Insurance Technology",
+    categories: ["Websites", "Web Apps"],
+    shortDescription:
+      "A digital insurance comparison platform helping users explore and compare auto, health, home, and other insurance products.",
+    fullDescription:
+      "Taamine.com is an insurance technology platform designed to simplify insurance discovery and comparison across multiple categories.",
+    services: [
+      "Product strategy",
+      "UI/UX design",
+      "Website development",
+      "Insurance category architecture",
+      "Comparison workflow design",
+    ],
+    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Form Management"],
+    coverImage: "/images/portfolio/taamine-cover.svg",
+    gallery: [
+      "/images/portfolio/taamine-1.svg",
+      "/images/portfolio/taamine-2.svg",
+      "/images/portfolio/taamine-3.svg",
+    ],
+    projectUrl: "https://taamine.com/",
+    featured: true,
+    completionYear: 2026,
+    challenge:
+      "Make insurance products easier to understand and compare while organizing multiple categories and providers.",
+    solution:
+      "We structured a user-friendly comparison experience with clear categories, calls to action, and guided customer workflows.",
+    results: [
+      "Centralized insurance comparison experience",
+      "Clear insurance-category navigation",
+      "Simplified customer discovery journey",
+      "Scalable foundation for additional insurers",
+    ],
+  },
+  {
+    title: "BMF Technology",
+    slug: "bmf-technology",
+    client: "BMF Technology",
+    industry: "Technology & Digital Transformation",
+    categories: ["Websites", "Branding", "Web Apps"],
+    shortDescription:
+      "A premium corporate technology website presenting software development, cloud, consulting, and digital transformation services.",
+    fullDescription:
+      "BMF Technology is a technology company helping organizations accelerate digital transformation through custom software, consulting, automation, and product design.",
+    services: [
+      "Digital strategy",
+      "Corporate website design",
+      "UI/UX design",
+      "Website development",
+      "Service architecture",
+      "SEO configuration",
+    ],
+    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "SEO", "Performance Optimization"],
+    coverImage: "/images/portfolio/bmf-technology-cover.svg",
+    gallery: [
+      "/images/portfolio/bmf-technology-1.svg",
+      "/images/portfolio/bmf-technology-2.svg",
+      "/images/portfolio/bmf-technology-3.svg",
+    ],
+    projectUrl: "https://bmf-technology.com/",
+    featured: true,
+    completionYear: 2026,
+    challenge:
+      "Present a broad range of technology services through a modern corporate website that builds trust with businesses.",
+    solution:
+      "We created a structured technology website with detailed service presentation, industry solutions, and conversion-focused calls to action.",
+    results: [
+      "Premium corporate technology presence",
+      "Clear presentation of technology services",
+      "Structured industry-specific solutions",
+      "Improved lead-generation pathways",
+    ],
+  },
 ];
 
-export const portfolioCategories: Array<
-  "All" | PortfolioCategory
-> = [
+export const portfolioCategories: Array<"All" | PortfolioCategory> = [
   "All",
   "Websites",
   "E-commerce",
@@ -632,7 +567,9 @@ export const portfolioCategories: Array<
 ];
 
 export function getProjectBySlug(slug: string) {
-  return portfolioProjects.find(
-    (project) => project.slug === slug,
-  );
+  return portfolioProjects.find((project) => project.slug === slug);
+}
+
+export function getFeaturedProjects(limit = 2) {
+  return portfolioProjects.filter((p) => p.featured).slice(0, limit);
 }

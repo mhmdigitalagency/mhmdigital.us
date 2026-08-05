@@ -146,6 +146,6 @@ export const PROCESS_STEPS = [
 
 export const OTHER_LINKS = [
   { name: "SaaS Platform", href: "https://mhmdigital.io" },
-  { name: "Social Proof / PrimePrint", href: "https://primeprint.net" },
-  { name: "Analytics Platform", href: "https://primeprint.app/" },
+  { name: "PrimePrint Online", href: "https://primeprint.net" },
+  { name: "PrimePrint App", href: "https://primeprint.app/" },
 ];

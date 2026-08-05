@@ -31,6 +31,12 @@ export async function submitQuoteRequest(formData: FormData) {
   }
 
   const data = parsed.data;
+  const budget = String(formData.get("budget") || "").trim();
+  const timeline = String(formData.get("timeline") || "").trim();
+  const messageParts = [data.message];
+  if (budget) messageParts.unshift(`Budget: ${budget}`);
+  if (timeline) messageParts.unshift(`Timeline: ${timeline}`);
+  const fullMessage = messageParts.join("\n\n");
 
   try {
     await prisma.lead.create({
@@ -40,7 +46,7 @@ export async function submitQuoteRequest(formData: FormData) {
         phone: data.phone,
         company: data.company,
         service: data.service,
-        message: data.message,
+        message: fullMessage,
         source: data.type || "website-quote",
         status: "NEW",
       },
@@ -55,7 +61,7 @@ export async function submitQuoteRequest(formData: FormData) {
           quoteNumber,
           userId: existingUser.id,
           status: "SENT",
-          notes: data.message,
+          notes: fullMessage,
           sentAt: new Date(),
           lineItems: {
             create: {

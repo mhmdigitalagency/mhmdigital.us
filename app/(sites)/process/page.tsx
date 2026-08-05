@@ -1,18 +1,12 @@
-import Contact from '@/components/Pages_components/Home/Contact'
-import Process from '@/components/Pages_components/Home/Process'
-import { prisma } from '@/lib/prisma'
-import React from 'react'
+import ProcessPageContent from "@/components/Pages_components/Process/ProcessPageContent";
+import type { Metadata } from "next";
 
-const page = async () => {
+export const metadata: Metadata = {
+  title: "Our Process | MHM Digital",
+  description:
+    "Learn how MHM Digital takes projects from quote to delivery — a clear six-step process for websites, marketing, software, and printing.",
+};
 
-      const services = await prisma.service.findMany()
-
-  return (
-    <div>
-      <Process />
-      <Contact services={services} />
-    </div>
-  )
+export default function ProcessPage() {
+  return <ProcessPageContent />;
 }
-
-export default page

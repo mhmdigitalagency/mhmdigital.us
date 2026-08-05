@@ -108,7 +108,7 @@ const page = () => {
             </p>
             <h5 className='pt-3 font-semibold'>MHM Digital LLC</h5>
             <ul>
-              <li>Address: Seattle, WA 98118</li>
+              <li>Address: Share Space MADDA WALABU, 9040 Rainier Ave S #2, Seattle, WA 98118</li>
               <li>Email: contact@mhmdigital.us</li>
               <li>Phone: +1 206 771 0038</li>
             </ul>

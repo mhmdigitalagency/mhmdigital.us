@@ -4,11 +4,6 @@ import React, { useState, useTransition } from "react";
 import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
 import { Input } from "@/components/ui/input";
-import Image from "next/image";
-import image1 from "@/public/images/icon-1-contact-marketing-template.svg";
-import image2 from "@/public/images/icon-2-contact-marketing-template.svg";
-import image3 from "@/public/images/V13.png";
-import { Textarea } from "@/components/ui/textarea";
 import {
   ArrowRight,
   Building,
@@ -17,6 +12,7 @@ import {
   Smartphone,
   UserRound,
 } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
 import {
   Form as Forms,
@@ -30,6 +26,7 @@ import { contact } from "@/actions/contact";
 import { contactSchema } from "@/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { OFFICE_ADDRESS_LINES, CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/constants/site";
 import Link from "next/link";
 
 type ContactFormValues = z.infer<typeof contactSchema>;
@@ -112,58 +109,32 @@ const Form = ({ services }: Props) => {
           <div className="mt-10 grid gap-4">
             <div className="flex items-center gap-4 rounded-3xl border border-gray-200 bg-white p-5 shadow-sm">
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50">
-                <Image
-                  src={image1}
-                  alt="Email icon"
-                  priority
-                  width={28}
-                  height={28}
-                  className="rounded-xl object-contain"
-                />
+                <Mail className="h-6 w-6 text-red-500" aria-hidden />
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-400">Email us</p>
-                <h5 className="text-base font-semibold text-gray-900 sm:text-lg">
-                  contact@mhmdigital.us
-                </h5>
+                <h5 className="text-base font-semibold text-gray-900 sm:text-lg">{CONTACT_EMAIL}</h5>
               </div>
             </div>
 
             <div className="flex items-center gap-4 rounded-3xl border border-gray-200 bg-white p-5 shadow-sm">
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50">
-                <Image
-                  src={image2}
-                  alt="Phone icon"
-                  priority
-                  width={28}
-                  height={28}
-                  className="rounded-xl object-contain"
-                />
+                <Smartphone className="h-6 w-6 text-red-500" aria-hidden />
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-400">Call us</p>
-                <h5 className="text-base font-semibold text-gray-900 sm:text-lg">
-                  +1 888 903 7679
-                </h5>
+                <h5 className="text-base font-semibold text-gray-900 sm:text-lg">{CONTACT_PHONE}</h5>
               </div>
             </div>
 
             <div className="flex items-center gap-4 rounded-3xl border border-gray-200 bg-white p-5 shadow-sm">
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50">
-                <Image
-                  src={image3}
-                  alt="Location icon"
-                  priority
-                  width={28}
-                  height={28}
-                  className="rounded-xl object-contain"
-                />
+                <MapPin className="h-6 w-6 text-red-500" aria-hidden />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-400">Location</p>
-                <h5 className="text-base font-semibold uppercase text-gray-900 sm:text-lg">
-                  Seattle, WA 98118
-                </h5>
+                <p className="text-sm font-medium text-gray-400">Office</p>
+                <h5 className="text-base font-semibold text-gray-900 sm:text-lg">{OFFICE_ADDRESS_LINES[0]}</h5>
+                <p className="text-sm text-gray-500 mt-0.5">{OFFICE_ADDRESS_LINES[1]}</p>
               </div>
             </div>
           </div>

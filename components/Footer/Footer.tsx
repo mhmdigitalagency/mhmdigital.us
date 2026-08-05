@@ -7,6 +7,7 @@ import { opacite } from "@/lib/variants";
 import { Logo } from "@/components/brand/Logo";
 import { subscribeToNewsletter } from "@/actions/newsletter";
 import { OTHER_LINKS } from "@/lib/constants/services-data";
+import { OFFICE_ADDRESS_FULL } from "@/lib/constants/site";
 import { toast } from "sonner";
 import { useState, useTransition } from "react";
 
@@ -161,7 +162,7 @@ export default function Footer() {
         <hr />
         <div className="py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-gray-500">
           <p>© {new Date().getFullYear()} MHM Digital Agency. All rights reserved.</p>
-          <p>Seattle, Washington · Digital Agency & Printing Services</p>
+          <p>{OFFICE_ADDRESS_FULL}</p>
         </div>
       </div>
     </footer>

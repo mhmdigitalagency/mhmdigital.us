@@ -4,10 +4,8 @@ import React, { useState, useTransition } from 'react'
 import {z} from 'zod'
 import { useRouter } from "next/navigation";
 import { useToast } from '@/components/ui/use-toast';
-import Image from 'next/image'
-import image1 from '@/public/images/icon-1-contact-marketing-template.svg'
-import image2 from '@/public/images/icon-2-contact-marketing-template.svg'
-import image3 from '@/public/images/V13.png'
+import { ArrowRight, Building, Mail, MapPin, Smartphone, UserRound } from 'lucide-react'
+import { OFFICE_ADDRESS_LINES, CONTACT_EMAIL, CONTACT_PHONE } from '@/lib/constants/site'
 import {
       Form as Forms,
       FormControl,
@@ -16,10 +14,8 @@ import {
       FormMessage,
     } from "@/components/ui/form"
 import { FormError } from '@/components/form-error'
-import { FormSuccess } from '@/components/form-success'
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { ArrowRight, Building, Mail, Smartphone, UserRound } from 'lucide-react'
 import {motion} from 'framer-motion'
 import { opacite } from '@/lib/variants'
 import { contact } from '@/actions/contact'
@@ -95,19 +91,19 @@ const Contact = ({services}: Props) => {
                         Contact us to discuss your project and discover how we can help you achieve your goals.
                         </p>
                         <div className='flex items-center gap-3'>
-                              <Image src={image1} alt='image1' priority width={0} height={0} sizes='100vw' 
-                              className='rounded-xl' />
-                              <h5 className='text-lg font-semibold'>contact@mhmdigital.us</h5>
+                              <Mail className="h-5 w-5 text-red-500 shrink-0" aria-hidden />
+                              <h5 className='text-lg font-semibold'>{CONTACT_EMAIL}</h5>
                         </div>
                         <div className='flex items-center gap-3 pt-6'>
-                              <Image src={image2} alt='image1' priority width={0} height={0} sizes='100vw' 
-                              className='rounded-xl' />
-                              <h5 className='text-xl text-gray-500 font-bold'>+1 888 903 7679</h5>
+                              <Smartphone className="h-5 w-5 text-red-500 shrink-0" aria-hidden />
+                              <h5 className='text-xl text-gray-500 font-bold'>{CONTACT_PHONE}</h5>
                         </div>
-                        <div className='flex items-center gap-3 pt-6'>
-                              <Image src={image3} alt='image1' priority width={0} height={0} sizes='100vw' 
-                              className='rounded-lg w-15.5' />
-                              <h5 className='text-xl text-gray-500 font-bold'>SEATTLE WA 98118</h5>
+                        <div className='flex items-start gap-3 pt-6'>
+                              <MapPin className="h-5 w-5 text-red-500 shrink-0 mt-1" aria-hidden />
+                              <div>
+                                <h5 className='text-lg font-bold text-gray-900'>{OFFICE_ADDRESS_LINES[0]}</h5>
+                                <p className='text-base text-gray-500'>{OFFICE_ADDRESS_LINES[1]}</p>
+                              </div>
                         </div>
                   </div>
                   <div className='w-full xl:w-[52%]'>

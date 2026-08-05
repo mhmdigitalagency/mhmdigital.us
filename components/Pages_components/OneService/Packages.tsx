@@ -1,10 +1,6 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
-import image1 from "@/public/images/icon-1-packages-marketing-template.png";
-import image2 from "@/public/images/icon-2-packages-marketing-template.png";
-import image3 from "@/public/images/icon-3-packages-marketing-template.png";
 import { Check } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -141,13 +137,6 @@ const PackagesComponent: React.FC<Props> = ({ service }) => {
     });
   };
 
-  const getPackageImage = (name: string) => {
-    if (name === "Starter") return image1;
-    if (name === "Growth") return image2;
-    if (name === "Ultimate") return image3;
-    return image1;
-  };
-
   return (
     <>
       {service.packages.length <= 0 && service.subServices.length <= 0 ? (
@@ -217,16 +206,11 @@ const PackagesComponent: React.FC<Props> = ({ service }) => {
                   }`}
                 >
                   <div className="w-full">
-                    <div className="mb-8 w-[25%]">
+                    <div className="mb-8">
                       <Link href={`/package/${pack.id}`}>
-                        <Image
-                          src={pack.image || getPackageImage(pack.name)}
-                          alt={pack.name}
-                          priority
-                          width={120}
-                          height={120}
-                          className="rounded-3xl object-cover"
-                        />
+                        <span className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-red-500 text-2xl font-bold text-white">
+                          {pack.name.charAt(0)}
+                        </span>
                       </Link>
                     </div>
 

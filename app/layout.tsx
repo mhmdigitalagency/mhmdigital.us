@@ -60,8 +60,11 @@ const organizationJsonLd = {
   description: "Digital growth agency and printing services in Seattle, Washington.",
   address: {
     "@type": "PostalAddress",
+    name: "Share Space MADDA WALABU",
+    streetAddress: "9040 Rainier Ave S #2",
     addressLocality: "Seattle",
     addressRegion: "WA",
+    postalCode: "98118",
     addressCountry: "US",
   },
   sameAs: ["https://www.linkedin.com/company/mhm-digital/"],
