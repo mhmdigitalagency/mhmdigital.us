@@ -75,7 +75,7 @@ export function Logo({ className, variant = "mark", size = "md" }: LogoProps) {
               s.text
             )}
           >
-            <span className="text-[#FF3B3B]">MHM</span>{" "}
+            <span className="text-[#EE3D33]">MHM</span>{" "}
             <span className="font-semibold text-gray-900">Digital</span>
           </span>
         </>
