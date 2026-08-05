@@ -35,7 +35,7 @@ export default async function CompanyRegistrationPage({
       <div className="flex flex-col justify-center px-6 py-12 lg:px-16">
         <div className="max-w-md mx-auto w-full">
           <div className="mb-8 flex justify-center">
-            <Logo variant="full" size="md" />
+            <Logo variant="fullDark" size="md" />
           </div>
           <h2 className="text-2xl font-bold mb-2">Register Your Company</h2>
           <p className="text-gray-500 mb-8">

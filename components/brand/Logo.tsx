@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
 
 type LogoProps = {
   className?: string;
-  /** full = horizontal logo image; mark = icon + wordmark (light backgrounds); icon = app icon only */
-  variant?: "full" | "mark" | "icon";
+  /** full = horizontal logo; mark = icon + wordmark; icon = app icon only; fullDark = white text logo for dark backgrounds */
+  variant?: "full" | "mark" | "icon" | "fullDark";
   size?: "sm" | "md" | "lg";
 };
 
@@ -36,12 +36,12 @@ export function Logo({ className, variant = "mark", size = "md" }: LogoProps) {
       className={cn("inline-flex items-center shrink-0", className)}
       aria-label="MHM Digital home"
     >
-      {variant === "full" && (
+      {(variant === "full" || variant === "fullDark") && (
         <Image
-          src="/images/logo.png"
+          src={variant === "fullDark" ? "/images/logo-dark.png" : "/images/logo.png"}
           alt="MHM Digital"
-          width={7582}
-          height={1453}
+          width={1200}
+          height={400}
           priority
           className={cn(fullSizes[size], "object-contain object-left")}
         />
@@ -75,7 +75,7 @@ export function Logo({ className, variant = "mark", size = "md" }: LogoProps) {
               s.text
             )}
           >
-            <span className="text-red-500">MHM</span>{" "}
+            <span className="text-[#FF3B3B]">MHM</span>{" "}
             <span className="font-semibold text-gray-900">Digital</span>
           </span>
         </>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fef2f2"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" rx="32" fill="url(#bg)"/>
+  <rect x="48" y="48" width="88" height="88" rx="24" fill="#FF3B3B"/>
+  <g transform="translate(72,72) scale(1.8)" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <rect x="4" y="1" width="8" height="14" rx="2"/><path d="M7 13h2"/>
+  </g>
+  <rect x="48" y="420" width="180" height="6" rx="3" fill="#FF3B3B" opacity="0.35"/>
+  <text x="48" y="200" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700">Mobile Apps</text>
+  <text x="48" y="250" fill="#64748b" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="500">iOS and Android applications</text>
+  <circle cx="680" cy="120" r="90" fill="#FF3B3B" opacity="0.08"/>
+  <circle cx="720" cy="480" r="60" fill="#FF3B3B" opacity="0.06"/>
+</svg>

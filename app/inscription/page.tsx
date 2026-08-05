@@ -80,7 +80,7 @@ const page = async ({ searchParams }: Props) => {
 
           <div className="w-full rounded-[36px] border border-gray-200 bg-white px-6 py-8 shadow-[0_20px_60px_rgba(0,0,0,0.08)] sm:px-8 md:px-10">
             <div className="mb-8 flex flex-col items-center justify-center border-b border-gray-100 pb-6 text-center">
-              <Logo variant="full" size="lg" className="mb-4" />
+              <Logo variant="fullDark" size="lg" className="mb-4" />
 
               <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">
                 Create an account
