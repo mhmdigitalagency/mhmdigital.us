@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
-import { cancelPendingOrder, payPendingOrder } from "../actions";
+import { cancelPendingOrder } from "../actions";
 
 export default function OrderActions({
   orderId,
@@ -21,26 +21,13 @@ export default function OrderActions({
         disabled={isPending}
         onClick={() =>
           startTransition(async () => {
-            await payPendingOrder(orderId);
-          })
-        }
-        className="rounded-full bg-red-500 px-5 py-2 text-sm font-semibold text-white hover:bg-red-600 disabled:opacity-50"
-      >
-        {isPending ? "Please wait..." : "Pay now"}
-      </button>
-
-      <button
-        type="button"
-        disabled={isPending}
-        onClick={() =>
-          startTransition(async () => {
             await cancelPendingOrder(orderId);
             window.location.reload();
           })
         }
         className="rounded-full border px-5 py-2 text-sm font-medium hover:bg-gray-50 disabled:opacity-50"
       >
-        Cancel order
+        {isPending ? "Please wait..." : "Cancel order"}
       </button>
     </div>
   );

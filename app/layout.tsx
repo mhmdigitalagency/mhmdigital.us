@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { CartProvider } from "@/context/CartContext";
@@ -89,6 +90,12 @@ export default function RootLayout({
           {children}
           <Toaster position="top-center" />
         </CartProvider>
+        <Script
+          src="https://widgets.leadconnectorhq.com/loader.js"
+          data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"
+          data-widget-id="6a7388f997ea74e60a159390"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

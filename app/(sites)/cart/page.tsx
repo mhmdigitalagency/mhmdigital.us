@@ -11,8 +11,8 @@ import {
   ShoppingBag,
   ArrowRight,
   ShieldCheck,
-  CreditCard,
   BadgeCheck,
+  Phone,
 } from "lucide-react";
 import { BillingCycle } from "@/types/carts";
 
@@ -97,10 +97,10 @@ const CartPage = () => {
             </div>
 
             <div className="rounded-2xl bg-gray-50 p-5 text-center">
-              <CreditCard className="mx-auto mb-3 h-6 w-6 text-red-500" />
-              <h3 className="font-semibold text-gray-900">Simple Checkout</h3>
+              <Phone className="mx-auto mb-3 h-6 w-6 text-red-500" />
+              <h3 className="font-semibold text-gray-900">Simple Ordering</h3>
               <p className="mt-2 text-sm text-gray-500">
-                Review your order and proceed easily to payment.
+                Submit your order — we&apos;ll contact you to arrange payment.
               </p>
             </div>
 
@@ -339,9 +339,9 @@ const CartPage = () => {
                 </div>
 
                 <div className="rounded-2xl bg-gray-50 p-3 text-center">
-                  <CreditCard className="mx-auto h-5 w-5 text-red-500" />
+                  <Phone className="mx-auto h-5 w-5 text-red-500" />
                   <p className="mt-2 text-[11px] font-medium text-gray-500">
-                    Easy checkout
+                    Contact to pay
                   </p>
                 </div>
 

@@ -8,9 +8,7 @@ import { createCheckoutSession } from "@/actions/checkout";
 import {
   ArrowRight,
   BadgeCheck,
-  CreditCard,
-  Lock,
-  ShieldCheck,
+  Phone,
   ShoppingBag,
 } from "lucide-react";
 
@@ -105,7 +103,8 @@ export default function CheckoutPage() {
         }))
       );
 
-      window.location.href = result.checkoutUrl;
+      clearCart();
+      window.location.href = `/orders/${result.orderId}?submitted=1`;
     });
   };
 
@@ -114,13 +113,13 @@ export default function CheckoutPage() {
       <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-red-500">
-            Secure checkout
+            Submit order
           </p>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 md:text-5xl">
             Complete your order
           </h1>
           <p className="mt-3 max-w-2xl text-base leading-7 text-gray-500">
-            Review your selected packages and continue to secure payment with Stripe.
+            Review your selected packages and submit your order. Our team will contact you to arrange payment.
           </p>
         </div>
 
@@ -202,7 +201,7 @@ export default function CheckoutPage() {
             <div className="bg-linear-to-r from-red-500 to-red-400 px-6 py-6 text-white">
               <h2 className="text-2xl font-bold">Order summary</h2>
               <p className="mt-2 text-sm text-red-50">
-                Final review before payment.
+                Final review before submitting.
               </p>
             </div>
 
@@ -224,7 +223,7 @@ export default function CheckoutPage() {
 
                 <div className="flex items-center justify-between text-sm text-gray-600">
                   <span>Payment</span>
-                  <span className="font-semibold text-gray-900">Stripe</span>
+                  <span className="font-semibold text-gray-900">Contact to pay</span>
                 </div>
               </div>
 
@@ -239,7 +238,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <p className="mt-2 text-xs leading-5 text-gray-500">
-                  Taxes and any additional charges will be calculated by the payment provider if applicable.
+                  We will reach out to confirm details and arrange payment after you submit.
                 </p>
               </div>
 
@@ -249,7 +248,7 @@ export default function CheckoutPage() {
                 disabled={isPending}
                 className="cursor-pointer mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-red-500 px-6 py-4 text-center font-semibold text-white transition-all duration-300 hover:bg-red-600 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {isPending ? "Redirecting..." : "Pay with Stripe"}
+                {isPending ? "Submitting..." : "Submit Order"}
                 {!isPending && <ArrowRight className="h-4 w-4" />}
               </button>
 
@@ -260,34 +259,20 @@ export default function CheckoutPage() {
                 Return to cart
               </Link>
 
-              <div className="mt-6 grid grid-cols-3 gap-3">
-                <div className="rounded-2xl bg-gray-50 p-3 text-center">
-                  <Lock className="mx-auto h-5 w-5 text-red-500" />
-                  <p className="mt-2 text-[11px] font-medium text-gray-500">
-                    Encrypted
-                  </p>
-                </div>
-
-                <div className="rounded-2xl bg-gray-50 p-3 text-center">
-                  <ShieldCheck className="mx-auto h-5 w-5 text-red-500" />
-                  <p className="mt-2 text-[11px] font-medium text-gray-500">
-                    Secure
-                  </p>
-                </div>
-
-                <div className="rounded-2xl bg-gray-50 p-3 text-center">
-                  <CreditCard className="mx-auto h-5 w-5 text-red-500" />
-                  <p className="mt-2 text-[11px] font-medium text-gray-500">
-                    Trusted
+              <div className="mt-5 rounded-2xl bg-red-50 p-4">
+                <div className="flex items-start gap-3">
+                  <Phone className="mt-0.5 h-5 w-5 text-red-500" />
+                  <p className="text-sm leading-6 text-gray-600">
+                    No online payment required. After you submit, our team will contact you to confirm your order and arrange payment.
                   </p>
                 </div>
               </div>
 
-              <div className="mt-5 rounded-2xl bg-red-50 p-4">
+              <div className="mt-4 rounded-2xl bg-gray-50 p-4">
                 <div className="flex items-start gap-3">
                   <BadgeCheck className="mt-0.5 h-5 w-5 text-red-500" />
                   <p className="text-sm leading-6 text-gray-600">
-                    You will be redirected securely to Stripe to complete your payment.
+                    You can track your order status from your dashboard at any time.
                   </p>
                 </div>
               </div>

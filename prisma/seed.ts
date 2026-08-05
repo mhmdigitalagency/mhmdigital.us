@@ -2,6 +2,13 @@ import { prisma } from "@/lib/prisma";
 import "@/lib/env";
 import { ServiceType, PackagePricingType } from "@/app/generated/prisma/client";
 
+const PRICE_DISCOUNT = 240;
+
+function discounted(price: number | null): number | null {
+  if (price === null) return null;
+  return Math.max(0, price - PRICE_DISCOUNT);
+}
+
 function slugify(value: string) {
   return value
     .toLowerCase()
@@ -95,6 +102,16 @@ async function main() {
       image: "/images/Notary_public.png",
       serviceType: ServiceType.REQUEST,
       position: 7,
+    },
+    {
+      name: "Digital Signage",
+      slug: "digital-signage",
+      description:
+        "Professional digital signage solutions for storefronts, offices, events, and retail. We design, install, and manage displays with custom content and remote updates.",
+      icon: "/images/services/digital-signage.jpg",
+      image: "/images/services/digital-signage.jpg",
+      serviceType: ServiceType.REQUEST,
+      position: 8,
     },
   ];
 
@@ -728,9 +745,9 @@ async function main() {
         points: pkg.points,
         image: pkg.image,
         pricingType: pkg.pricingType,
-        price: pkg.price,
-        priceByMonth: pkg.priceByMonth,
-        priceByYear: pkg.priceByYear,
+        price: discounted(pkg.price),
+        priceByMonth: discounted(pkg.priceByMonth),
+        priceByYear: discounted(pkg.priceByYear),
         isActive: true,
         isFeatured: pkg.name === "Ultimate",
         position: pkg.position,

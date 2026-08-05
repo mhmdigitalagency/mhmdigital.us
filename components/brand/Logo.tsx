@@ -38,10 +38,10 @@ export function Logo({ className, variant = "mark", size = "md" }: LogoProps) {
     >
       {(variant === "full" || variant === "fullDark") && (
         <Image
-          src={variant === "fullDark" ? "/images/logo-dark.png" : "/images/logo.png"}
+          src="/images/logo.png"
           alt="MHM Digital"
-          width={1200}
-          height={400}
+          width={1024}
+          height={1024}
           priority
           className={cn(fullSizes[size], "object-contain object-left")}
         />
@@ -75,7 +75,7 @@ export function Logo({ className, variant = "mark", size = "md" }: LogoProps) {
               s.text
             )}
           >
-            <span className="text-[#EE3D33]">MHM</span>{" "}
+            <span className="text-red-500">MHM</span>{" "}
             <span className="font-semibold text-gray-900">Digital</span>
           </span>
         </>

@@ -110,6 +110,15 @@ export const MAIN_SERVICES: ServiceItem[] = [
     href: "https://mhmdigital.io",
   },
   {
+    slug: "digital-signage",
+    name: "Digital Signage",
+    description: "Eye-catching digital displays for storefronts, offices, events, and retail — designed, managed, and updated for your brand.",
+    benefits: ["Display design", "Content management", "Hardware setup", "Remote updates"],
+    icon: serviceImage("digital-signage"),
+    image: serviceImage("digital-signage"),
+    href: "/quote?service=digital-signage",
+  },
+  {
     slug: "printing-services",
     name: "Printing Services",
     description: "Professional print production from business cards to large-format commercial orders.",

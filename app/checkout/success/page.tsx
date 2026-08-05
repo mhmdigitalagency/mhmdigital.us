@@ -1,17 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
 import Link from "next/link";
-import { CheckCircle2, ArrowRight, ShieldCheck, Receipt } from "lucide-react";
-import { useCart } from "@/context/CartContext";
+import { CheckCircle2, ArrowRight, Phone, Receipt } from "lucide-react";
 
 export default function SuccessPage() {
-  const { clearCart } = useCart();
-
-  useEffect(() => {
-    clearCart();
-  }, [clearCart]);
-
   return (
     <div className="min-h-screen bg-linear-to-b from-white via-red-50/30 to-white px-4 py-20 xl:px-14 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]">
       <div className="mx-auto max-w-3xl overflow-hidden rounded-[36px] border border-gray-200 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
@@ -21,7 +13,7 @@ export default function SuccessPage() {
           </div>
 
           <p className="mt-5 text-sm font-semibold uppercase tracking-[0.2em] text-red-100">
-            Payment successful
+            Order submitted
           </p>
 
           <h1 className="mt-3 text-3xl font-bold tracking-tight md:text-4xl">
@@ -29,8 +21,7 @@ export default function SuccessPage() {
           </h1>
 
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-red-50 md:text-base">
-            Your payment has been completed successfully. We have received your
-            order and it is now being processed.
+            We received your order. Our team will contact you shortly to confirm details and arrange payment.
           </p>
         </div>
 
@@ -38,51 +29,35 @@ export default function SuccessPage() {
           <div className="grid gap-4 md:grid-cols-2">
             <div className="rounded-2xl bg-gray-50 p-5">
               <Receipt className="mb-3 h-6 w-6 text-red-500" />
-              <h2 className="text-lg font-semibold text-gray-900">
-                Order received
-              </h2>
+              <h2 className="text-lg font-semibold text-gray-900">Order received</h2>
               <p className="mt-2 text-sm leading-6 text-gray-500">
-                Your order has been submitted successfully. We will begin the next
-                steps shortly.
+                Your order has been submitted successfully. Track its status from your dashboard.
               </p>
             </div>
 
             <div className="rounded-2xl bg-gray-50 p-5">
-              <ShieldCheck className="mb-3 h-6 w-6 text-red-500" />
-              <h2 className="text-lg font-semibold text-gray-900">
-                Secure payment
-              </h2>
+              <Phone className="mb-3 h-6 w-6 text-red-500" />
+              <h2 className="text-lg font-semibold text-gray-900">Payment by contact</h2>
               <p className="mt-2 text-sm leading-6 text-gray-500">
-                Your payment was processed securely through Stripe.
+                No online payment is required now. We will reach out to arrange payment with you directly.
               </p>
             </div>
           </div>
 
-          <div className="mt-8 rounded-2xl border border-red-100 bg-red-50 p-5">
-            <h3 className="text-base font-semibold text-gray-900">
-              What happens next?
-            </h3>
-            <p className="mt-2 text-sm leading-6 text-gray-600">
-              Our team will review your order and contact you if additional
-              information or files are needed.
-            </p>
-          </div>
-
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
-              href="/"
+              href="/orders"
               className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-red-500 px-6 py-4 text-center font-semibold text-white transition-all duration-300 hover:bg-red-600 hover:shadow-lg sm:w-auto"
             >
-              Back to home
+              View my orders
               <ArrowRight className="h-4 w-4" />
             </Link>
-
-            {/* <Link
-              href="/services"
+            <Link
+              href="/"
               className="inline-flex w-full items-center justify-center rounded-full border border-gray-300 bg-white px-6 py-4 text-center font-semibold text-gray-700 transition-all duration-300 hover:border-red-200 hover:bg-red-50 hover:text-red-500 sm:w-auto"
             >
-              Continue shopping
-            </Link> */}
+              Back to home
+            </Link>
           </div>
         </div>
       </div>

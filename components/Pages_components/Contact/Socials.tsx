@@ -1,79 +1,44 @@
-"use client"
+"use client";
 
-import { FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa'
+import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { FaWhatsapp } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import Link from 'next/link'
-import React from 'react'
-import {motion} from 'framer-motion'
-import { fadeIn } from '../../../lib/variants'
+import Link from "next/link";
+import React from "react";
+
+const SOCIAL_LINKS = [
+  { href: "https://www.linkedin.com/company/mhm-digital/", icon: FaLinkedin, label: "LinkedIn", color: "bg-[#0A66C2]" },
+  { href: "https://www.facebook.com/mhmdigital.agency", icon: FaFacebook, label: "Facebook", color: "bg-[#1877F2]" },
+  { href: "https://x.com/mhm_digital", icon: FaXTwitter, label: "X", color: "bg-gray-900" },
+  { href: "http://wa.me/12067710038", icon: FaWhatsapp, label: "WhatsApp", color: "bg-[#25D366]" },
+  { href: "https://www.instagram.com/mhmdigital/", icon: FaInstagram, label: "Instagram", color: "bg-linear-to-br from-[#833ab4] via-[#fd1d1d] to-[#fcb045]" },
+];
 
 const Socials = () => {
   return (
-      <div className='pb-25 px-4 xl:px-14 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]'>
-            <div className='flex flex-col items-center justify-center'>
-                  <h5 className="text-red-500 text-xl font-semibold">               
-                        Follow Us
-                  </h5> 
-                  <h2 className='text-3xl md:text-[45px] font-semibold leading-tight mb-4 text-center max-w-2xl'>
-                        Follow us for great content on growth marketing
-                  </h2>
-                  <div className='grid grid-cols-3 grid-rows-3 xs:grid-rows-2 md:grid-cols-5 md:grid-rows-1 gap-10 mt-10'>
-                        <motion.div
-                        variants={fadeIn("up", 0.3)}
-                        initial="hidden"
-                        whileInView={"show"}
-                        viewport={{ once: false, amount: 0.2 }} 
-                        className='rounded-3xl bg-blue-500 p-7 shadow-[rgba(13,38,76,0.19)_0px_9px_20px]'>
-                              <Link href={'https://www.linkedin.com/company/mhm-digital/'} target='_blank'>
-                                    <FaLinkedin size={42} className='text-white' />
-                              </Link>
-                        </motion.div>
-                        <motion.div 
-                        variants={fadeIn("up", 0.7)}
-                        initial="hidden"
-                        whileInView={"show"}
-                        viewport={{ once: false, amount: 0.2 }} 
-                        className='rounded-3xl bg-blue-600 p-7 shadow-[rgba(13,38,76,0.19)_0px_9px_20px]'>
-                              <Link href={'https://www.facebook.com/mhmdigital.agency'} target='_blank'>
-                                    <FaFacebook size={42} className='text-white' />
-                              </Link>
-                        </motion.div>
-                        <motion.div 
-                        variants={fadeIn("up", 1.1)}
-                        initial="hidden"
-                        whileInView={"show"}
-                        viewport={{ once: false, amount: 0.2 }}
-                        className='rounded-3xl bg-black p-7 shadow-[rgba(13,38,76,0.19)_0px_9px_20px]'>
-                              <Link href={'https://x.com/mhm_digital'} target='_blank'>
-                                    <FaXTwitter size={42} className='text-white' />
-                              </Link>
-                        </motion.div>
-                        <motion.div
-                        variants={fadeIn("up", 1.5)}
-                        initial="hidden"
-                        whileInView={"show"}
-                        viewport={{ once: false, amount: 0.2 }} 
-                        className='rounded-3xl bg-yellow-300 p-7 shadow-[rgba(13,38,76,0.19)_0px_9px_20px]'>
-                              <Link href={'http://wa.me/12067710038'} target='_blank'>
-                                    <FaWhatsapp size={42} className='text-white' />
-                              </Link>
-                        </motion.div>
-                        <motion.div
-                        variants={fadeIn("up", 1.9)}
-                        initial="hidden"
-                        whileInView={"show"}
-                        viewport={{ once: false, amount: 0.2 }} 
-                        className='rounded-3xl p-7 bg-linear-to-b from-[#833ab4] to-[#fd1d1d] via-[#fcb045]
-                        shadow-[rgba(13,38,76,0.19)_0px_9px_20px]'>
-                              <Link href={'https://www.instagram.com/mhmdigital/'} target='_blank'>
-                                    <FaInstagram size={42} className='text-white' />
-                              </Link>
-                        </motion.div>
-                  </div>
-            </div>
+    <div className="pb-25 px-4 xl:px-14 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]">
+      <div className="flex flex-col items-center justify-center">
+        <h5 className="text-red-500 text-xl font-semibold">Follow Us</h5>
+        <h2 className="text-3xl md:text-[45px] font-semibold leading-tight mb-4 text-center max-w-2xl">
+          Follow us for great content on growth marketing
+        </h2>
+        <div className="flex flex-wrap items-center justify-center gap-4 mt-10">
+          {SOCIAL_LINKS.map(({ href, icon: Icon, label, color }) => (
+            <Link
+              key={href}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              className={`flex h-16 w-16 items-center justify-center rounded-2xl ${color} text-white hover:opacity-90 transition-opacity`}
+            >
+              <Icon size={28} />
+            </Link>
+          ))}
+        </div>
       </div>
-  )
-}
+    </div>
+  );
+};
 
-export default Socials
+export default Socials;

@@ -23,7 +23,7 @@ function formatCents(value: number) {
 function getStatusLabel(status: string) {
   switch (status) {
     case "PENDING":
-      return "Pending payment";
+      return "Order received";
     case "PAID":
       return "Paid";
     case "PROCESSING":
@@ -94,10 +94,13 @@ function getStatusStyles(status: string) {
 
 export default async function OrderDetailsPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ orderId: string }>;
+  searchParams: Promise<{ submitted?: string }>;
 }) {
   const { orderId } = await params;
+  const { submitted } = await searchParams;
 
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -140,6 +143,13 @@ export default async function OrderDetailsPage({
           Back to orders
         </Link>
       </div>
+
+      {submitted === "1" && (
+        <div className="mb-8 rounded-2xl border border-emerald-200 bg-emerald-50 px-6 py-4 text-emerald-800">
+          <p className="font-semibold">Order submitted successfully</p>
+          <p className="mt-1 text-sm">Our team will contact you to confirm your order and arrange payment.</p>
+        </div>
+      )}
 
       <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
         <div>

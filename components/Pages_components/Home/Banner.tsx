@@ -29,13 +29,11 @@ export default function Banner() {
             We Help startups & businesses grow.
           </h1>
 
-          <p className="text-base md:text-lg font-medium text-slate-200 max-w-2xl leading-relaxed mb-10">
-            MHM Digital provides branding, websites, digital marketing, software development,
-            printing, and business solutions — tailored for startups and growing companies in
-            Seattle and beyond.
+          <p className="text-base md:text-lg font-medium text-slate-200 max-w-xl leading-relaxed mb-10">
+            Branding, websites, marketing, and print — built for startups and growing businesses in Seattle.
           </p>
 
-          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/quote">
               <motion.span
                 whileHover={{ y: -4 }}
@@ -51,22 +49,6 @@ export default function Banner() {
                 className="inline-flex items-center gap-2 bg-white text-red-500 rounded-full px-8 py-4 font-semibold shadow-lg hover:bg-red-50 transition-colors"
               >
                 Explore Our Services
-              </motion.span>
-            </Link>
-            <Link href="/quote">
-              <motion.span
-                whileHover={{ y: -4 }}
-                className="inline-flex items-center gap-2 border-2 border-white/80 text-white rounded-full px-8 py-4 font-semibold hover:bg-white/10 transition-colors"
-              >
-                Start a Project
-              </motion.span>
-            </Link>
-            <Link href="/print-services">
-              <motion.span
-                whileHover={{ y: -4 }}
-                className="inline-flex items-center gap-2 border-2 border-white/80 text-white rounded-full px-8 py-4 font-semibold hover:bg-white/10 transition-colors"
-              >
-                Order Print Services
               </motion.span>
             </Link>
           </div>
