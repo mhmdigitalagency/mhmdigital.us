@@ -5,7 +5,6 @@ export type ServiceItem = {
   benefits: string[];
   icon: string;
   image: string;
-  startingPrice?: string;
   href: string;
 };
 
@@ -16,15 +15,17 @@ export type PrintServiceItem = {
   image: string;
 };
 
+const serviceImage = (slug: string) => `/images/services/${slug}.jpg`;
+const printImage = (slug: string) => `/images/print/${slug}.jpg`;
+
 export const MAIN_SERVICES: ServiceItem[] = [
   {
     slug: "branding-graphic-design",
     name: "Branding and Graphic Design",
     description: "Build a memorable brand identity with logos, visual systems, and marketing collateral.",
     benefits: ["Brand strategy", "Logo design", "Style guides", "Marketing assets"],
-    icon: "/images/services/branding-graphic-design.svg",
-    image: "/images/services/branding-graphic-design.svg",
-    startingPrice: "From $499",
+    icon: serviceImage("branding-graphic-design"),
+    image: serviceImage("branding-graphic-design"),
     href: "/services",
   },
   {
@@ -32,9 +33,8 @@ export const MAIN_SERVICES: ServiceItem[] = [
     name: "Website Design and Development",
     description: "Custom websites that convert visitors into customers with modern design and performance.",
     benefits: ["Responsive design", "CMS integration", "SEO-ready", "Fast loading"],
-    icon: "/images/services/website-design-development.svg",
-    image: "/images/services/website-design-development.svg",
-    startingPrice: "From $1,499",
+    icon: serviceImage("website-design-development"),
+    image: serviceImage("website-design-development"),
     href: "/services",
   },
   {
@@ -42,9 +42,8 @@ export const MAIN_SERVICES: ServiceItem[] = [
     name: "E-commerce Development",
     description: "Online stores built for sales, inventory management, and seamless checkout experiences.",
     benefits: ["Product catalogs", "Secure checkout", "Order management", "Analytics"],
-    icon: "/images/services/ecommerce-development.svg",
-    image: "/images/services/ecommerce-development.svg",
-    startingPrice: "From $2,499",
+    icon: serviceImage("ecommerce-development"),
+    image: serviceImage("ecommerce-development"),
     href: "/services",
   },
   {
@@ -52,9 +51,8 @@ export const MAIN_SERVICES: ServiceItem[] = [
     name: "Mobile Application Development",
     description: "Native and cross-platform mobile apps for iOS and Android.",
     benefits: ["iOS & Android", "User-friendly UX", "API integration", "App store launch"],
-    icon: "/images/services/mobile-app-development.svg",
-    image: "/images/services/mobile-app-development.svg",
-    startingPrice: "From $4,999",
+    icon: serviceImage("mobile-app-development"),
+    image: serviceImage("mobile-app-development"),
     href: "/services",
   },
   {
@@ -62,9 +60,8 @@ export const MAIN_SERVICES: ServiceItem[] = [
     name: "Digital Marketing",
     description: "Data-driven campaigns that grow your audience, leads, and revenue.",
     benefits: ["Campaign strategy", "Content marketing", "Analytics", "Conversion optimization"],
-    icon: "/images/services/digital-marketing.svg",
-    image: "/images/services/digital-marketing.svg",
-    startingPrice: "From $799/mo",
+    icon: serviceImage("digital-marketing"),
+    image: serviceImage("digital-marketing"),
     href: "/services",
   },
   {
@@ -72,9 +69,8 @@ export const MAIN_SERVICES: ServiceItem[] = [
     name: "SEO",
     description: "Improve search visibility and organic traffic with technical and content SEO.",
     benefits: ["Keyword research", "On-page SEO", "Technical audits", "Local SEO"],
-    icon: "/images/services/seo.svg",
-    image: "/images/services/seo.svg",
-    startingPrice: "From $599/mo",
+    icon: serviceImage("seo"),
+    image: serviceImage("seo"),
     href: "/services",
   },
   {
@@ -82,9 +78,8 @@ export const MAIN_SERVICES: ServiceItem[] = [
     name: "Social Media Management",
     description: "Consistent, on-brand social presence across all major platforms.",
     benefits: ["Content calendar", "Community management", "Paid social", "Reporting"],
-    icon: "/images/services/social-media-management.svg",
-    image: "/images/services/social-media-management.svg",
-    startingPrice: "From $499/mo",
+    icon: serviceImage("social-media-management"),
+    image: serviceImage("social-media-management"),
     href: "/services",
   },
   {
@@ -92,9 +87,8 @@ export const MAIN_SERVICES: ServiceItem[] = [
     name: "Paid Advertising",
     description: "Google, Meta, and display ads optimized for ROI and lead generation.",
     benefits: ["Ad strategy", "Creative design", "A/B testing", "Performance tracking"],
-    icon: "/images/services/paid-advertising.svg",
-    image: "/images/services/paid-advertising.svg",
-    startingPrice: "From $500/mo ad spend",
+    icon: serviceImage("paid-advertising"),
+    image: serviceImage("paid-advertising"),
     href: "/services",
   },
   {
@@ -102,9 +96,8 @@ export const MAIN_SERVICES: ServiceItem[] = [
     name: "Business Automation",
     description: "Streamline workflows with automated processes and integrations.",
     benefits: ["Workflow automation", "CRM integration", "Email sequences", "Reporting"],
-    icon: "/images/services/business-automation.svg",
-    image: "/images/services/business-automation.svg",
-    startingPrice: "Custom quote",
+    icon: serviceImage("business-automation"),
+    image: serviceImage("business-automation"),
     href: "/quote",
   },
   {
@@ -112,9 +105,8 @@ export const MAIN_SERVICES: ServiceItem[] = [
     name: "CRM and SaaS Solutions",
     description: "Custom CRM platforms and SaaS products tailored to your business.",
     benefits: ["Custom dashboards", "User management", "API development", "Cloud hosting"],
-    icon: "/images/services/crm-saas-solutions.svg",
-    image: "/images/services/crm-saas-solutions.svg",
-    startingPrice: "Custom quote",
+    icon: serviceImage("crm-saas-solutions"),
+    image: serviceImage("crm-saas-solutions"),
     href: "https://mhmdigital.io",
   },
   {
@@ -122,9 +114,8 @@ export const MAIN_SERVICES: ServiceItem[] = [
     name: "Printing Services",
     description: "Professional print production from business cards to large-format commercial orders.",
     benefits: ["Small & bulk orders", "Design support", "Proof approval", "Fast turnaround"],
-    icon: "/images/services/printing-services.svg",
-    image: "/images/services/printing-services.svg",
-    startingPrice: "From $29",
+    icon: serviceImage("printing-services"),
+    image: serviceImage("printing-services"),
     href: "/print-services",
   },
   {
@@ -132,27 +123,26 @@ export const MAIN_SERVICES: ServiceItem[] = [
     name: "Business Support Services",
     description: "Operational support including notary services and business documentation.",
     benefits: ["Notary public", "Document prep", "Business consulting", "Compliance support"],
-    icon: "/images/services/business-support.svg",
-    image: "/images/services/business-support.svg",
-    startingPrice: "From $75",
+    icon: serviceImage("business-support"),
+    image: serviceImage("business-support"),
     href: "https://Notary.mhmdigital.us/",
   },
 ];
 
 export const PRINT_SERVICES: PrintServiceItem[] = [
-  { name: "Business Cards", slug: "business-cards", description: "Premium card stock, finishes, and custom quantities.", image: "/images/print/business-cards.svg" },
-  { name: "Flyers", slug: "flyers", description: "Promotional handouts for events, sales, and campaigns.", image: "/images/print/flyers.svg" },
-  { name: "Brochures", slug: "brochures", description: "Tri-fold and multi-page layouts for your business.", image: "/images/print/brochures.svg" },
-  { name: "Posters", slug: "posters", description: "High-impact posters for retail, events, and promotions.", image: "/images/print/posters.svg" },
-  { name: "Banners", slug: "banners", description: "Indoor and outdoor banners with durable materials.", image: "/images/print/banners.svg" },
-  { name: "Signs", slug: "signs", description: "Wayfinding, storefront, and promotional signage.", image: "/images/print/signs.svg" },
-  { name: "Stickers", slug: "stickers", description: "Custom die-cut stickers for products and branding.", image: "/images/print/stickers.svg" },
-  { name: "Labels", slug: "labels", description: "Product, shipping, and packaging labels.", image: "/images/print/labels.svg" },
-  { name: "Apparel & DTF Transfers", slug: "apparel-dtf", description: "Custom apparel printing and DTF transfer orders.", image: "/images/print/apparel-dtf.svg" },
-  { name: "Marketing Materials", slug: "marketing-materials", description: "Campaign collateral for launches and promotions.", image: "/images/print/marketing-materials.svg" },
-  { name: "Custom Packaging", slug: "custom-packaging", description: "Branded boxes, sleeves, and product packaging.", image: "/images/print/custom-packaging.svg" },
-  { name: "Large-Format Printing", slug: "large-format", description: "Posters, displays, and oversized print projects.", image: "/images/print/large-format.svg" },
-  { name: "Corporate & Bulk Orders", slug: "bulk-orders", description: "High-volume commercial printing with dedicated support.", image: "/images/print/bulk-orders.svg" },
+  { name: "Business Cards", slug: "business-cards", description: "Premium card stock, finishes, and custom quantities.", image: printImage("business-cards") },
+  { name: "Flyers", slug: "flyers", description: "Promotional handouts for events, sales, and campaigns.", image: printImage("flyers") },
+  { name: "Brochures", slug: "brochures", description: "Tri-fold and multi-page layouts for your business.", image: printImage("brochures") },
+  { name: "Posters", slug: "posters", description: "High-impact posters for retail, events, and promotions.", image: printImage("posters") },
+  { name: "Banners", slug: "banners", description: "Indoor and outdoor banners with durable materials.", image: printImage("banners") },
+  { name: "Signs", slug: "signs", description: "Wayfinding, storefront, and promotional signage.", image: printImage("signs") },
+  { name: "Stickers", slug: "stickers", description: "Custom die-cut stickers for products and branding.", image: printImage("stickers") },
+  { name: "Labels", slug: "labels", description: "Product, shipping, and packaging labels.", image: printImage("labels") },
+  { name: "Apparel & DTF Transfers", slug: "apparel-dtf", description: "Custom apparel printing and DTF transfer orders.", image: printImage("apparel-dtf") },
+  { name: "Marketing Materials", slug: "marketing-materials", description: "Campaign collateral for launches and promotions.", image: printImage("marketing-materials") },
+  { name: "Custom Packaging", slug: "custom-packaging", description: "Branded boxes, sleeves, and product packaging.", image: printImage("custom-packaging") },
+  { name: "Large-Format Printing", slug: "large-format", description: "Posters, displays, and oversized print projects.", image: printImage("large-format") },
+  { name: "Corporate & Bulk Orders", slug: "bulk-orders", description: "High-volume commercial printing with dedicated support.", image: printImage("bulk-orders") },
 ];
 
 export const PROCESS_STEPS = [

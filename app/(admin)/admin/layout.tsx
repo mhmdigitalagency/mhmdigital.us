@@ -16,6 +16,7 @@ import {
   BarChart3,
   Megaphone,
   HelpCircle,
+  Tag,
 } from "lucide-react";
 
 const ADMIN_NAV = [
@@ -26,6 +27,7 @@ const ADMIN_NAV = [
   { href: "/admin/print", label: "Print Operations", icon: Printer },
   { href: "/admin/quotes", label: "Quotes", icon: FileText },
   { href: "/admin/invoices", label: "Invoices", icon: Receipt },
+  { href: "/admin/deals", label: "Deals", icon: Tag },
   { href: "/admin/content", label: "Content CMS", icon: Megaphone },
   { href: "/admin/popup", label: "Popup", icon: Settings },
   { href: "/admin/support", label: "Support", icon: MessageSquare },

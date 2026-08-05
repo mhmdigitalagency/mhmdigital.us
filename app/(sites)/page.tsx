@@ -7,7 +7,9 @@ import HomeTestimonials from "@/components/Pages_components/Home/HomeTestimonial
 import Case from "@/components/Pages_components/Home/Case";
 import HomeCTA from "@/components/Pages_components/Home/HomeCTA";
 import Contact from "@/components/Pages_components/Home/Contact";
+import HomeDeals from "@/components/Pages_components/Home/HomeDeals";
 import { PromotionalPopup } from "@/components/PromotionalPopup";
+import { getActiveHomeDeals } from "@/actions/admin-deals";
 import { prisma } from "@/lib/prisma";
 import type { Metadata } from "next";
 
@@ -26,12 +28,16 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const services = await prisma.service.findMany({ where: { isActive: true }, take: 20 });
+  const [services, deals] = await Promise.all([
+    prisma.service.findMany({ where: { isActive: true }, take: 20 }),
+    getActiveHomeDeals(),
+  ]);
 
   return (
     <>
       <Banner />
       <TrustSection />
+      <HomeDeals deals={deals} />
       <HomeServices />
       <PrintServicesSection />
       <HomeProcess />

@@ -777,6 +777,38 @@ async function main() {
     ],
   });
 
+  const existingDeals = await prisma.deal.count();
+  if (existingDeals === 0) {
+    await prisma.deal.createMany({
+      data: [
+        {
+          title: "New Client Website Package",
+          description: "Get a professional website launch package with branding consultation included.",
+          badgeText: "LIMITED TIME",
+          discountLabel: "15% off your first project",
+          buttonText: "Claim Offer",
+          buttonUrl: "/quote",
+          category: "website-design-development",
+          isActive: true,
+          showOnHome: true,
+          sortOrder: 0,
+        },
+        {
+          title: "Print Bulk Discount",
+          description: "Save on business cards, flyers, and banners when you order in volume.",
+          badgeText: "PRINT DEAL",
+          discountLabel: "Volume pricing available",
+          buttonText: "Request Bulk Quote",
+          buttonUrl: "/quote?type=print-bulk",
+          category: "print:bulk-orders",
+          isActive: true,
+          showOnHome: true,
+          sortOrder: 1,
+        },
+      ],
+    });
+  }
+
   const existingPopup = await prisma.popupSettings.findFirst();
   if (!existingPopup) {
     await prisma.popupSettings.create({

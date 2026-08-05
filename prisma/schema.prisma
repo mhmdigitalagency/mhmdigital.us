@@ -898,6 +898,30 @@ model TeamMember {
   @@map("team_members")
 }
 
+model Deal {
+  id            String    @id @default(cuid())
+  title         String
+  description   String?
+  badgeText     String?
+  discountLabel String?
+  imageUrl      String?
+  buttonText    String    @default("Claim Deal")
+  buttonUrl     String    @default("/quote")
+  category      String?
+  startDate     DateTime?
+  endDate       DateTime?
+  isActive      Boolean   @default(true)
+  showOnHome    Boolean   @default(true)
+  sortOrder     Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([isActive])
+  @@index([showOnHome])
+  @@index([sortOrder])
+  @@map("deals")
+}
+
 model PopupSettings {
   id              String    @id @default(cuid())
   enabled         Boolean   @default(false)

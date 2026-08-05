@@ -33,12 +33,9 @@ export default function HomeServices() {
                 />
               </div>
               <div className="p-6">
-                <h3 className="font-bold text-lg text-gray-900 group-hover:text-[#FF3B3B] transition-colors mb-1">
+                <h3 className="font-bold text-lg text-gray-900 group-hover:text-[#EE3D33] transition-colors mb-3">
                   {service.name}
                 </h3>
-                {service.startingPrice && (
-                  <p className="text-sm text-[#FF3B3B] font-semibold mb-3">{service.startingPrice}</p>
-                )}
                 <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">{service.description}</p>
                 <ul className="text-xs text-gray-500 space-y-1 mb-5">
                   {service.benefits.slice(0, 3).map((b) => (
