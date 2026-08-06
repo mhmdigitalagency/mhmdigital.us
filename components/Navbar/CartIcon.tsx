@@ -39,8 +39,8 @@ const CartIcon = () => {
         className="relative"
         aria-label="Open cart"
       >
-        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-white shadow-lg transition-all duration-300 hover:bg-gray-200 sm:h-10 sm:w-10 cursor-pointer">
-          <FaCartShopping className="size-4 text-red-500 sm:size-5 md:size-6" />
+        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-white shadow-sm transition-colors hover:bg-gray-100 sm:h-10 sm:w-10 cursor-pointer">
+          <FaCartShopping className="size-4 text-brand sm:size-5" />
 
           {isLoaded && cartCount > 0 && (
             <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-semibold text-white">

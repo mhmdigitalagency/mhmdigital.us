@@ -32,7 +32,7 @@ export default function UserButton({ user }: UserButtonProps) {
           <button
             type="button"
             aria-label="Account menu"
-            className="flex items-center justify-center aspect-square w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-red-500 text-white cursor-pointer"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand text-white cursor-pointer"
           />
         }
       >
