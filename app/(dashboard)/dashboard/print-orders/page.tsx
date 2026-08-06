@@ -73,7 +73,7 @@ export default async function PrintOrdersPage({
             {orderNumber
               ? `Order ${orderNumber} was received with Seattle sales tax included. `
               : "Your order was received with Seattle sales tax included. "}
-            Upload artwork from the Files section when ready.
+            Our print team will review your settings and artwork.
           </p>
         </div>
       )}
@@ -122,13 +122,10 @@ export default async function PrintOrdersPage({
                     )}
                   </div>
                 </div>
-                {order.status === "AWAITING_FILES" && (
-                  <Link
-                    href="/dashboard/files"
-                    className="text-sm text-red-500 font-medium hover:underline shrink-0"
-                  >
-                    Upload artwork →
-                  </Link>
+                {order.status === "ARTWORK_REVIEW" && (
+                  <span className="text-sm text-brand-blue font-medium shrink-0">
+                    Artwork under review
+                  </span>
                 )}
               </div>
             </div>
