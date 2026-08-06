@@ -12,6 +12,7 @@ import {
   getProjectBySlug,
   portfolioProjects,
 } from "@/data/portfolio";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
 type ProjectPageProps = {
   params: Promise<{
@@ -32,21 +33,21 @@ export async function generateMetadata({
   const project = getProjectBySlug(slug);
 
   if (!project) {
-    return {
-      title: "Project Not Found | MHM Digital",
-    };
+    return buildPageMetadata({
+      title: "Project Not Found",
+      description: "Portfolio project not found.",
+      path: "/portfolio",
+    });
   }
 
-  return {
-    title: `${project.title} Case Study | MHM Digital`,
+  return buildPageMetadata({
+    title: `${project.title} Case Study`,
     description: project.shortDescription,
-    openGraph: {
-      title: `${project.title} — MHM Digital`,
-      description: project.shortDescription,
-      images: [project.coverImage],
-      type: "article",
-    },
-  };
+    path: `/portfolio/${slug}`,
+    ogImage: project.coverImage,
+    ogType: "article",
+    keywords: [project.title, project.client, project.industry, "MHM Digital portfolio"],
+  });
 }
 
 export default async function ProjectPage({

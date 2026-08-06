@@ -1,20 +1,15 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-
 import { PortfolioGrid } from "@/components/Portfolio/portfolio-grid";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Portfolio | MHM Digital",
+export const metadata = buildPageMetadata({
+  title: "Portfolio & Case Studies",
   description:
-    "Explore websites, e-commerce platforms, digital products, branding, and creative projects developed by MHM Digital.",
-  openGraph: {
-    title: "MHM Digital Portfolio",
-    description:
-      "Explore selected digital experiences, websites, platforms, and brands created by MHM Digital.",
-    type: "website",
-  },
-};
+    "Explore websites, e-commerce platforms, web apps, branding, and creative projects delivered by MHM Digital in Seattle.",
+  path: "/portfolio",
+  keywords: ["MHM Digital portfolio", "Seattle web design portfolio", "web development case studies"],
+});
 
 export default function PortfolioPage() {
   return (

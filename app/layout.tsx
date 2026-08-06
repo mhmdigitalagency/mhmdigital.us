@@ -4,6 +4,10 @@ import Script from "next/script";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { CartProvider } from "@/context/CartContext";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { localBusinessJsonLd, organizationJsonLd, websiteJsonLd } from "@/lib/seo/json-ld";
+import { DEFAULT_KEYWORDS, SITE_DESCRIPTION, SITE_NAME, absoluteUrl } from "@/lib/seo/site";
+import { DEFAULT_OG_IMAGE } from "@/lib/seo/site";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -12,63 +16,46 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://mhmdigital.us"),
+  metadataBase: new URL(absoluteUrl()),
   title: {
-    default: "MHM Digital | Seattle Digital Agency & Printing",
-    template: "%s | MHM Digital",
+    default: `${SITE_NAME} | Seattle Digital Agency & Printing`,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "MHM Digital is a Seattle-based digital growth agency offering branding, web design, digital marketing, software development, and professional printing for startups and businesses.",
-  keywords: [
-    "digital agency Seattle",
-    "web design Seattle",
-    "printing services Seattle",
-    "SEO services",
-    "digital marketing",
-    "commercial printing",
-    "bulk print orders",
-  ],
+  description: SITE_DESCRIPTION,
+  keywords: [...DEFAULT_KEYWORDS],
+  authors: [{ name: SITE_NAME, url: absoluteUrl() }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: "Digital Agency",
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "MHM Digital",
-    images: [{ url: "/images/logo.png", width: 1200, height: 630, alt: "MHM Digital" }],
+    siteName: SITE_NAME,
+    url: absoluteUrl(),
+    title: `${SITE_NAME} | Seattle Digital Agency & Printing`,
+    description: SITE_DESCRIPTION,
+    images: [{ url: DEFAULT_OG_IMAGE, width: 1200, height: 630, alt: `${SITE_NAME} — Seattle digital agency and printing` }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "MHM Digital | Digital Growth Agency",
-    description: "We Help startups & businesses grow.",
+    title: `${SITE_NAME} | Seattle Digital Agency & Printing`,
+    description: SITE_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE],
   },
   icons: {
     icon: "/images/icon.png",
     apple: "/images/icon.png",
   },
-  robots: { index: true, follow: true },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
+  alternates: {
+    canonical: absoluteUrl(),
+  },
 };
 
 export const viewport: Viewport = {
   themeColor: "#fc331b",
   width: "device-width",
   initialScale: 1,
-};
-
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "MHM Digital",
-  url: "https://mhmdigital.us",
-  logo: "https://mhmdigital.us/images/icon.png",
-  description: "Digital growth agency and printing services in Seattle, Washington.",
-  address: {
-    "@type": "PostalAddress",
-    name: "Share Space MADDA WALABU",
-    streetAddress: "9040 Rainier Ave S #2",
-    addressLocality: "Seattle",
-    addressRegion: "WA",
-    postalCode: "98118",
-    addressCountry: "US",
-  },
-  sameAs: ["https://www.linkedin.com/company/mhm-digital/"],
 };
 
 export default function RootLayout({
@@ -80,10 +67,7 @@ export default function RootLayout({
       className={`${plusJakartaSans.className} min-h-screen w-full overflow-x-hidden`}
     >
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-        />
+        <JsonLd data={[organizationJsonLd(), localBusinessJsonLd(), websiteJsonLd()]} />
       </head>
       <body className="min-h-full flex flex-col">
         <CartProvider>

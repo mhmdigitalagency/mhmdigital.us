@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Blog & Resources | MHM Digital",
-  description: "Digital marketing tips, web design insights, and business growth resources from MHM Digital.",
-};
+export const metadata = buildPageMetadata({
+  title: "Blog & Business Resources",
+  description:
+    "Digital marketing tips, web design insights, SEO advice, and business growth resources from MHM Digital in Seattle.",
+  path: "/blog",
+  keywords: ["digital marketing blog Seattle", "web design tips", "SEO resources", "business growth"],
+});
 
 export default async function BlogPage() {
   const posts = await prisma.blogPost.findMany({

@@ -3,13 +3,15 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2, MapPin, Printer, Rocket, Shield, Sparkles, Users } from "lucide-react";
 import { OFFICE_ADDRESS_LINES, CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/constants/site";
 import { PROCESS_STEPS } from "@/lib/constants/services-data";
-import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "About Us | MHM Digital",
+export const metadata = buildPageMetadata({
+  title: "About Us",
   description:
-    "MHM Digital is a Seattle-based digital growth agency offering branding, web design, marketing, software, and professional printing.",
-};
+    "Learn about MHM Digital — a Seattle digital growth agency offering branding, web design, marketing, software, digital signage, and professional printing.",
+  path: "/about",
+  keywords: ["about MHM Digital", "Seattle digital agency", "Seattle printing company"],
+});
 
 const stats = [
   { value: "150+", label: "Projects delivered" },

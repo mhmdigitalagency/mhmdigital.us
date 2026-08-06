@@ -3,13 +3,21 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getActivePrintProducts, formatPrintPrice } from "@/lib/print-products";
 import { getActivePrintDeals } from "@/actions/admin-deals";
-import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Print Services | MHM Digital — Seattle Printing",
+export const metadata = buildPageMetadata({
+  title: "Seattle Printing Services",
   description:
-    "Professional printing services in Seattle. Business cards, flyers, banners, large-format, bulk corporate orders, and custom packaging from MHM Digital.",
-};
+    "Professional printing in Seattle: business cards, flyers, brochures, banners, large-format, apparel, custom packaging, and bulk corporate print orders from MHM Digital.",
+  path: "/print-services",
+  keywords: [
+    "Seattle printing services",
+    "business cards Seattle",
+    "banner printing Seattle",
+    "commercial printing Seattle",
+    "bulk printing Seattle",
+  ],
+});
 
 export default async function PrintServicesPage() {
   const [products, deals] = await Promise.all([

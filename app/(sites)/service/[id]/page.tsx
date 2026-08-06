@@ -4,8 +4,35 @@ import Service from "@/components/Pages_components/OneService/Service";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import Link from "next/link";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { buildPageMetadata } from "@/lib/seo/metadata";
+import { serviceJsonLd } from "@/lib/seo/json-ld";
+import type { Metadata } from "next";
 
-const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
+type PageProps = { params: Promise<{ id: string }> };
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  const service = await prisma.service.findUnique({ where: { id } });
+
+  if (!service) {
+    return buildPageMetadata({
+      title: "Service",
+      description: "Digital and print services from MHM Digital in Seattle.",
+      path: "/services",
+    });
+  }
+
+  return buildPageMetadata({
+    title: service.name,
+    description: service.description.slice(0, 160),
+    path: `/service/${id}`,
+    ogImage: service.image || undefined,
+    keywords: [service.name, `${service.name} Seattle`, "MHM Digital services"],
+  });
+}
+
+const Page = async ({ params }: PageProps) => {
   const { id } = await params;
 
   const headerList = await headers();
@@ -28,6 +55,14 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   return (
     <div className="py-20 px-4 xl:px-14 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]">
+      <JsonLd
+        data={serviceJsonLd({
+          name: service.name,
+          description: service.description,
+          path: `/service/${id}`,
+          image: service.image || undefined,
+        })}
+      />
       <Service service={service} />
 
       {session ? (
@@ -40,7 +75,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
           </p>
           <Link
             href="/connexion"
-            className="mt-4 inline-block rounded-full bg-red-500 hover:bg-red-600 transition-all duration-300 px-10 py-3 text-white"
+            className="mt-4 inline-block rounded-full bg-brand hover:opacity-90 transition-all duration-300 px-10 py-3 text-white"
           >
             Sign In
           </Link>

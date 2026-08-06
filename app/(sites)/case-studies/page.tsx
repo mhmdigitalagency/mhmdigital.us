@@ -2,12 +2,15 @@ import Link from "next/link";
 import { ArrowRight, Minus } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { getFeaturedProjects } from "@/data/portfolio";
-import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Case Studies | MHM Digital",
-  description: "Selected project case studies from MHM Digital — websites, platforms, branding, and print solutions.",
-};
+export const metadata = buildPageMetadata({
+  title: "Case Studies",
+  description:
+    "Selected MHM Digital case studies featuring websites, platforms, branding, and print solutions for Seattle and national clients.",
+  path: "/case-studies",
+  keywords: ["MHM Digital case studies", "web design case studies Seattle"],
+});
 
 export default function CaseStudiesPage() {
   const projects = getFeaturedProjects(2);

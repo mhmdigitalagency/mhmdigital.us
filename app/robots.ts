@@ -1,16 +1,27 @@
 import type { MetadataRoute } from "next";
+import { absoluteUrl } from "@/lib/seo/site";
 
 export default function robots(): MetadataRoute.Robots {
-  const base = process.env.NEXT_PUBLIC_APP_URL || "https://mhmdigital.us";
-
   return {
     rules: [
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin/", "/dashboard/", "/api/", "/checkout/"],
+        disallow: [
+          "/admin/",
+          "/dashboard/",
+          "/api/",
+          "/checkout/",
+          "/connexion",
+          "/inscription/",
+          "/auth/",
+          "/profile",
+          "/orders/",
+          "/cart",
+        ],
       },
     ],
-    sitemap: `${base}/sitemap.xml`,
+    sitemap: absoluteUrl("/sitemap.xml"),
+    host: absoluteUrl(),
   };
 }

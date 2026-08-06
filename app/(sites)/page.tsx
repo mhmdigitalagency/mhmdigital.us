@@ -11,21 +11,21 @@ import HomeDeals from "@/components/Pages_components/Home/HomeDeals";
 import { PromotionalPopup } from "@/components/PromotionalPopup";
 import { getActiveHomeDeals } from "@/actions/admin-deals";
 import { prisma } from "@/lib/prisma";
-import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "MHM Digital | Seattle Digital Agency & Printing Services",
+export const metadata = buildPageMetadata({
+  title: "Seattle Digital Agency & Printing Services",
   description:
-    "MHM Digital is a Seattle-based digital growth agency offering branding, web design, digital marketing, software development, and professional printing for startups and businesses.",
-  openGraph: {
-    title: "MHM Digital | Digital Growth Agency",
-    description: "We Help startups & businesses grow. Branding, websites, marketing, software, and printing.",
-    url: "https://mhmdigital.us",
-    siteName: "MHM Digital",
-    locale: "en_US",
-    type: "website",
-  },
-};
+    "MHM Digital helps Seattle startups and businesses grow with web design, branding, digital marketing, software development, digital signage, and professional printing.",
+  path: "/",
+  keywords: [
+    "Seattle digital agency",
+    "web design Seattle",
+    "printing services Seattle",
+    "digital marketing agency Seattle",
+    "MHM Digital",
+  ],
+});
 
 export default async function HomePage() {
   const [services, deals] = await Promise.all([

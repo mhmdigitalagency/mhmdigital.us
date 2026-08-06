@@ -6,6 +6,21 @@ import { prisma } from "@/lib/prisma";
 import ServiceItem from "@/components/Pages_components/Services/ServiceItem";
 import { MAIN_SERVICES } from "@/lib/constants/services-data";
 import { getServiceIcon } from "@/lib/constants/service-icons";
+import { buildPageMetadata } from "@/lib/seo/metadata";
+
+export const metadata = buildPageMetadata({
+  title: "Digital Marketing & Web Services in Seattle",
+  description:
+    "Explore MHM Digital services: branding, web design, e-commerce, mobile apps, SEO, digital marketing, digital signage, automation, and commercial printing in Seattle.",
+  path: "/services",
+  keywords: [
+    "Seattle web design services",
+    "branding agency Seattle",
+    "SEO company Seattle",
+    "digital marketing services Seattle",
+    "e-commerce development Seattle",
+  ],
+});
 
 const ADDITIONAL_SERVICES = MAIN_SERVICES.filter((s) =>
   ["business-automation", "crm-saas-solutions"].includes(s.slug)

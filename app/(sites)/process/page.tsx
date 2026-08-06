@@ -1,11 +1,13 @@
 import ProcessPageContent from "@/components/Pages_components/Process/ProcessPageContent";
-import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Our Process | MHM Digital",
+export const metadata = buildPageMetadata({
+  title: "Our Process",
   description:
-    "Learn how MHM Digital takes projects from quote to delivery — a clear six-step process for websites, marketing, software, and printing.",
-};
+    "See how MHM Digital delivers websites, marketing, software, and printing projects — from quote and discovery through launch and support.",
+  path: "/process",
+  keywords: ["digital agency process", "web design process Seattle", "print production process"],
+});
 
 export default function ProcessPage() {
   return <ProcessPageContent />;
