@@ -131,6 +131,7 @@ export default async function OrderDetailsPage({
 
   const { className, icon: StatusIcon } = getStatusStyles(order.status);
   const totalQuantity = order.items.reduce((sum, item) => sum + item.quantity, 0);
+  const orderTax = Math.max(0, order.total - order.subtotal);
 
   return (
     <div className="bg-linear-to-b from-white via-red-50/20 to-white px-4 py-16 xl:px-14 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]">
@@ -147,7 +148,7 @@ export default async function OrderDetailsPage({
       {submitted === "1" && (
         <div className="mb-8 rounded-2xl border border-emerald-200 bg-emerald-50 px-6 py-4 text-emerald-800">
           <p className="font-semibold">Order submitted successfully</p>
-          <p className="mt-1 text-sm">Our team will contact you to confirm your order and arrange payment.</p>
+          <p className="mt-1 text-sm">Our team will contact you to confirm your order and arrange payment. Seattle sales tax is included in your total.</p>
         </div>
       )}
 
@@ -377,11 +378,25 @@ export default async function OrderDetailsPage({
                 </span>
               </div>
 
-              <div className="rounded-2xl bg-red-50 px-4 py-4">
-                <p className="text-xs font-medium uppercase tracking-wide text-red-400">
+              <div className="flex items-center justify-between rounded-2xl bg-gray-50 px-4 py-3">
+                <span className="text-sm text-gray-500">Subtotal</span>
+                <span className="text-sm font-bold text-gray-900">
+                  {formatCents(order.subtotal)}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between rounded-2xl bg-gray-50 px-4 py-3">
+                <span className="text-sm text-gray-500">Seattle sales tax (10.25%)</span>
+                <span className="text-sm font-bold text-gray-900">
+                  {formatCents(orderTax)}
+                </span>
+              </div>
+
+              <div className="rounded-2xl bg-brand/5 px-4 py-4">
+                <p className="text-xs font-medium uppercase tracking-wide text-brand">
                   Order total
                 </p>
-                <p className="mt-1 text-2xl font-bold text-red-500">
+                <p className="mt-1 text-2xl font-bold text-brand">
                   {formatCents(order.total)}
                 </p>
               </div>

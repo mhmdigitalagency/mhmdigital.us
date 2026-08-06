@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { requireCustomer } from "@/lib/auth-redirect";
 import { generateOrderNumber } from "@/lib/order";
+import { calculateSeattleTaxFromCents } from "@/lib/tax";
 
 const quoteSchema = z.object({
   name: z.string().min(2).max(100),
@@ -117,6 +118,8 @@ export async function createPrintOrderRequest(formData: FormData) {
   }
 
   try {
+    const { subtotal: pricedSubtotal, tax, total } = calculateSeattleTaxFromCents(subtotal);
+
     const order = await prisma.printOrder.create({
       data: {
         orderNumber: generateOrderNumber().replace("ORD", "PRT"),
@@ -128,18 +131,25 @@ export async function createPrintOrderRequest(formData: FormData) {
         material,
         finishing,
         notes,
-        subtotal,
-        total: subtotal,
-        status: isBulk ? "QUOTE_REQUESTED" : subtotal > 0 ? "AWAITING_APPROVAL" : "DRAFT",
+        subtotal: pricedSubtotal,
+        total,
+        status: isBulk ? "QUOTE_REQUESTED" : pricedSubtotal > 0 ? "AWAITING_APPROVAL" : "DRAFT",
       },
     });
+
+    const taxNote =
+      tax > 0 ? ` Seattle sales tax (${(tax / 100).toFixed(2)} USD) is included.` : "";
 
     return {
       success: true,
       message: isBulk
-        ? "Bulk quote request submitted. Our print team will contact you shortly."
-        : "Print order created. Upload your artwork from the Files section.",
+        ? `Bulk quote request submitted successfully.${taxNote} Our print team will contact you shortly.`
+        : `Print order ${order.orderNumber} submitted successfully.${taxNote} Upload your artwork from the Files section.`,
       orderId: order.id,
+      orderNumber: order.orderNumber,
+      subtotal: pricedSubtotal,
+      tax,
+      total,
     };
   } catch (error) {
     console.error("Print order error:", error);

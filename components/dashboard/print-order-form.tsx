@@ -30,9 +30,11 @@ export function PrintOrderForm({ products, defaultProduct = "", isBulk = false }
       const result = await createPrintOrderRequest(formData);
       if (result.success) {
         toast.success(result.message);
-        router.push("/dashboard/print-orders");
+        const params = new URLSearchParams({ submitted: "1" });
+        if (result.orderNumber) params.set("orderNumber", result.orderNumber);
+        router.push(`/dashboard/print-orders?${params.toString()}`);
       } else {
-        toast.error(result.error);
+        toast.error(result.error ?? "Failed to submit print order.");
       }
     });
   };

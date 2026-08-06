@@ -2,9 +2,14 @@
 
 import { useTransition } from "react";
 import Link from "next/link";
+import { toast } from "sonner";
 import { useCart } from "@/context/CartContext";
 import { getUnitPrice } from "@/lib/cartUtils";
 import { createCheckoutSession } from "@/actions/checkout";
+import {
+  calculateSeattleTaxFromDollars,
+  SEATTLE_SALES_TAX_LABEL,
+} from "@/lib/tax";
 import {
   ArrowRight,
   BadgeCheck,
@@ -33,6 +38,9 @@ export default function CheckoutPage() {
   const [isPending, startTransition] = useTransition();
 
   const totalQuantity = cart.items.reduce((sum, item) => sum + item.quantity, 0);
+  const taxBreakdown = calculateSeattleTaxFromDollars(cartTotal);
+  const estimatedTax = taxBreakdown.tax / 100;
+  const estimatedTotal = taxBreakdown.total / 100;
 
   if (!isLoaded) {
     return (
@@ -103,8 +111,14 @@ export default function CheckoutPage() {
         }))
       );
 
-      clearCart();
-      window.location.href = `/orders/${result.orderId}?submitted=1`;
+      if (result.success) {
+        toast.success(result.message);
+        clearCart();
+        window.location.href = `/checkout/success?orderNumber=${encodeURIComponent(result.orderNumber)}`;
+        return;
+      }
+
+      toast.error(result.message);
     });
   };
 
@@ -222,8 +236,13 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="flex items-center justify-between text-sm text-gray-600">
-                  <span>Payment</span>
-                  <span className="font-semibold text-gray-900">Contact to pay</span>
+                  <span>Subtotal</span>
+                  <span className="font-semibold text-gray-900">{formatPrice(cartTotal)}</span>
+                </div>
+
+                <div className="flex items-center justify-between text-sm text-gray-600">
+                  <span>{SEATTLE_SALES_TAX_LABEL}</span>
+                  <span className="font-semibold text-gray-900">{formatPrice(estimatedTax)}</span>
                 </div>
               </div>
 
@@ -231,14 +250,14 @@ export default function CheckoutPage() {
 
               <div className="rounded-2xl bg-gray-50 p-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-500">Total</span>
+                  <span className="text-sm text-gray-500">Estimated total</span>
                   <span className="text-2xl font-bold text-gray-900">
-                    {formatPrice(cartTotal)}
+                    {formatPrice(estimatedTotal)}
                   </span>
                 </div>
 
                 <p className="mt-2 text-xs leading-5 text-gray-500">
-                  We will reach out to confirm details and arrange payment after you submit.
+                  Seattle sales tax is included. We will reach out to confirm details and arrange payment after you submit.
                 </p>
               </div>
 

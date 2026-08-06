@@ -37,8 +37,13 @@ function statusColor(status: string) {
   }
 }
 
-export default async function PrintOrdersPage() {
+export default async function PrintOrdersPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ submitted?: string; orderNumber?: string }>;
+}) {
   const session = await requireCustomer();
+  const { submitted, orderNumber } = await searchParams;
 
   const orders = await prisma.printOrder.findMany({
     where: { userId: session.user.id },
@@ -60,6 +65,18 @@ export default async function PrintOrdersPage() {
           New Print Order
         </Link>
       </div>
+
+      {submitted === "1" && (
+        <div className="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-emerald-800">
+          <p className="font-semibold">Print order submitted successfully</p>
+          <p className="mt-1 text-sm">
+            {orderNumber
+              ? `Order ${orderNumber} was received with Seattle sales tax included. `
+              : "Your order was received with Seattle sales tax included. "}
+            Upload artwork from the Files section when ready.
+          </p>
+        </div>
+      )}
 
       {orders.length === 0 ? (
         <EmptyState
@@ -93,7 +110,12 @@ export default async function PrintOrdersPage() {
                   <div className="mt-2 flex flex-wrap gap-x-4 text-xs text-gray-400">
                     <span>Created {formatDate(order.createdAt)}</span>
                     {order.total > 0 && (
-                      <span className="font-medium text-gray-600">{formatCents(order.total)}</span>
+                      <span className="font-medium text-gray-600">
+                        {formatCents(order.total)}
+                        {order.total > order.subtotal && (
+                          <span className="text-gray-400"> (incl. tax)</span>
+                        )}
+                      </span>
                     )}
                     {order.trackingNumber && (
                       <span>Tracking: {order.trackingNumber}</span>

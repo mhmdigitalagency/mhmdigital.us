@@ -14,6 +14,10 @@ import {
   BadgeCheck,
   Phone,
 } from "lucide-react";
+import {
+  calculateSeattleTaxFromDollars,
+  SEATTLE_SALES_TAX_LABEL,
+} from "@/lib/tax";
 import { BillingCycle } from "@/types/carts";
 
 function formatPrice(value: number) {
@@ -44,6 +48,9 @@ const CartPage = () => {
   } = useCart();
 
   const totalQuantity = cart.items.reduce((sum, item) => sum + item.quantity, 0);
+  const taxBreakdown = calculateSeattleTaxFromDollars(cartTotal);
+  const estimatedTax = taxBreakdown.tax / 100;
+  const estimatedTotal = taxBreakdown.total / 100;
 
   if (!isLoaded) {
     return (
@@ -302,16 +309,21 @@ const CartPage = () => {
 
               <div className="my-6 border-t border-dashed border-gray-200" />
 
-              <div className="rounded-2xl bg-gray-50 p-4">
+              <div className="rounded-2xl bg-gray-50 p-4 space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-500">Total</span>
-                  <span className="text-2xl font-bold text-gray-900">
-                    {formatPrice(cartTotal)}
-                  </span>
+                  <span className="text-sm text-gray-500">Subtotal</span>
+                  <span className="text-sm font-semibold text-gray-900">{formatPrice(cartTotal)}</span>
                 </div>
-
-                <p className="mt-2 text-xs leading-5 text-gray-500">
-                  Taxes and any additional charges will be calculated during checkout.
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-500">{SEATTLE_SALES_TAX_LABEL}</span>
+                  <span className="text-sm font-semibold text-gray-900">{formatPrice(estimatedTax)}</span>
+                </div>
+                <div className="border-t border-dashed border-gray-200 pt-3 flex items-center justify-between">
+                  <span className="text-sm font-medium text-gray-700">Estimated total</span>
+                  <span className="text-2xl font-bold text-gray-900">{formatPrice(estimatedTotal)}</span>
+                </div>
+                <p className="text-xs leading-5 text-gray-500">
+                  Seattle sales tax is calculated at checkout based on your order subtotal.
                 </p>
               </div>
 
