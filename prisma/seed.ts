@@ -914,43 +914,10 @@ async function main() {
       showOnHome: true,
       sortOrder: 2,
     },
-    {
-      title: "Branding + Website Bundle",
-      description: "Launch your brand and website together with one coordinated package.",
-      badgeText: "BUNDLE",
-      discountLabel: "Save when you combine services",
-      buttonText: "Get a Quote",
-      buttonUrl: "/quote",
-      category: "branding-graphic-design",
-      isActive: true,
-      showOnHome: true,
-      sortOrder: 3,
-    },
-    {
-      title: "Business Cards Special",
-      description: "Premium business cards with fast turnaround for new clients.",
-      badgeText: "PRINT DEAL",
-      discountLabel: "Starting at $35",
-      buttonText: "Order Cards",
-      buttonUrl: "/print-services/business-cards",
-      category: "print:business-cards",
-      isActive: true,
-      showOnHome: false,
-      sortOrder: 4,
-    },
-    {
-      title: "Free Marketing Consultation",
-      description: "Book a free 30-minute strategy call for SEO, ads, or social media.",
-      badgeText: "FREE",
-      discountLabel: "No obligation",
-      buttonText: "Book Now",
-      buttonUrl: "/appointment",
-      category: "digital-marketing",
-      isActive: true,
-      showOnHome: true,
-      sortOrder: 5,
-    },
   ];
+
+  const dealTitles = dealsToEnsure.map((deal) => deal.title);
+  await prisma.deal.deleteMany({ where: { title: { notIn: dealTitles } } });
 
   for (const deal of dealsToEnsure) {
     const existing = await prisma.deal.findFirst({ where: { title: deal.title } });
