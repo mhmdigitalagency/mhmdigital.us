@@ -1,26 +1,17 @@
-"use client"
+"use client";
 
-import React from 'react'
-import {motion} from 'framer-motion'
-import { ArrowRight } from 'lucide-react';
-import Link from 'next/link'
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 const ContactButton = () => {
   return (
-    <>
-      <Link href={'/contact'} className='hidden xl:block group'>
-            <motion.button 
-            whileHover={{ y: -8, transition: {type: 'spring'} }}
-            className='flex items-center gap-2
-            bg-red-500 text-white
-            rounded-full px-6 py-4.5
-            shadow-[rgba(13,38,76,0.19)_0px_9px_20px] cursor-pointer'>
-                  <h5 className='font-semibold text-base'>Get in Touch</h5>
-                  <ArrowRight className='text-white group-hover:translate-x-2 transition-all duration-500' />
-            </motion.button>
-      </Link>
-    </>
-  )
-}
+    <Link href="/contact" className="group hidden min-[1200px]:inline-flex">
+      <span className="inline-flex h-10 items-center gap-2 rounded-full bg-brand px-4 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90">
+        Get in Touch
+        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+      </span>
+    </Link>
+  );
+};
 
-export default ContactButton
+export default ContactButton;

@@ -1,33 +1,25 @@
-"use client"
+"use client";
 
-import { User } from 'lucide-react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import React from 'react'
+import { User } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const SignInButton = () => {
-
-  const pathName = usePathname()
-  const link = [
-    {
-      name: "Sign in",
-      path: "/connexion"
-    }
-  ]
+  const pathName = usePathname();
 
   return (
-    <>
-      {
-        link.map((item, index) => (
-          <Link key={index} href={item.path} 
-            className={`${pathName === item.path && "text-red-500 border-b-2 border-red-500"} 
-            flex hover:text-red-500 duration-300 text-sm md:text-[15.5px] font-medium gap-1 items-start`}>
-                <User className='size-5 md:size-6' /><span className='hidden sm:block'>{item.name}</span>
-          </Link>
-        ))
-      }
-    </>
-  )
-}
+    <Link
+      href="/connexion"
+      className={cn(
+        "inline-flex h-10 items-center gap-1.5 text-sm font-medium transition-colors",
+        pathName === "/connexion" ? "text-brand" : "text-gray-700 hover:text-brand"
+      )}
+    >
+      <User className="size-5 shrink-0" />
+      <span className="hidden sm:inline">Sign in</span>
+    </Link>
+  );
+};
 
-export default SignInButton
+export default SignInButton;
