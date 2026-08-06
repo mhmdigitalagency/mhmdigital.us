@@ -24,7 +24,7 @@ export default async function AdminProjectsPage() {
         </div>
         <Link
           href="/admin/projects/new"
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-red-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-600 transition-colors"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           New Project
@@ -37,7 +37,7 @@ export default async function AdminProjectsPage() {
             <p className="text-gray-500 mb-4">No projects yet. Create one to start tracking client work.</p>
             <Link
               href="/admin/projects/new"
-              className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-5 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-100 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-5 py-2.5 text-sm font-semibold text-brand hover:bg-brand/10 transition-colors"
             >
               <Plus className="h-4 w-4" />
               Create your first project

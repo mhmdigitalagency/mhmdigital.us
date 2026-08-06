@@ -30,7 +30,7 @@ export default async function AdminSupportPage() {
             </p>
             <Link
               href="/dashboard/messages"
-              className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-5 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-100 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-5 py-2.5 text-sm font-semibold text-brand hover:bg-brand/10 transition-colors"
             >
               <MessageSquare className="h-4 w-4" />
               View customer messages area

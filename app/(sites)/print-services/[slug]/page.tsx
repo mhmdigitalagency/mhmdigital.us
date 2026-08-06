@@ -1,18 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PRINT_SERVICES } from "@/lib/constants/services-data";
+import { getActivePrintProducts, getPrintProductBySlug, formatPrintPrice } from "@/lib/print-products";
 import type { Metadata } from "next";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
-  return PRINT_SERVICES.map((s) => ({ slug: s.slug }));
+  const products = await getActivePrintProducts();
+  return products.map((s) => ({ slug: s.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = PRINT_SERVICES.find((s) => s.slug === slug);
+  const product = await getPrintProductBySlug(slug);
   if (!product) return { title: "Print Product | MHM Digital" };
   return {
     title: `${product.name} | MHM Digital Print Services`,
@@ -22,29 +23,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PrintProductPage({ params }: Props) {
   const { slug } = await params;
-  const product = PRINT_SERVICES.find((s) => s.slug === slug);
+  const product = await getPrintProductBySlug(slug);
   if (!product) notFound();
+
+  const priceLabel = formatPrintPrice(product.basePrice);
 
   return (
     <div className="pb-20">
       <section className="px-4 py-16 xl:px-14 xxl:px-40">
         <div className="max-w-4xl mx-auto">
           <nav className="text-sm text-gray-500 mb-6">
-            <Link href="/print-services" className="hover:text-[#FF3B3B]">Print Services</Link>
+            <Link href="/print-services" className="hover:text-brand">Print Services</Link>
             <span className="mx-2">/</span>
             <span>{product.name}</span>
           </nav>
 
-          <div className="relative overflow-hidden rounded-3xl aspect-21/9 mb-8 bg-red-50/30">
+          <div className="relative overflow-hidden rounded-3xl aspect-21/9 mb-8 bg-brand/5">
             <Image src={product.image} alt="" fill className="object-cover" priority aria-hidden />
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">{product.name}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 text-brand-navy">{product.name}</h1>
+          {priceLabel && (
+            <p className="text-xl font-bold text-brand mb-4">Starting at {priceLabel}</p>
+          )}
           <p className="text-gray-600 leading-relaxed mb-8">{product.description}</p>
-          <p className="text-gray-600 leading-relaxed mb-8">
-            Choose your size, quantity, paper or material, finishing options, and turnaround time.
-            Upload your artwork or request design support from our team.
-          </p>
 
           <div className="rounded-2xl border p-6 mb-8 bg-gray-50">
             <h2 className="font-bold mb-3">Available Options</h2>
@@ -53,21 +55,17 @@ export default async function PrintProductPage({ params }: Props) {
               <li>• Multiple sizes, materials, and finishing options</li>
               <li>• Digital proof approval before production</li>
               <li>• Shipping, delivery, or local pickup in Seattle</li>
-              <li>• Design support available</li>
             </ul>
           </div>
 
           <div className="flex flex-wrap gap-4">
             <Link
               href={`/dashboard/print-orders/new?product=${slug}`}
-              className="bg-[#FF3B3B] text-white rounded-full px-8 py-3.5 font-semibold hover:bg-red-600"
+              className="bg-brand text-white rounded-full px-8 py-3.5 font-semibold hover:opacity-90"
             >
               Order {product.name}
             </Link>
-            <Link
-              href="/quote?type=print-bulk"
-              className="border border-gray-200 rounded-full px-8 py-3.5 font-semibold hover:bg-gray-50"
-            >
+            <Link href="/quote?type=print-bulk" className="border border-gray-200 rounded-full px-8 py-3.5 font-semibold hover:bg-gray-50">
               Request Bulk Quote
             </Link>
           </div>

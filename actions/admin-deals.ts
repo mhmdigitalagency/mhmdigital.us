@@ -173,3 +173,18 @@ export async function getActiveHomeDeals() {
     orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
   });
 }
+
+export async function getActivePrintDeals() {
+  const now = new Date();
+  return prisma.deal.findMany({
+    where: {
+      isActive: true,
+      category: { startsWith: "print:" },
+      AND: [
+        { OR: [{ startDate: null }, { startDate: { lte: now } }] },
+        { OR: [{ endDate: null }, { endDate: { gte: now } }] },
+      ],
+    },
+    orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
+  });
+}

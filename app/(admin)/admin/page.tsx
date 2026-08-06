@@ -84,7 +84,7 @@ export default async function AdminOverviewPage() {
         <div className="rounded-2xl border bg-white p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-bold text-lg">Recent Leads</h2>
-            <Link href="/admin/leads" className="text-sm text-red-500 font-medium">View all</Link>
+            <Link href="/admin/leads" className="text-sm text-brand font-medium">View all</Link>
           </div>
           {recentLeads.length === 0 ? (
             <p className="text-gray-500 text-sm">No leads yet. They will appear here from contact and quote forms.</p>
@@ -107,7 +107,7 @@ export default async function AdminOverviewPage() {
 
         <div className="rounded-2xl border bg-white p-6">
           <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="h-5 w-5 text-red-500" />
+            <TrendingUp className="h-5 w-5 text-brand" />
             <h2 className="font-bold text-lg">Quick Actions</h2>
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -120,7 +120,7 @@ export default async function AdminOverviewPage() {
               <Link
                 key={href}
                 href={href}
-                className="rounded-xl border px-4 py-3 text-sm font-semibold text-center hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-colors"
+                className="rounded-xl border px-4 py-3 text-sm font-semibold text-center hover:bg-brand/5 hover:border-brand/20 hover:text-brand transition-colors"
               >
                 {label}
               </Link>

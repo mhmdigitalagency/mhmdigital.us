@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Printer } from "lucide-react";
+import { Printer, DollarSign } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { requireStaff } from "@/lib/auth-redirect";
 import { StatusBadge } from "@/components/admin/StatusBadge";
@@ -18,18 +18,27 @@ export default async function AdminPrintPage() {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Print Operations</h1>
-        <p className="text-gray-500 mt-1">Track print orders from quote through production and delivery.</p>
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Print Orders</h1>
+          <p className="text-gray-500 mt-1">Track print orders from submission through delivery.</p>
+        </div>
+        <Link
+          href="/admin/print/products"
+          className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90"
+        >
+          <DollarSign className="h-4 w-4" />
+          Manage print pricing
+        </Link>
       </div>
 
       <div className="rounded-2xl border bg-white p-6">
         {printOrders.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-500 mb-4">No print orders yet. Orders appear when customers submit print requests.</p>
+            <p className="text-gray-500 mb-4">No print orders yet.</p>
             <Link
               href="/print-services"
-              className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-5 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-100 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-5 py-2.5 text-sm font-semibold text-brand hover:bg-brand/10 transition-colors"
             >
               <Printer className="h-4 w-4" />
               View print services
@@ -50,15 +59,19 @@ export default async function AdminPrintPage() {
               </thead>
               <tbody>
                 {printOrders.map((order) => (
-                  <tr key={order.id} className="border-b last:border-0">
-                    <td className="py-3 pr-4 font-medium text-gray-900">{order.orderNumber}</td>
+                  <tr key={order.id} className="border-b last:border-0 hover:bg-gray-50">
+                    <td className="py-3 pr-4">
+                      <Link href={`/admin/print/${order.id}`} className="font-medium text-brand-blue hover:underline">
+                        {order.orderNumber}
+                      </Link>
+                    </td>
                     <td className="py-3 pr-4">
                       <p>{order.user.name}</p>
                       <p className="text-xs text-gray-500">{order.user.email}</p>
                     </td>
                     <td className="py-3 pr-4">{order.productName}</td>
                     <td className="py-3 pr-4">{order.quantity}</td>
-                    <td className="py-3 pr-4 font-medium">{formatCents(order.total)}</td>
+                    <td className="py-3 pr-4 font-medium">{order.total > 0 ? formatCents(order.total) : "Quote"}</td>
                     <td className="py-3">
                       <StatusBadge status={order.status} />
                     </td>

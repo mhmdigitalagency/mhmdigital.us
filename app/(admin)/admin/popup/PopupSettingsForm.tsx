@@ -213,7 +213,7 @@ export function PopupSettingsForm({ settings }: { settings: PopupSettings }) {
       </section>
 
       <div className="flex justify-end pt-2">
-        <Button type="submit" disabled={pending} className="bg-red-500 hover:bg-red-600 text-white">
+        <Button type="submit" disabled={pending} className="bg-brand hover:opacity-90 text-white">
           {pending ? "Saving..." : "Save popup settings"}
         </Button>
       </div>

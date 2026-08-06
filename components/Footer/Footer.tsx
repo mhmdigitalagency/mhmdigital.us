@@ -57,12 +57,12 @@ export default function Footer() {
                   placeholder="Enter your email"
                   required
                   aria-label="Email address"
-                  className="border-none focus:border-b focus:border-red-500 transition-all focus:outline-none focus:ring-0 rounded-none w-[65%] text-base bg-transparent"
+                  className="border-none focus:border-b focus:border-brand transition-all focus:outline-none focus:ring-0 rounded-none w-[65%] text-base bg-transparent"
                 />
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="flex items-center gap-2 bg-red-500 text-white rounded-full px-5 py-2.5 font-semibold text-sm disabled:opacity-70"
+                  className="flex items-center gap-2 bg-brand text-white rounded-full px-5 py-2.5 font-semibold text-sm disabled:opacity-70"
                 >
                   {isPending ? "..." : "Subscribe"}
                   <ArrowRight className="h-4 w-4 hidden sm:block" />
@@ -88,7 +88,7 @@ export default function Footer() {
                 ["Packages", "/packages"],
               ].map(([label, href]) => (
                 <li key={href}>
-                  <Link href={href} className="hover:text-red-500 hover:underline">
+                  <Link href={href} className="hover:text-brand hover:underline">
                     {label}
                   </Link>
                 </li>
@@ -109,7 +109,7 @@ export default function Footer() {
                 ["FAQ", "/faq"],
               ].map(([label, href]) => (
                 <li key={href}>
-                  <Link href={href} className="hover:text-red-500 hover:underline">
+                  <Link href={href} className="hover:text-brand hover:underline">
                     {label}
                   </Link>
                 </li>
@@ -120,11 +120,11 @@ export default function Footer() {
           <div>
             <h4 className="font-bold mb-4">Resources</h4>
             <ul className="space-y-2 text-gray-500">
-              <li><Link href="/quote" className="hover:text-red-500 hover:underline">Request a Quote</Link></li>
-              <li><Link href="/appointment" className="hover:text-red-500 hover:underline">Book a Consultation</Link></li>
-              <li><Link href="/contact" className="hover:text-red-500 hover:underline">Contact</Link></li>
-              <li><Link href="/sitemap" className="hover:text-red-500 hover:underline">Sitemap</Link></li>
-              <li><Link href="/blog" className="hover:text-red-500 hover:underline">Blog</Link></li>
+              <li><Link href="/quote" className="hover:text-brand hover:underline">Request a Quote</Link></li>
+              <li><Link href="/appointment" className="hover:text-brand hover:underline">Book a Consultation</Link></li>
+              <li><Link href="/contact" className="hover:text-brand hover:underline">Contact</Link></li>
+              <li><Link href="/sitemap" className="hover:text-brand hover:underline">Sitemap</Link></li>
+              <li><Link href="/blog" className="hover:text-brand hover:underline">Blog</Link></li>
             </ul>
           </div>
 
@@ -137,7 +137,7 @@ export default function Footer() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 hover:text-red-500 hover:underline"
+                    className="inline-flex items-center gap-1 hover:text-brand hover:underline"
                   >
                     {link.name}
                     <ExternalLink className="h-3 w-3" />
@@ -149,7 +149,7 @@ export default function Footer() {
                   href="https://Notary.mhmdigital.us/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 hover:text-red-500 hover:underline"
+                  className="inline-flex items-center gap-1 hover:text-brand hover:underline"
                 >
                   Notary Public
                   <ExternalLink className="h-3 w-3" />

@@ -143,7 +143,7 @@ export default async function AdminAnalyticsPage() {
         <div className="rounded-2xl border bg-white p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-bold text-lg">Recent Orders</h2>
-            <Link href="/admin" className="text-sm text-red-500 font-medium">Overview</Link>
+            <Link href="/admin" className="text-sm text-brand font-medium">Overview</Link>
           </div>
           {recentOrders.length === 0 ? (
             <p className="text-sm text-gray-500">No orders yet.</p>
@@ -168,7 +168,7 @@ export default async function AdminAnalyticsPage() {
         <div className="rounded-2xl border bg-white p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-bold text-lg">Recent Leads</h2>
-            <Link href="/admin/leads" className="text-sm text-red-500 font-medium">View all</Link>
+            <Link href="/admin/leads" className="text-sm text-brand font-medium">View all</Link>
           </div>
           {recentLeads.length === 0 ? (
             <p className="text-sm text-gray-500">No leads yet.</p>

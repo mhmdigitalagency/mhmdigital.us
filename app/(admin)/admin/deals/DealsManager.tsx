@@ -126,7 +126,7 @@ function DealForm({ deal }: { deal?: DealRecord }) {
         </label>
       </div>
 
-      <button type="submit" disabled={pending} className="rounded-full bg-red-500 px-6 py-2.5 text-white font-semibold disabled:opacity-70">
+      <button type="submit" disabled={pending} className="rounded-full bg-brand px-6 py-2.5 text-white font-semibold disabled:opacity-70">
         {pending ? "Saving..." : deal ? "Update deal" : "Create deal"}
       </button>
     </form>
@@ -174,7 +174,7 @@ export function DealsManager({ deals }: { deals: DealRecord[] }) {
                   <div>
                     <h3 className="font-bold text-gray-900">{deal.title}</h3>
                     <p className="text-sm text-gray-500">
-                      {deal.badgeText && <span className="text-red-500 font-semibold mr-2">{deal.badgeText}</span>}
+                      {deal.badgeText && <span className="text-brand font-semibold mr-2">{deal.badgeText}</span>}
                       {deal.discountLabel}
                     </p>
                   </div>

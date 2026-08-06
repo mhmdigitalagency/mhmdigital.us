@@ -26,7 +26,7 @@ export default async function AdminCustomersPage() {
             <p className="text-gray-500 mb-4">No customer accounts yet. Customers appear when they sign up on the site.</p>
             <Link
               href="/connexion"
-              className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-5 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-100 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-5 py-2.5 text-sm font-semibold text-brand hover:bg-brand/10 transition-colors"
             >
               <UserPlus className="h-4 w-4" />
               View sign-up page

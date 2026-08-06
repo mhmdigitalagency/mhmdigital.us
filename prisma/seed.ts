@@ -9,6 +9,27 @@ function discounted(price: number | null): number | null {
   return Math.max(0, price - PRICE_DISCOUNT);
 }
 
+import { PRINT_SERVICES } from "@/lib/constants/services-data";
+
+const printImage = (slug: string) => `/images/print/${slug}.jpg`;
+
+/** Default starting prices in cents for print catalog */
+const DEFAULT_PRINT_PRICES: Record<string, number | null> = {
+  "business-cards": 3500,
+  flyers: 4500,
+  brochures: 8500,
+  posters: 2500,
+  banners: 12000,
+  signs: 15000,
+  stickers: 2000,
+  labels: 3000,
+  "apparel-dtf": 1800,
+  "marketing-materials": 5000,
+  "custom-packaging": 20000,
+  "large-format": 8000,
+  "bulk-orders": null,
+};
+
 function slugify(value: string) {
   return value
     .toLowerCase()
@@ -28,6 +49,7 @@ async function main() {
   await prisma.package.deleteMany();
   await prisma.subService.deleteMany();
   await prisma.service.deleteMany();
+  await prisma.printProduct.deleteMany();
   await prisma.newsletter.deleteMany();
   await prisma.contact.deleteMany();
 
@@ -838,36 +860,149 @@ async function main() {
     ],
   });
 
-  const existingDeals = await prisma.deal.count();
-  if (existingDeals === 0) {
-    await prisma.deal.createMany({
-      data: [
-        {
-          title: "New Client Website Package",
-          description: "Get a professional website launch package with branding consultation included.",
-          badgeText: "LIMITED TIME",
-          discountLabel: "15% off your first project",
-          buttonText: "Claim Offer",
-          buttonUrl: "/quote",
-          category: "website-design-development",
-          isActive: true,
-          showOnHome: true,
-          sortOrder: 0,
-        },
-        {
-          title: "Print Bulk Discount",
-          description: "Save on business cards, flyers, and banners when you order in volume.",
-          badgeText: "PRINT DEAL",
-          discountLabel: "Volume pricing available",
-          buttonText: "Request Bulk Quote",
-          buttonUrl: "/quote?type=print-bulk",
-          category: "print:bulk-orders",
-          isActive: true,
-          showOnHome: true,
-          sortOrder: 1,
-        },
-      ],
+  await prisma.printProduct.deleteMany();
+  for (const [index, item] of PRINT_SERVICES.entries()) {
+    await prisma.printProduct.create({
+      data: {
+        name: item.name,
+        slug: item.slug,
+        description: item.description,
+        category: item.slug === "bulk-orders" ? "Bulk" : "Standard",
+        image: item.image || printImage(item.slug),
+        basePrice: DEFAULT_PRINT_PRICES[item.slug] ?? null,
+        isActive: true,
+        isBulk: item.slug === "bulk-orders",
+        sortOrder: index,
+      },
     });
+  }
+
+  const dealsToEnsure = [
+    {
+      title: "New Client Website Package",
+      description: "Get a professional website launch package with branding consultation included.",
+      badgeText: "LIMITED TIME",
+      discountLabel: "15% off your first project",
+      buttonText: "Claim Offer",
+      buttonUrl: "/quote",
+      category: "website-design-development",
+      isActive: true,
+      showOnHome: true,
+      sortOrder: 0,
+    },
+    {
+      title: "Print Bulk Discount",
+      description: "Save on business cards, flyers, and banners when you order in volume.",
+      badgeText: "PRINT DEAL",
+      discountLabel: "Volume pricing available",
+      buttonText: "Request Bulk Quote",
+      buttonUrl: "/quote?type=print-bulk",
+      category: "print:bulk-orders",
+      isActive: true,
+      showOnHome: true,
+      sortOrder: 1,
+    },
+    {
+      title: "Digital Signage Launch",
+      description: "Get your first screen set up with custom content and remote playlist management.",
+      badgeText: "NEW SERVICE",
+      discountLabel: "Starter package from $680",
+      buttonText: "View Signage",
+      buttonUrl: "/services",
+      category: "digital-signage",
+      isActive: true,
+      showOnHome: true,
+      sortOrder: 2,
+    },
+    {
+      title: "Branding + Website Bundle",
+      description: "Launch your brand and website together with one coordinated package.",
+      badgeText: "BUNDLE",
+      discountLabel: "Save when you combine services",
+      buttonText: "Get a Quote",
+      buttonUrl: "/quote",
+      category: "branding-graphic-design",
+      isActive: true,
+      showOnHome: true,
+      sortOrder: 3,
+    },
+    {
+      title: "Business Cards Special",
+      description: "Premium business cards with fast turnaround for new clients.",
+      badgeText: "PRINT DEAL",
+      discountLabel: "Starting at $35",
+      buttonText: "Order Cards",
+      buttonUrl: "/print-services/business-cards",
+      category: "print:business-cards",
+      isActive: true,
+      showOnHome: false,
+      sortOrder: 4,
+    },
+    {
+      title: "Free Marketing Consultation",
+      description: "Book a free 30-minute strategy call for SEO, ads, or social media.",
+      badgeText: "FREE",
+      discountLabel: "No obligation",
+      buttonText: "Book Now",
+      buttonUrl: "/appointment",
+      category: "digital-marketing",
+      isActive: true,
+      showOnHome: true,
+      sortOrder: 5,
+    },
+  ];
+
+  for (const deal of dealsToEnsure) {
+    const existing = await prisma.deal.findFirst({ where: { title: deal.title } });
+    if (existing) {
+      await prisma.deal.update({ where: { id: existing.id }, data: deal });
+    } else {
+      await prisma.deal.create({ data: deal });
+    }
+  }
+
+  const faqToEnsure = [
+    {
+      question: "What services does MHM Digital offer?",
+      answer:
+        "We offer branding, web design and development, mobile apps, digital marketing, animation, digital signage, and professional printing — including business cards, flyers, banners, and bulk corporate orders.",
+      category: "general",
+      sortOrder: 0,
+      isActive: true,
+    },
+    {
+      question: "How do I get a quote for my project?",
+      answer:
+        "Use our online quote form or contact us directly. We respond within one business day with a tailored proposal. Registered customers can also track quotes in their dashboard.",
+      category: "general",
+      sortOrder: 1,
+      isActive: true,
+    },
+    {
+      question: "Do you offer printing services in Seattle?",
+      answer:
+        "Yes. MHM Digital provides full-service printing in Seattle — from business cards and marketing materials to large-format banners and bulk corporate orders with proof approval and tracking.",
+      category: "print",
+      sortOrder: 2,
+      isActive: true,
+    },
+    {
+      question: "How does payment work?",
+      answer:
+        "After you approve a quote, our team sends payment instructions. We accept standard business payment methods and provide invoices through your customer dashboard.",
+      category: "billing",
+      sortOrder: 3,
+      isActive: true,
+    },
+  ];
+
+  for (const faq of faqToEnsure) {
+    const existing = await prisma.faqItem.findFirst({ where: { question: faq.question } });
+    if (existing) {
+      await prisma.faqItem.update({ where: { id: existing.id }, data: faq });
+    } else {
+      await prisma.faqItem.create({ data: faq });
+    }
   }
 
   const existingPopup = await prisma.popupSettings.findFirst();

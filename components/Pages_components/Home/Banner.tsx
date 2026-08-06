@@ -16,8 +16,8 @@ export default function Banner() {
       <div className="mt-6 flex flex-col justify-center items-center bg-[url('/images/banner.jpeg')] relative bg-no-repeat bg-cover rounded-[30px] overflow-hidden">
         <div className="w-full flex flex-col items-center justify-center relative z-10 bg-black/55 py-20 md:py-28 px-6 text-center">
           <div className="flex items-center gap-2 mb-4">
-            <Minus className="text-red-400" aria-hidden />
-            <p className="text-red-400 text-sm md:text-lg font-bold tracking-wide uppercase">
+            <Minus className="text-brand" aria-hidden />
+            <p className="text-brand text-sm md:text-lg font-bold tracking-wide uppercase">
               Digital Growth Agency
             </p>
           </div>
@@ -37,7 +37,7 @@ export default function Banner() {
             <Link href="/quote">
               <motion.span
                 whileHover={{ y: -4 }}
-                className="inline-flex items-center gap-2 bg-red-500 text-white rounded-full px-8 py-4 font-semibold shadow-lg hover:bg-red-600 transition-colors"
+                className="inline-flex items-center gap-2 bg-brand text-white rounded-full px-8 py-4 font-semibold shadow-lg hover:opacity-90 transition-colors"
               >
                 Get a Free Quote
                 <ArrowRight className="h-4 w-4" />
@@ -46,7 +46,7 @@ export default function Banner() {
             <Link href="/services">
               <motion.span
                 whileHover={{ y: -4 }}
-                className="inline-flex items-center gap-2 bg-white text-red-500 rounded-full px-8 py-4 font-semibold shadow-lg hover:bg-red-50 transition-colors"
+                className="inline-flex items-center gap-2 bg-white text-brand rounded-full px-8 py-4 font-semibold shadow-lg hover:bg-brand/5 transition-colors"
               >
                 Explore Our Services
               </motion.span>

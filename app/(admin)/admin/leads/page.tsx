@@ -20,7 +20,7 @@ export default async function AdminLeadsPage() {
         </div>
         <Link
           href="/admin/leads/new"
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-red-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-600 transition-colors"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           Add Lead
@@ -30,13 +30,9 @@ export default async function AdminLeadsPage() {
       <div className="rounded-2xl border bg-white p-6">
         {leads.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-500 mb-4">No leads yet. They will appear here from contact and quote forms.</p>
-            <Link
-              href="/admin/leads/new"
-              className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-5 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-100 transition-colors"
-            >
-              <Plus className="h-4 w-4" />
-              Create your first lead
+            <p className="text-gray-500 mb-4">No leads yet.</p>
+            <Link href="/admin/leads/new" className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-5 py-2.5 text-sm font-semibold text-brand">
+              <Plus className="h-4 w-4" /> Create your first lead
             </Link>
           </div>
         ) : (
@@ -53,9 +49,11 @@ export default async function AdminLeadsPage() {
               </thead>
               <tbody>
                 {leads.map((lead) => (
-                  <tr key={lead.id} className="border-b last:border-0">
+                  <tr key={lead.id} className="border-b last:border-0 hover:bg-gray-50">
                     <td className="py-3 pr-4">
-                      <p className="font-medium text-gray-900">{lead.name}</p>
+                      <Link href={`/admin/leads/${lead.id}`} className="font-medium text-brand-blue hover:underline">
+                        {lead.name}
+                      </Link>
                       {lead.company && <p className="text-xs text-gray-500">{lead.company}</p>}
                     </td>
                     <td className="py-3 pr-4">

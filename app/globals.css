@@ -11,7 +11,11 @@
   --breakpoint-xxl: 90rem;
   --breakpoint-xll: 112.5rem;
   --breakpoint-xxx: 125rem;
-  --breakpoint-lll: 137.5rem
+  --breakpoint-lll: 137.5rem;
+
+  --color-brand: #fc331b;
+  --color-brand-blue: #0683ca;
+  --color-brand-navy: #002443;
 }
 
 @theme inline {
@@ -65,8 +69,8 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --primary: #fc331b;
+  --primary-foreground: #ffffff;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);

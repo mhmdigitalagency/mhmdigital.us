@@ -25,7 +25,7 @@ export default async function AdminInvoicesPage() {
         </div>
         <Link
           href="/admin/invoices/new"
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-red-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-600 transition-colors"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           Create Invoice
@@ -38,7 +38,7 @@ export default async function AdminInvoicesPage() {
             <p className="text-gray-500 mb-4">No invoices yet. Create one when you&apos;re ready to bill a customer.</p>
             <Link
               href="/admin/invoices/new"
-              className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-5 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-100 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-5 py-2.5 text-sm font-semibold text-brand hover:bg-brand/10 transition-colors"
             >
               <Plus className="h-4 w-4" />
               Create your first invoice

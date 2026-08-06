@@ -82,13 +82,13 @@ export default async function AdminContentPage() {
           <div className="flex flex-wrap justify-center gap-3">
             <Link
               href="/admin/content/stats"
-              className="inline-flex items-center gap-2 rounded-full bg-red-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-600 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90 transition-colors"
             >
               Add site statistics
             </Link>
             <Link
               href="/admin/content/testimonials"
-              className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-5 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-100 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-5 py-2.5 text-sm font-semibold text-brand hover:bg-brand/10 transition-colors"
             >
               Add testimonials
             </Link>
@@ -103,14 +103,14 @@ export default async function AdminContentPage() {
               className="rounded-2xl border bg-white p-6 hover:shadow-md transition-shadow group"
             >
               <div className="flex items-start justify-between mb-3">
-                <div className="p-2.5 rounded-xl bg-red-50 text-red-500">
+                <div className="p-2.5 rounded-xl bg-red-50 text-brand">
                   <Icon className="h-5 w-5" />
                 </div>
                 <span className="text-2xl font-bold text-gray-900">{counts[countKey]}</span>
               </div>
               <h2 className="font-bold text-gray-900 mb-1">{label}</h2>
               <p className="text-sm text-gray-500 mb-3">{description}</p>
-              <span className="inline-flex items-center gap-1 text-sm font-semibold text-red-500 group-hover:gap-2 transition-all">
+              <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand group-hover:gap-2 transition-all">
                 Manage <ArrowRight className="h-3.5 w-3.5" />
               </span>
             </Link>

@@ -85,13 +85,32 @@ export async function submitQuoteRequest(formData: FormData) {
 export async function createPrintOrderRequest(formData: FormData) {
   const session = await requireCustomer();
 
-  const productName = String(formData.get("productName") || "").trim();
+  const productId = String(formData.get("productId") || "").trim() || null;
+  const productSlug = String(formData.get("productSlug") || "").trim() || null;
+  let productName = String(formData.get("productName") || "").trim();
   const quantity = Number(formData.get("quantity") || 1);
   const size = String(formData.get("size") || "").trim() || null;
   const material = String(formData.get("material") || "").trim() || null;
   const finishing = String(formData.get("finishing") || "").trim() || null;
   const notes = String(formData.get("notes") || "").trim() || null;
   const isBulk = formData.get("isBulk") === "true";
+
+  let subtotal = 0;
+  let resolvedProductId = productId;
+
+  const product = resolvedProductId
+    ? await prisma.printProduct.findUnique({ where: { id: resolvedProductId } })
+    : productSlug
+      ? await prisma.printProduct.findFirst({ where: { slug: productSlug } })
+      : null;
+
+  if (product) {
+    resolvedProductId = product.id;
+    if (!productName) productName = product.name;
+    if (product.basePrice) {
+      subtotal = product.basePrice * Math.max(1, quantity);
+    }
+  }
 
   if (!productName) {
     return { success: false, error: "Product name is required." };
@@ -102,13 +121,16 @@ export async function createPrintOrderRequest(formData: FormData) {
       data: {
         orderNumber: generateOrderNumber().replace("ORD", "PRT"),
         userId: session.user.id,
+        productId: resolvedProductId,
         productName,
         quantity: Math.max(1, quantity),
         size,
         material,
         finishing,
         notes,
-        status: isBulk ? "QUOTE_REQUESTED" : "DRAFT",
+        subtotal,
+        total: subtotal,
+        status: isBulk ? "QUOTE_REQUESTED" : subtotal > 0 ? "AWAITING_APPROVAL" : "DRAFT",
       },
     });
 

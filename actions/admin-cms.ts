@@ -208,3 +208,93 @@ export async function deleteTestimonial(id: string): Promise<CmsActionState> {
     return { success: false, message: "Failed to delete testimonial." };
   }
 }
+
+const faqSchema = z.object({
+  question: z.string().min(5).max(500),
+  answer: z.string().min(10).max(5000),
+  category: z.string().min(1).max(100).default("general"),
+  sortOrder: z.coerce.number().int().min(0).default(0),
+  isActive: z.boolean().default(true),
+});
+
+export async function createFaqItem(
+  _prevState: CmsActionState,
+  formData: FormData
+): Promise<CmsActionState> {
+  await requireStaff();
+
+  const parsed = faqSchema.safeParse({
+    question: formData.get("question"),
+    answer: formData.get("answer"),
+    category: formData.get("category") || "general",
+    sortOrder: formData.get("sortOrder") || 0,
+    isActive: parseCheckbox(formData.get("isActive")),
+  });
+
+  if (!parsed.success) {
+    return { success: false, message: "Invalid FAQ data. Check question and answer." };
+  }
+
+  try {
+    await prisma.faqItem.create({ data: parsed.data });
+    revalidatePath("/admin/content/faq");
+    revalidatePath("/faq");
+    return { success: true, message: "FAQ item created." };
+  } catch (error) {
+    console.error("Failed to create FAQ:", error);
+    return { success: false, message: "Failed to create FAQ item." };
+  }
+}
+
+export async function updateFaqItem(
+  _prevState: CmsActionState,
+  formData: FormData
+): Promise<CmsActionState> {
+  await requireStaff();
+
+  const id = formData.get("id")?.toString();
+  if (!id) return { success: false, message: "FAQ ID required." };
+
+  const parsed = faqSchema.safeParse({
+    question: formData.get("question"),
+    answer: formData.get("answer"),
+    category: formData.get("category") || "general",
+    sortOrder: formData.get("sortOrder") || 0,
+    isActive: parseCheckbox(formData.get("isActive")),
+  });
+
+  if (!parsed.success) {
+    return { success: false, message: "Invalid FAQ data." };
+  }
+
+  try {
+    await prisma.faqItem.update({ where: { id }, data: parsed.data });
+    revalidatePath("/admin/content/faq");
+    revalidatePath("/faq");
+    return { success: true, message: "FAQ item updated." };
+  } catch (error) {
+    console.error("Failed to update FAQ:", error);
+    return { success: false, message: "Failed to update FAQ item." };
+  }
+}
+
+export async function deleteFaqItem(id: string): Promise<CmsActionState> {
+  await requireStaff();
+
+  try {
+    await prisma.faqItem.delete({ where: { id } });
+    revalidatePath("/admin/content/faq");
+    revalidatePath("/faq");
+    return { success: true, message: "FAQ item deleted." };
+  } catch (error) {
+    console.error("Failed to delete FAQ:", error);
+    return { success: false, message: "Failed to delete FAQ item." };
+  }
+}
+
+export async function getActiveFaqItems() {
+  return prisma.faqItem.findMany({
+    where: { isActive: true },
+    orderBy: [{ sortOrder: "asc" }, { question: "asc" }],
+  });
+}

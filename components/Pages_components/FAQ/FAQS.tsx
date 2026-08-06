@@ -17,8 +17,8 @@ const FAQ = () => {
       <div className='flex flex-col xl:flex-row xl:items-center justify-between gap-5 mb-10'>
             <div className='w-full xl:w-[52%]'>
                   <div className="flex items-end gap-2"> 
-                        <Minus className='text-red-500' />
-                        <h5 className="text-red-500 text-xl font-semibold">               
+                        <Minus className='text-brand' />
+                        <h5 className="text-brand text-xl font-semibold">               
                         FAQs
                         </h5> 
                   </div>

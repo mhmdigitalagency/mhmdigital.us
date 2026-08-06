@@ -1,13 +1,8 @@
+import { getActiveFaqItems } from "@/actions/admin-cms";
+import FaqList from "@/components/Pages_components/FAQ/FaqList";
+import FAQ from "@/components/Pages_components/FAQ/FAQS";
 
-import FAQ from '@/components/Pages_components/FAQ/FAQS'
-import React from 'react'
-
-const page = () => {
-  return (
-    <div>
-      <FAQ />
-    </div>
-  )
+export default async function FaqPage() {
+  const items = await getActiveFaqItems();
+  return <div>{items.length > 0 ? <FaqList items={items} /> : <FAQ />}</div>;
 }
-
-export default page
