@@ -2,6 +2,9 @@
   "name": "mhm-digital",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "dev": "prisma generate && next dev",
     "build": "prisma generate && next build",
@@ -59,7 +62,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/handlebars": "^4.0.40",
-    "@types/node": "^20",
+    "@types/node": "^26.2.0",
     "@types/nodemailer": "^7.0.11",
     "@types/nodemailer-express-handlebars": "^4.0.6",
     "@types/react": "^19",
