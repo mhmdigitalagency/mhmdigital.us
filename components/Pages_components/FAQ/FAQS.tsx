@@ -207,7 +207,7 @@ const FAQ = () => {
                         </AccordionTrigger>
                         <AccordionContent className='text-gray-500 text-base md:text-lg'>
                         You can reach our customer support team via email at contact@mhmdigital.us or 
-                        by phone at +1 206 771 0038. We’re here to assist you with any questions or concerns.
+                        by phone at +1 206-312-3762. We’re here to assist you with any questions or concerns.
                         </AccordionContent>
                   </AccordionItem>
                   </Accordion>
