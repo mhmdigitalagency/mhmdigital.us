@@ -91,6 +91,23 @@ See [`.env.example`](./.env.example) for the full list. Required variables:
 | `SMTP_*` / `NODEMAILER_*` | Email delivery |
 | `ADMIN_EMAILS` | Semicolon-separated admin bootstrap emails |
 
+### GoHighLevel (optional)
+
+Sync contact, quote, and print form submissions to HighLevel. Forms still save to the database if GHL is not configured.
+
+| Variable | Purpose |
+|----------|---------|
+| `GHL_WEBHOOK_URL` | Default inbound webhook for all form types |
+| `GHL_WEBHOOK_CONTACT` | Webhook override for contact form |
+| `GHL_WEBHOOK_QUOTE` | Webhook override for quote / print-bulk requests |
+| `GHL_WEBHOOK_PRINT` | Webhook override for print orders |
+| `GHL_API_KEY` | GHL Private Integration token (Contacts API) |
+| `GHL_LOCATION_ID` | GHL sub-account / location ID (required with API key) |
+
+**Webhook setup (fastest):** In GHL → Automation → create workflow → trigger **Inbound Webhook** → copy URL into `GHL_WEBHOOK_URL` (or per-form overrides above). Map incoming JSON fields (`name`, `email`, `phone`, `service`, `message`, `source`, `tags`) to create/update contact and start your pipeline.
+
+**API setup (recommended long-term):** Settings → Private Integrations → create token with Contacts scope. Set `GHL_API_KEY` and `GHL_LOCATION_ID`. The site upserts contacts by email and adds a note with full submission details.
+
 ## Authentication & Roles
 
 ### Customer Roles

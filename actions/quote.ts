@@ -14,6 +14,7 @@ import {
   PRINT_SIZE_OPTIONS,
   PRINT_TURNAROUND_OPTIONS,
 } from "@/lib/print-order-options";
+import { syncLeadToGhl } from "@/lib/ghl";
 
 const quoteSchema = z.object({
   name: z.string().min(2).max(100),
@@ -49,6 +50,8 @@ export async function submitQuoteRequest(formData: FormData) {
   const fullMessage = messageParts.join("\n\n");
 
   try {
+    const leadSource = data.type || "website-quote";
+
     await prisma.lead.create({
       data: {
         name: data.name,
@@ -57,9 +60,22 @@ export async function submitQuoteRequest(formData: FormData) {
         company: data.company,
         service: data.service,
         message: fullMessage,
-        source: data.type || "website-quote",
+        source: leadSource,
         status: "NEW",
       },
+    });
+
+    await syncLeadToGhl({
+      source: leadSource,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      company: data.company,
+      service: data.service,
+      message: data.message,
+      budget: budget || null,
+      timeline: timeline || null,
+      tags: [leadSource, data.service].filter(Boolean),
     });
 
     const existingUser = await prisma.user.findUnique({ where: { email: data.email } });
@@ -162,6 +178,47 @@ export async function createPrintOrderRequest(formData: FormData) {
         await prisma.printOrder.delete({ where: { id: order.id } });
         return { success: false, error: upload.error };
       }
+    }
+
+    const artworkName =
+      artwork instanceof File && artwork.size > 0 ? artwork.name : undefined;
+
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { name: true, email: true, phoneNumber: true, company: true },
+    });
+
+    if (user) {
+      await syncLeadToGhl({
+        source: isBulk ? "print-bulk" : "print-order",
+        name: user.name,
+        email: user.email,
+        phone: user.phoneNumber,
+        company: user.company,
+        service: product.name,
+        message: [
+          `Order: ${order.orderNumber}`,
+          `Quantity: ${order.quantity}`,
+          size ? `Size: ${size}` : null,
+          material ? `Material: ${material}` : null,
+          finishing ? `Finishing: ${finishing}` : null,
+          turnaround ? `Turnaround: ${turnaround}` : null,
+          artworkName ? `Artwork: ${artworkName}` : null,
+          `Subtotal: $${(pricedSubtotal / 100).toFixed(2)}`,
+          `Total (incl. tax): $${(total / 100).toFixed(2)}`,
+        ]
+          .filter(Boolean)
+          .join("\n"),
+        tags: [isBulk ? "print-bulk" : "print-order", product.slug],
+        metadata: {
+          orderNumber: order.orderNumber,
+          orderId: order.id,
+          productSlug: product.slug,
+          quantity: order.quantity,
+          subtotalCents: pricedSubtotal,
+          totalCents: total,
+        },
+      });
     }
 
     revalidatePath("/dashboard/print-orders");
