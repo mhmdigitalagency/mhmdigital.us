@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import Contact from "./Conctact";
 import { toast } from "sonner";
-import { applyBrandingPromo, formatPromoPrice, BRANDING_PROMO_LABEL } from "@/lib/promotions";
+import { applySitePromo, formatPromoPrice, SITE_PROMO_LABEL } from "@/lib/promotions";
 
 interface Package {
   id: string;
@@ -123,7 +123,7 @@ const Packages: React.FC<Props> = ({ services, isLoggedIn }) => {
     if (hasRecurringPricing(pack)) {
       const amount = isMonthly ? (pack.priceByMonth ?? 0) : (pack.priceByYear ?? 0);
       const suffix = isMonthly ? " / Month" : " / Year";
-      const promo = applyBrandingPromo(amount, pack.slug, {
+      const promo = applySitePromo(amount, pack.slug, {
         serviceName: selectedService?.name,
         packageName: pack.name,
       });
@@ -133,7 +133,7 @@ const Packages: React.FC<Props> = ({ services, isLoggedIn }) => {
       return `$ ${amount}.00${suffix}`;
     }
 
-    const promo = applyBrandingPromo(pack.price ?? 0, pack.slug, {
+    const promo = applySitePromo(pack.price ?? 0, pack.slug, {
       serviceName: selectedService?.name,
       packageName: pack.name,
     });
@@ -152,7 +152,7 @@ const Packages: React.FC<Props> = ({ services, isLoggedIn }) => {
   };
 
   const hasPromo = (pack: Package) =>
-    applyBrandingPromo(getOriginalPrice(pack), pack.slug, {
+    applySitePromo(getOriginalPrice(pack), pack.slug, {
       serviceName: selectedService?.name,
       packageName: pack.name,
     }).promoApplied;
@@ -297,7 +297,7 @@ const Packages: React.FC<Props> = ({ services, isLoggedIn }) => {
                   {hasPromo(pack) ? (
                     <div className="mb-6">
                       <span className="mb-2 inline-block rounded-full bg-brand/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand">
-                        {BRANDING_PROMO_LABEL}
+                        {SITE_PROMO_LABEL}
                       </span>
                       <div className="flex flex-wrap items-baseline gap-2">
                         <h4 className="text-2xl font-bold text-brand">{getDisplayedPrice(pack)}</h4>

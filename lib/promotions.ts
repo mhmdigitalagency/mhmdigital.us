@@ -1,13 +1,14 @@
-/** Branding promo: 10% off all branding packages except Starter until Sep 30, 2026. */
+/** Site-wide promo: 10% off all packages except Starter tiers until Sep 30, 2026. */
 
-export const BRANDING_PROMO_PERCENT = 10;
+export const SITE_PROMO_PERCENT = 10;
 
 /** End of Sep 30, 2026 11:59:59 PM Pacific */
-export const BRANDING_PROMO_ENDS_AT = new Date("2026-10-01T06:59:59.999Z");
+export const SITE_PROMO_ENDS_AT = new Date("2026-10-01T06:59:59.999Z");
 
-export const BRANDING_PROMO_LABEL = "10% off — ends Sep 30";
+export const SITE_PROMO_LABEL = "10% off — ends Sep 30";
 
-export const BRANDING_STARTER_SLUG = "branding-starter";
+/** @deprecated Use SITE_PROMO_LABEL */
+export const BRANDING_PROMO_LABEL = SITE_PROMO_LABEL;
 
 export type PromoPriceResult = {
   originalPrice: number;
@@ -21,31 +22,42 @@ type PromoContext = {
   packageName?: string | null;
 };
 
-export function isBrandingPromoActive(now: Date = new Date()): boolean {
-  return now.getTime() < BRANDING_PROMO_ENDS_AT.getTime();
+export function isSitePromoActive(now: Date = new Date()): boolean {
+  return now.getTime() < SITE_PROMO_ENDS_AT.getTime();
 }
 
-export function isBrandingPromoEligible(
+/** @deprecated Use isSitePromoActive */
+export const isBrandingPromoActive = isSitePromoActive;
+
+export function isStarterPackage(
   packageSlug: string | null | undefined,
-  context?: PromoContext
+  packageName?: string | null
 ): boolean {
-  if (packageSlug === BRANDING_STARTER_SLUG) return false;
-
-  if (packageSlug?.startsWith("branding-")) {
-    return true;
-  }
-
-  const serviceName = context?.serviceName?.trim();
-  const packageName = context?.packageName?.trim();
-
-  if (serviceName === "Branding" && packageName && packageName !== "Starter") {
-    return true;
-  }
-
+  const name = packageName?.trim();
+  if (name?.toLowerCase() === "starter") return true;
+  if (packageSlug?.endsWith("-starter")) return true;
   return false;
 }
 
-export function applyBrandingPromo(
+export function isSitePromoEligible(
+  packageSlug: string | null | undefined,
+  context?: PromoContext
+): boolean {
+  const packageName = context?.packageName?.trim();
+
+  if (isStarterPackage(packageSlug, packageName)) {
+    return false;
+  }
+
+  if (packageSlug) return true;
+
+  return Boolean(packageName && packageName !== "Starter");
+}
+
+/** @deprecated Use isSitePromoEligible */
+export const isBrandingPromoEligible = isSitePromoEligible;
+
+export function applySitePromo(
   price: number,
   packageSlug: string | null | undefined,
   context?: PromoContext,
@@ -55,22 +67,25 @@ export function applyBrandingPromo(
 
   if (
     price <= 0 ||
-    !isBrandingPromoActive(now) ||
-    !isBrandingPromoEligible(packageSlug, context)
+    !isSitePromoActive(now) ||
+    !isSitePromoEligible(packageSlug, context)
   ) {
     return { originalPrice, finalPrice: originalPrice, promoApplied: false };
   }
 
-  const discount = Math.round(originalPrice * (BRANDING_PROMO_PERCENT / 100) * 100) / 100;
+  const discount = Math.round(originalPrice * (SITE_PROMO_PERCENT / 100) * 100) / 100;
   const finalPrice = Math.round((originalPrice - discount) * 100) / 100;
 
   return {
     originalPrice,
     finalPrice,
     promoApplied: true,
-    promoLabel: BRANDING_PROMO_LABEL,
+    promoLabel: SITE_PROMO_LABEL,
   };
 }
+
+/** @deprecated Use applySitePromo */
+export const applyBrandingPromo = applySitePromo;
 
 export function formatPromoPrice(amount: number): string {
   return Number.isInteger(amount) ? `$ ${amount}.00` : `$ ${amount.toFixed(2)}`;

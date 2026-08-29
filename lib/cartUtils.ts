@@ -1,5 +1,5 @@
 import { BillingCycle, Carts, CartItem } from "@/types/carts";
-import { applyBrandingPromo } from "@/lib/promotions";
+import { applySitePromo } from "@/lib/promotions";
 
 const CART_KEY = "cart";
 
@@ -36,7 +36,7 @@ export function getUnitPrice(item: CartItem): number {
       base = item.package.price ?? 0;
   }
 
-  return applyBrandingPromo(base, item.package.slug, {
+  return applySitePromo(base, item.package.slug, {
     serviceName: item.package.service?.name,
     packageName: item.package.name,
   }).finalPrice;
@@ -57,7 +57,7 @@ export function getUnitPriceBreakdown(item: CartItem) {
       base = item.package.price ?? 0;
   }
 
-  return applyBrandingPromo(base, item.package.slug, {
+  return applySitePromo(base, item.package.slug, {
     serviceName: item.package.service?.name,
     packageName: item.package.name,
   });

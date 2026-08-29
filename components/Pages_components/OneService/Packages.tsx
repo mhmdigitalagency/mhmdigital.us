@@ -11,7 +11,7 @@ import Contact from "./Contact";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-import { applyBrandingPromo, formatPromoPrice, BRANDING_PROMO_LABEL } from "@/lib/promotions";
+import { applySitePromo, formatPromoPrice, SITE_PROMO_LABEL } from "@/lib/promotions";
 
 interface Service {
   id: string;
@@ -113,7 +113,7 @@ const PackagesComponent: React.FC<Props> = ({ service }) => {
 
     if (hasRecurringPricing(pack)) {
       const suffix = isPriceTypeSwitchOn ? " / Month" : " / Year";
-      const promo = applyBrandingPromo(amount, pack.slug, {
+      const promo = applySitePromo(amount, pack.slug, {
         serviceName: service.name,
         packageName: pack.name,
       });
@@ -123,7 +123,7 @@ const PackagesComponent: React.FC<Props> = ({ service }) => {
       return `$ ${amount.toFixed(2)}${suffix}`;
     }
 
-    const promo = applyBrandingPromo(amount, pack.slug, {
+    const promo = applySitePromo(amount, pack.slug, {
       serviceName: service.name,
       packageName: pack.name,
     });
@@ -135,7 +135,7 @@ const PackagesComponent: React.FC<Props> = ({ service }) => {
   };
 
   const hasPromo = (pack: PackageItem) =>
-    applyBrandingPromo(getOriginalPrice(pack), pack.slug, {
+    applySitePromo(getOriginalPrice(pack), pack.slug, {
       serviceName: service.name,
       packageName: pack.name,
     }).promoApplied;
@@ -252,7 +252,7 @@ const PackagesComponent: React.FC<Props> = ({ service }) => {
                     {hasPromo(pack) ? (
                       <div className="mb-6">
                         <span className="mb-2 inline-block rounded-full bg-brand/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand">
-                          {BRANDING_PROMO_LABEL}
+                          {SITE_PROMO_LABEL}
                         </span>
                         <div className="flex flex-wrap items-baseline gap-2">
                           <h4 className="text-2xl font-bold text-brand">{getDisplayedPrice(pack)}</h4>

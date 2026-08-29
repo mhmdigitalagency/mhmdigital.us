@@ -13,9 +13,9 @@ import {
 import { useCart } from "@/context/CartContext";
 import { toast } from "sonner";
 import {
-  applyBrandingPromo,
+  applySitePromo,
   formatPromoPrice,
-  BRANDING_PROMO_LABEL,
+  SITE_PROMO_LABEL,
 } from "@/lib/promotions";
 
 interface Props {
@@ -45,7 +45,7 @@ const PackageService = ({ servicePack }: Props) => {
 
   const pricePromo = useMemo(
     () =>
-      applyBrandingPromo(selectedPrice, servicePack.slug, {
+      applySitePromo(selectedPrice, servicePack.slug, {
         serviceName: servicePack.service?.name,
         packageName: servicePack.name,
       }),
@@ -180,7 +180,7 @@ const PackageService = ({ servicePack }: Props) => {
                   {pricePromo.promoApplied ? (
                     <div className="mt-10">
                       <span className="mb-2 inline-block rounded-full bg-brand/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand">
-                        {BRANDING_PROMO_LABEL}
+                        {SITE_PROMO_LABEL}
                       </span>
                       <div className="flex flex-wrap items-baseline gap-2">
                         <h4 className="text-3xl font-extrabold text-brand">
@@ -212,7 +212,7 @@ const PackageService = ({ servicePack }: Props) => {
                   {pricePromo.promoApplied ? (
                     <div className="mt-10">
                       <span className="mb-2 inline-block rounded-full bg-brand/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand">
-                        {BRANDING_PROMO_LABEL}
+                        {SITE_PROMO_LABEL}
                       </span>
                       <div className="flex flex-wrap items-baseline gap-2">
                         <h4 className="text-3xl font-extrabold text-brand">

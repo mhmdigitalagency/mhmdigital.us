@@ -6,7 +6,7 @@ import { generateOrderNumber } from "@/lib/order";
 import { auth } from "@/lib/auth";
 import { BillingCycle } from "@/app/generated/prisma/client";
 import { calculateSeattleTaxFromCents } from "@/lib/tax";
-import { applyBrandingPromo } from "@/lib/promotions";
+import { applySitePromo } from "@/lib/promotions";
 
 type CheckoutPayloadItem = {
   packageId: string;
@@ -45,7 +45,9 @@ function getUnitPriceFromPackage(
     dollars = pkg.price ?? 0;
   }
 
-  const { finalPrice } = applyBrandingPromo(dollars, pkg.slug);
+  const { finalPrice } = applySitePromo(dollars, pkg.slug, {
+    packageName: pkg.name,
+  });
   return Math.round(finalPrice * 100);
 }
 

@@ -879,15 +879,15 @@ async function main() {
 
   const dealsToEnsure = [
     {
-      title: "Branding Fall Promo",
+      title: "Fall Promo — All Services",
       description:
-        "Save 10% on all Branding packages through September 30. Starter package excluded.",
+        "Save 10% on Growth, Ultimate, and all non-Starter packages through September 30. Starter tiers excluded.",
       badgeText: "10% OFF",
-      discountLabel: "All Branding packages except Starter — ends Sep 30",
+      discountLabel: "All packages except Starter — ends Sep 30",
       imageUrl: "/images/branding.png",
-      buttonText: "View Branding Packages",
+      buttonText: "View Packages",
       buttonUrl: "/packages",
-      category: "branding",
+      category: "promo",
       isActive: true,
       showOnHome: true,
       sortOrder: 0,
