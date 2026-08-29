@@ -12,6 +12,11 @@ import {
 } from "@/types/carts";
 import { useCart } from "@/context/CartContext";
 import { toast } from "sonner";
+import {
+  applyBrandingPromo,
+  formatPromoPrice,
+  BRANDING_PROMO_LABEL,
+} from "@/lib/promotions";
 
 interface Props {
   servicePack: CartPackage;
@@ -37,6 +42,15 @@ const PackageService = ({ servicePack }: Props) => {
     if (selectedMode === "YEARLY") return servicePack.priceByYear ?? 0;
     return servicePack.price ?? 0;
   }, [selectedMode, servicePack]);
+
+  const pricePromo = useMemo(
+    () =>
+      applyBrandingPromo(selectedPrice, servicePack.slug, {
+        serviceName: servicePack.service?.name,
+        packageName: servicePack.name,
+      }),
+    [selectedPrice, servicePack]
+  );
 
   const priceLabel = useMemo(() => {
     if (selectedMode === "MONTHLY") return "/ month";
@@ -163,9 +177,25 @@ const PackageService = ({ servicePack }: Props) => {
                     )}
                   </select>
 
-                  <h4 className="mt-10 text-3xl font-extrabold">
-                    ${selectedPrice.toFixed(2)} {priceLabel}
-                  </h4>
+                  {pricePromo.promoApplied ? (
+                    <div className="mt-10">
+                      <span className="mb-2 inline-block rounded-full bg-brand/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand">
+                        {BRANDING_PROMO_LABEL}
+                      </span>
+                      <div className="flex flex-wrap items-baseline gap-2">
+                        <h4 className="text-3xl font-extrabold text-brand">
+                          {formatPromoPrice(pricePromo.finalPrice)} {priceLabel}
+                        </h4>
+                        <span className="text-lg text-gray-400 line-through">
+                          ${selectedPrice.toFixed(2)} {priceLabel}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <h4 className="mt-10 text-3xl font-extrabold">
+                      ${selectedPrice.toFixed(2)} {priceLabel}
+                    </h4>
+                  )}
 
                   <motion.button
                     whileHover={{ y: -10, transition: { type: "spring" } }}
@@ -179,9 +209,25 @@ const PackageService = ({ servicePack }: Props) => {
                 </form>
               ) : (
                 <div>
-                  <h4 className="mt-10 text-3xl font-extrabold">
-                    ${(servicePack.price ?? 0).toFixed(2)}
-                  </h4>
+                  {pricePromo.promoApplied ? (
+                    <div className="mt-10">
+                      <span className="mb-2 inline-block rounded-full bg-brand/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand">
+                        {BRANDING_PROMO_LABEL}
+                      </span>
+                      <div className="flex flex-wrap items-baseline gap-2">
+                        <h4 className="text-3xl font-extrabold text-brand">
+                          {formatPromoPrice(pricePromo.finalPrice)}
+                        </h4>
+                        <span className="text-lg text-gray-400 line-through">
+                          ${(servicePack.price ?? 0).toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <h4 className="mt-10 text-3xl font-extrabold">
+                      ${(servicePack.price ?? 0).toFixed(2)}
+                    </h4>
+                  )}
 
                   <motion.button
                     whileHover={{ y: -10, transition: { type: "spring" } }}

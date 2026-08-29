@@ -881,9 +881,9 @@ async function main() {
     {
       title: "Branding Fall Promo",
       description:
-        "Save 10% on Branding Growth and Ultimate packages through September 30. Starter package excluded.",
+        "Save 10% on all Branding packages through September 30. Starter package excluded.",
       badgeText: "10% OFF",
-      discountLabel: "Branding Growth & Ultimate — ends Sep 30",
+      discountLabel: "All Branding packages except Starter — ends Sep 30",
       imageUrl: "/images/branding.png",
       buttonText: "View Branding Packages",
       buttonUrl: "/packages",

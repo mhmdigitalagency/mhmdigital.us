@@ -113,14 +113,20 @@ const PackagesComponent: React.FC<Props> = ({ service }) => {
 
     if (hasRecurringPricing(pack)) {
       const suffix = isPriceTypeSwitchOn ? " / Month" : " / Year";
-      const promo = applyBrandingPromo(amount, pack.slug);
+      const promo = applyBrandingPromo(amount, pack.slug, {
+        serviceName: service.name,
+        packageName: pack.name,
+      });
       if (promo.promoApplied) {
         return `${formatPromoPrice(promo.finalPrice)}${suffix}`;
       }
       return `$ ${amount.toFixed(2)}${suffix}`;
     }
 
-    const promo = applyBrandingPromo(amount, pack.slug);
+    const promo = applyBrandingPromo(amount, pack.slug, {
+      serviceName: service.name,
+      packageName: pack.name,
+    });
     if (promo.promoApplied) {
       return formatPromoPrice(promo.finalPrice);
     }
@@ -129,7 +135,10 @@ const PackagesComponent: React.FC<Props> = ({ service }) => {
   };
 
   const hasPromo = (pack: PackageItem) =>
-    applyBrandingPromo(getOriginalPrice(pack), pack.slug).promoApplied;
+    applyBrandingPromo(getOriginalPrice(pack), pack.slug, {
+      serviceName: service.name,
+      packageName: pack.name,
+    }).promoApplied;
 
   const handleAddToCart = (pack: PackageItem) => {
     const item: CartItem = {

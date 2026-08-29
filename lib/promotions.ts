@@ -1,4 +1,4 @@
-/** Branding promo: 10% off Growth & Ultimate until Sep 30, 2026 (Pacific). */
+/** Branding promo: 10% off all branding packages except Starter until Sep 30, 2026. */
 
 export const BRANDING_PROMO_PERCENT = 10;
 
@@ -7,11 +7,7 @@ export const BRANDING_PROMO_ENDS_AT = new Date("2026-10-01T06:59:59.999Z");
 
 export const BRANDING_PROMO_LABEL = "10% off — ends Sep 30";
 
-/** Packages excluded from the branding promo */
-export const BRANDING_PROMO_EXCLUDED_SLUGS = new Set([
-  "branding-starter",
-  "web-design-and-development-starter",
-]);
+export const BRANDING_STARTER_SLUG = "branding-starter";
 
 export type PromoPriceResult = {
   originalPrice: number;
@@ -20,19 +16,39 @@ export type PromoPriceResult = {
   promoLabel?: string;
 };
 
+type PromoContext = {
+  serviceName?: string | null;
+  packageName?: string | null;
+};
+
 export function isBrandingPromoActive(now: Date = new Date()): boolean {
   return now.getTime() < BRANDING_PROMO_ENDS_AT.getTime();
 }
 
-export function isBrandingPromoEligible(packageSlug: string | null | undefined): boolean {
-  if (!packageSlug) return false;
-  if (BRANDING_PROMO_EXCLUDED_SLUGS.has(packageSlug)) return false;
-  return packageSlug.startsWith("branding-");
+export function isBrandingPromoEligible(
+  packageSlug: string | null | undefined,
+  context?: PromoContext
+): boolean {
+  if (packageSlug === BRANDING_STARTER_SLUG) return false;
+
+  if (packageSlug?.startsWith("branding-")) {
+    return true;
+  }
+
+  const serviceName = context?.serviceName?.trim();
+  const packageName = context?.packageName?.trim();
+
+  if (serviceName === "Branding" && packageName && packageName !== "Starter") {
+    return true;
+  }
+
+  return false;
 }
 
 export function applyBrandingPromo(
   price: number,
   packageSlug: string | null | undefined,
+  context?: PromoContext,
   now: Date = new Date()
 ): PromoPriceResult {
   const originalPrice = price;
@@ -40,7 +56,7 @@ export function applyBrandingPromo(
   if (
     price <= 0 ||
     !isBrandingPromoActive(now) ||
-    !isBrandingPromoEligible(packageSlug)
+    !isBrandingPromoEligible(packageSlug, context)
   ) {
     return { originalPrice, finalPrice: originalPrice, promoApplied: false };
   }
