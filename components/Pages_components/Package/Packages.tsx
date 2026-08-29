@@ -11,9 +11,11 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import Contact from "./Conctact";
 import { toast } from "sonner";
+import { applyBrandingPromo, formatPromoPrice, BRANDING_PROMO_LABEL } from "@/lib/promotions";
 
 interface Package {
   id: string;
+  slug?: string;
   name: string;
   priceByMonth: number | null;
   priceByYear: number | null;
@@ -119,13 +121,32 @@ const Packages: React.FC<Props> = ({ services, isLoggedIn }) => {
 
   const getDisplayedPrice = (pack: Package) => {
     if (hasRecurringPricing(pack)) {
-      return isMonthly
-        ? `$ ${pack.priceByMonth}.00 / Month`
-        : `$ ${pack.priceByYear}.00 / Year`;
+      const amount = isMonthly ? (pack.priceByMonth ?? 0) : (pack.priceByYear ?? 0);
+      const suffix = isMonthly ? " / Month" : " / Year";
+      const promo = applyBrandingPromo(amount, pack.slug);
+      if (promo.promoApplied) {
+        return `${formatPromoPrice(promo.finalPrice)}${suffix}`;
+      }
+      return `$ ${amount}.00${suffix}`;
+    }
+
+    const promo = applyBrandingPromo(pack.price ?? 0, pack.slug);
+    if (promo.promoApplied) {
+      return formatPromoPrice(promo.finalPrice);
     }
 
     return `$ ${pack.price ?? 0}.00`;
   };
+
+  const getOriginalPrice = (pack: Package) => {
+    if (hasRecurringPricing(pack)) {
+      return isMonthly ? (pack.priceByMonth ?? 0) : (pack.priceByYear ?? 0);
+    }
+    return pack.price ?? 0;
+  };
+
+  const hasPromo = (pack: Package) =>
+    applyBrandingPromo(getOriginalPrice(pack), pack.slug).promoApplied;
 
   const handleAddToCart = (pack: Package) => {
     if (!selectedService) return;
@@ -264,7 +285,21 @@ const Packages: React.FC<Props> = ({ services, isLoggedIn }) => {
                     {pack.name || "Default name"}
                   </h5>
 
-                  <h4 className="mb-6 text-2xl font-bold">{getDisplayedPrice(pack)}</h4>
+                  {hasPromo(pack) ? (
+                    <div className="mb-6">
+                      <span className="mb-2 inline-block rounded-full bg-brand/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand">
+                        {BRANDING_PROMO_LABEL}
+                      </span>
+                      <div className="flex flex-wrap items-baseline gap-2">
+                        <h4 className="text-2xl font-bold text-brand">{getDisplayedPrice(pack)}</h4>
+                        <span className="text-lg text-gray-400 line-through">
+                          $ {getOriginalPrice(pack).toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <h4 className="mb-6 text-2xl font-bold">{getDisplayedPrice(pack)}</h4>
+                  )}
 
                   <p className="mb-8 text-lg text-gray-500">
                     {pack.description || "Default description"}

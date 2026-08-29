@@ -15,6 +15,7 @@ export interface SubService {
 
 export interface Package {
   id: string;
+  slug?: string;
   serviceId: string | null;
   subServiceId?: string | null;
   name: string;

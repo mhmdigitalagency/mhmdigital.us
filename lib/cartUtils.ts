@@ -1,4 +1,5 @@
 import { BillingCycle, Carts, CartItem } from "@/types/carts";
+import { applyBrandingPromo } from "@/lib/promotions";
 
 const CART_KEY = "cart";
 
@@ -21,15 +22,39 @@ export function saveCart(cart: Carts): void {
 }
 
 export function getUnitPrice(item: CartItem): number {
+  let base = 0;
+
   switch (item.packageDuration) {
     case "MONTHLY":
-      return item.package.priceByMonth ?? 0;
+      base = item.package.priceByMonth ?? 0;
+      break;
     case "YEARLY":
-      return item.package.priceByYear ?? 0;
+      base = item.package.priceByYear ?? 0;
+      break;
     case "ONE_TIME":
     default:
-      return item.package.price ?? 0;
+      base = item.package.price ?? 0;
   }
+
+  return applyBrandingPromo(base, item.package.slug).finalPrice;
+}
+
+export function getUnitPriceBreakdown(item: CartItem) {
+  let base = 0;
+
+  switch (item.packageDuration) {
+    case "MONTHLY":
+      base = item.package.priceByMonth ?? 0;
+      break;
+    case "YEARLY":
+      base = item.package.priceByYear ?? 0;
+      break;
+    case "ONE_TIME":
+    default:
+      base = item.package.price ?? 0;
+  }
+
+  return applyBrandingPromo(base, item.package.slug);
 }
 
 export function addItemToCart(item: CartItem): Carts {

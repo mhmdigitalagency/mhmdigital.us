@@ -6,6 +6,7 @@ import { generateOrderNumber } from "@/lib/order";
 import { auth } from "@/lib/auth";
 import { BillingCycle } from "@/app/generated/prisma/client";
 import { calculateSeattleTaxFromCents } from "@/lib/tax";
+import { applyBrandingPromo } from "@/lib/promotions";
 
 type CheckoutPayloadItem = {
   packageId: string;
@@ -27,21 +28,25 @@ export type CheckoutResult =
 
 function getUnitPriceFromPackage(
   pkg: {
+    slug: string;
     price: number | null;
     priceByMonth: number | null;
     priceByYear: number | null;
   },
   billingCycle: BillingCycle
 ) {
+  let dollars = 0;
+
   if (billingCycle === "MONTHLY") {
-    return Math.round((pkg.priceByMonth ?? 0) * 100);
+    dollars = pkg.priceByMonth ?? 0;
+  } else if (billingCycle === "YEARLY") {
+    dollars = pkg.priceByYear ?? 0;
+  } else {
+    dollars = pkg.price ?? 0;
   }
 
-  if (billingCycle === "YEARLY") {
-    return Math.round((pkg.priceByYear ?? 0) * 100);
-  }
-
-  return Math.round((pkg.price ?? 0) * 100);
+  const { finalPrice } = applyBrandingPromo(dollars, pkg.slug);
+  return Math.round(finalPrice * 100);
 }
 
 /** Creates an order without online payment — team contacts customer to arrange payment. */

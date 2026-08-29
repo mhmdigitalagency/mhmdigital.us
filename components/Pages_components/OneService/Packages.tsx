@@ -11,6 +11,7 @@ import Contact from "./Contact";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
+import { applyBrandingPromo, formatPromoPrice, BRANDING_PROMO_LABEL } from "@/lib/promotions";
 
 interface Service {
   id: string;
@@ -19,6 +20,7 @@ interface Service {
   icon: string;
   packages: {
     id: string;
+    slug?: string;
     serviceId: string | null;
     subServiceId: string | null;
     name: string;
@@ -36,6 +38,7 @@ interface Service {
     serviceId: string;
     packages: {
       id: string;
+      slug?: string;
       serviceId: string | null;
       subServiceId: string | null;
       name: string;
@@ -51,6 +54,7 @@ interface Service {
 
 interface PackageItem {
   id: string;
+  slug?: string;
   serviceId: string | null;
   subServiceId: string | null;
   name: string;
@@ -97,15 +101,35 @@ const PackagesComponent: React.FC<Props> = ({ service }) => {
     return "ONE_TIME";
   };
 
-  const getDisplayedPrice = (pack: PackageItem) => {
+  const getOriginalPrice = (pack: PackageItem) => {
     if (hasRecurringPricing(pack)) {
-      return isPriceTypeSwitchOn
-        ? `$ ${pack.priceByMonth?.toFixed(2)} / Month`
-        : `$ ${pack.priceByYear?.toFixed(2)} / Year`;
+      return isPriceTypeSwitchOn ? (pack.priceByMonth ?? 0) : (pack.priceByYear ?? 0);
+    }
+    return pack.price ?? 0;
+  };
+
+  const getDisplayedPrice = (pack: PackageItem) => {
+    const amount = getOriginalPrice(pack);
+
+    if (hasRecurringPricing(pack)) {
+      const suffix = isPriceTypeSwitchOn ? " / Month" : " / Year";
+      const promo = applyBrandingPromo(amount, pack.slug);
+      if (promo.promoApplied) {
+        return `${formatPromoPrice(promo.finalPrice)}${suffix}`;
+      }
+      return `$ ${amount.toFixed(2)}${suffix}`;
     }
 
-    return `$ ${(pack.price ?? 0).toFixed(2)}`;
+    const promo = applyBrandingPromo(amount, pack.slug);
+    if (promo.promoApplied) {
+      return formatPromoPrice(promo.finalPrice);
+    }
+
+    return `$ ${amount.toFixed(2)}`;
   };
+
+  const hasPromo = (pack: PackageItem) =>
+    applyBrandingPromo(getOriginalPrice(pack), pack.slug).promoApplied;
 
   const handleAddToCart = (pack: PackageItem) => {
     const item: CartItem = {
@@ -216,9 +240,21 @@ const PackagesComponent: React.FC<Props> = ({ service }) => {
 
                     <h5 className="mb-2 text-2xl text-gray-500">{pack.name}</h5>
 
-                    <h4 className="mb-6 text-2xl font-bold">
-                      {getDisplayedPrice(pack)}
-                    </h4>
+                    {hasPromo(pack) ? (
+                      <div className="mb-6">
+                        <span className="mb-2 inline-block rounded-full bg-brand/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand">
+                          {BRANDING_PROMO_LABEL}
+                        </span>
+                        <div className="flex flex-wrap items-baseline gap-2">
+                          <h4 className="text-2xl font-bold text-brand">{getDisplayedPrice(pack)}</h4>
+                          <span className="text-lg text-gray-400 line-through">
+                            $ {getOriginalPrice(pack).toFixed(2)}
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <h4 className="mb-6 text-2xl font-bold">{getDisplayedPrice(pack)}</h4>
+                    )}
 
                     <p className="mb-8 text-lg text-gray-500">{pack.description}</p>
                   </div>

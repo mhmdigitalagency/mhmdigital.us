@@ -17,6 +17,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   const formattedPackage: Package = {
     id: servicePack.id,
+    slug: servicePack.slug,
     serviceId: servicePack.serviceId,
     name: servicePack.name,
     priceByYear: servicePack.priceByYear,
