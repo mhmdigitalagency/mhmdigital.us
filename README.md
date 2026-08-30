@@ -89,6 +89,7 @@ See [`.env.example`](./.env.example) for the full list. Required variables:
 | `STRIPE_SECRET_KEY` | Stripe API key |
 | `STRIPE_WEBHOOK_SECRET` | Stripe webhook signing secret |
 | `SMTP_*` / `NODEMAILER_*` | Email delivery |
+| `CONTACT_RECEIVER` | Inbox that receives website contact form submissions |
 | `ADMIN_EMAILS` | Semicolon-separated admin bootstrap emails |
 
 ## Authentication & Roles

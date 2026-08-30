@@ -110,6 +110,15 @@ export const MAIN_SERVICES: ServiceItem[] = [
     href: "https://mhmdigital.io",
   },
   {
+    slug: "all-in-marketing-platform",
+    name: "All-in Marketing Platform",
+    description: "CRM, email, SMS, funnels, forms, booking, and automation in one MHM-hosted dashboard — starting at $49/month.",
+    benefits: ["CRM & pipelines", "Email & SMS", "Funnels & forms", "Appointment booking"],
+    icon: serviceImage("crm-saas-solutions"),
+    image: serviceImage("crm-saas-solutions"),
+    href: "/packages",
+  },
+  {
     slug: "digital-signage",
     name: "Digital Signage",
     description: "Eye-catching digital displays for storefronts, offices, events, and retail — designed, managed, and updated for your brand.",
