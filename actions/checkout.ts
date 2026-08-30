@@ -29,6 +29,7 @@ export type CheckoutResult =
 function getUnitPriceFromPackage(
   pkg: {
     slug: string;
+    name: string;
     price: number | null;
     priceByMonth: number | null;
     priceByYear: number | null;

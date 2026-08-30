@@ -10,7 +10,7 @@ import Contact from "@/components/Pages_components/Home/Contact";
 import HomeDeals from "@/components/Pages_components/Home/HomeDeals";
 import { PromotionalPopup } from "@/components/PromotionalPopup";
 import { getActiveHomeDeals } from "@/actions/admin-deals";
-import { prisma } from "@/lib/prisma";
+import { getPublicServices } from "@/lib/site-services";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
@@ -29,7 +29,7 @@ export const metadata = buildPageMetadata({
 
 export default async function HomePage() {
   const [services, deals] = await Promise.all([
-    prisma.service.findMany({ where: { isActive: true }, take: 20 }),
+    getPublicServices(),
     getActiveHomeDeals(),
   ]);
 

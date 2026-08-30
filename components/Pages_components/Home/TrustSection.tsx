@@ -1,3 +1,4 @@
+import { withDatabase } from "@/lib/db-safe";
 import { prisma } from "@/lib/prisma";
 import { Minus } from "lucide-react";
 
@@ -10,10 +11,14 @@ const DEFAULT_STATS = [
 ];
 
 export default async function TrustSection() {
-  let stats = await prisma.siteStatistic.findMany({
-    where: { isActive: true },
-    orderBy: { sortOrder: "asc" },
-  });
+  let stats = await withDatabase(
+    () =>
+      prisma.siteStatistic.findMany({
+        where: { isActive: true },
+        orderBy: { sortOrder: "asc" },
+      }),
+    []
+  );
 
   if (stats.length === 0) {
     stats = DEFAULT_STATS.map((s, i) => ({

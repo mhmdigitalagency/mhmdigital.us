@@ -1,3 +1,4 @@
+import { withDatabase } from "@/lib/db-safe";
 import { prisma } from "@/lib/prisma";
 import { Minus, Star } from "lucide-react";
 import Image from "next/image";
@@ -24,11 +25,15 @@ const DEFAULT_TESTIMONIALS = [
 ];
 
 export default async function HomeTestimonials() {
-  let testimonials = await prisma.testimonial.findMany({
-    where: { isActive: true },
-    orderBy: { sortOrder: "asc" },
-    take: 6,
-  });
+  let testimonials = await withDatabase(
+    () =>
+      prisma.testimonial.findMany({
+        where: { isActive: true },
+        orderBy: { sortOrder: "asc" },
+        take: 6,
+      }),
+    []
+  );
 
   if (testimonials.length === 0) {
     testimonials = DEFAULT_TESTIMONIALS as typeof testimonials;

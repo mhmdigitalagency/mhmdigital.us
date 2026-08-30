@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { requireStaff } from "@/lib/auth-redirect";
+import { withDatabase } from "@/lib/db-safe";
 
 export type CmsActionState = {
   success: boolean;
@@ -293,8 +294,12 @@ export async function deleteFaqItem(id: string): Promise<CmsActionState> {
 }
 
 export async function getActiveFaqItems() {
-  return prisma.faqItem.findMany({
-    where: { isActive: true },
-    orderBy: [{ sortOrder: "asc" }, { question: "asc" }],
-  });
+  return withDatabase(
+    () =>
+      prisma.faqItem.findMany({
+        where: { isActive: true },
+        orderBy: [{ sortOrder: "asc" }, { question: "asc" }],
+      }),
+    []
+  );
 }

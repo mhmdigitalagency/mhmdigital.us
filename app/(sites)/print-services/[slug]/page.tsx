@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getActivePrintProducts, getPrintProductBySlug, formatPrintPrice } from "@/lib/print-products";
+import { getPrintProductBySlug, getPrintProductSlugs, formatPrintPrice } from "@/lib/print-products";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/seo/json-ld";
@@ -9,9 +9,8 @@ import type { Metadata } from "next";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export async function generateStaticParams() {
-  const products = await getActivePrintProducts();
-  return products.map((s) => ({ slug: s.slug }));
+export function generateStaticParams() {
+  return getPrintProductSlugs();
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

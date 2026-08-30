@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { portfolioProjects } from "@/data/portfolio";
 import { getActivePrintProducts } from "@/lib/print-products";
 import { absoluteUrl } from "@/lib/seo/site";
+import { withDatabase } from "@/lib/db-safe";
 import { prisma } from "@/lib/prisma";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -27,13 +28,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/sitemap", priority: 0.2, changeFrequency: "monthly" },
   ];
 
-  const [printProducts, blogPosts] = await Promise.all([
-    getActivePrintProducts(),
-    prisma.blogPost.findMany({
-      where: { published: true },
-      select: { slug: true, updatedAt: true, publishedAt: true },
-    }),
-  ]);
+  const printProducts = await getActivePrintProducts();
+
+  const blogPosts = await withDatabase(
+    () =>
+      prisma.blogPost.findMany({
+        where: { published: true },
+        select: { slug: true, updatedAt: true, publishedAt: true },
+      }),
+    []
+  );
 
   const portfolioPages = portfolioProjects.map((project) => ({
     url: absoluteUrl(`/portfolio/${project.slug}`),

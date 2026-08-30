@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { requireStaff } from "@/lib/auth-redirect";
+import { withDatabase } from "@/lib/db-safe";
 
 export type DealActionState = {
   success: boolean;
@@ -161,30 +162,38 @@ export async function deleteDeal(id: string): Promise<DealActionState> {
 
 export async function getActiveHomeDeals() {
   const now = new Date();
-  return prisma.deal.findMany({
-    where: {
-      isActive: true,
-      showOnHome: true,
-      AND: [
-        { OR: [{ startDate: null }, { startDate: { lte: now } }] },
-        { OR: [{ endDate: null }, { endDate: { gte: now } }] },
-      ],
-    },
-    orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
-  });
+  return withDatabase(
+    () =>
+      prisma.deal.findMany({
+        where: {
+          isActive: true,
+          showOnHome: true,
+          AND: [
+            { OR: [{ startDate: null }, { startDate: { lte: now } }] },
+            { OR: [{ endDate: null }, { endDate: { gte: now } }] },
+          ],
+        },
+        orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
+      }),
+    []
+  );
 }
 
 export async function getActivePrintDeals() {
   const now = new Date();
-  return prisma.deal.findMany({
-    where: {
-      isActive: true,
-      category: { startsWith: "print:" },
-      AND: [
-        { OR: [{ startDate: null }, { startDate: { lte: now } }] },
-        { OR: [{ endDate: null }, { endDate: { gte: now } }] },
-      ],
-    },
-    orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
-  });
+  return withDatabase(
+    () =>
+      prisma.deal.findMany({
+        where: {
+          isActive: true,
+          category: { startsWith: "print:" },
+          AND: [
+            { OR: [{ startDate: null }, { startDate: { lte: now } }] },
+            { OR: [{ endDate: null }, { endDate: { gte: now } }] },
+          ],
+        },
+        orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
+      }),
+    []
+  );
 }

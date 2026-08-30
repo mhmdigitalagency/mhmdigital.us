@@ -2,10 +2,10 @@ import { Minus } from "lucide-react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Banner from "@/components/Pages_components/Services/Banner";
-import { prisma } from "@/lib/prisma";
 import ServiceItem from "@/components/Pages_components/Services/ServiceItem";
 import { MAIN_SERVICES } from "@/lib/constants/services-data";
 import { getServiceIcon } from "@/lib/constants/service-icons";
+import { getPublicServices } from "@/lib/site-services";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
@@ -27,7 +27,7 @@ const ADDITIONAL_SERVICES = MAIN_SERVICES.filter((s) =>
 );
 
 const page = async () => {
-  const services = await prisma.service.findMany({ orderBy: { position: "asc" } });
+  const services = await getPublicServices();
 
   return (
     <>

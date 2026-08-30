@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { withDatabase } from "@/lib/db-safe";
 import { prisma } from "@/lib/prisma";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
@@ -11,11 +12,15 @@ export const metadata = buildPageMetadata({
 });
 
 export default async function BlogPage() {
-  const posts = await prisma.blogPost.findMany({
-    where: { published: true },
-    orderBy: { publishedAt: "desc" },
-    take: 20,
-  });
+  const posts = await withDatabase(
+    () =>
+      prisma.blogPost.findMany({
+        where: { published: true },
+        orderBy: { publishedAt: "desc" },
+        take: 20,
+      }),
+    []
+  );
 
   return (
     <div className="px-4 py-16 xl:px-14 xxl:px-40">
