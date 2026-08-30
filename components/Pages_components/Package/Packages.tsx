@@ -11,7 +11,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import Contact from "./Conctact";
 import { toast } from "sonner";
-import { applySitePromo, formatPromoPrice, SITE_PROMO_LABEL } from "@/lib/promotions";
+import SitePromoBanner from "@/components/Promo/SitePromoBanner";
+import PackagePriceDisplay from "@/components/Promo/PackagePriceDisplay";
 
 interface Package {
   id: string;
@@ -119,43 +120,12 @@ const Packages: React.FC<Props> = ({ services, isLoggedIn }) => {
     return pack.price ?? 0;
   };
 
-  const getDisplayedPrice = (pack: Package) => {
+  const getPriceSuffix = (pack: Package) => {
     if (hasRecurringPricing(pack)) {
-      const amount = isMonthly ? (pack.priceByMonth ?? 0) : (pack.priceByYear ?? 0);
-      const suffix = isMonthly ? " / Month" : " / Year";
-      const promo = applySitePromo(amount, pack.slug, {
-        serviceName: selectedService?.name,
-        packageName: pack.name,
-      });
-      if (promo.promoApplied) {
-        return `${formatPromoPrice(promo.finalPrice)}${suffix}`;
-      }
-      return `$ ${amount}.00${suffix}`;
+      return isMonthly ? " / Month" : " / Year";
     }
-
-    const promo = applySitePromo(pack.price ?? 0, pack.slug, {
-      serviceName: selectedService?.name,
-      packageName: pack.name,
-    });
-    if (promo.promoApplied) {
-      return formatPromoPrice(promo.finalPrice);
-    }
-
-    return `$ ${pack.price ?? 0}.00`;
+    return "";
   };
-
-  const getOriginalPrice = (pack: Package) => {
-    if (hasRecurringPricing(pack)) {
-      return isMonthly ? (pack.priceByMonth ?? 0) : (pack.priceByYear ?? 0);
-    }
-    return pack.price ?? 0;
-  };
-
-  const hasPromo = (pack: Package) =>
-    applySitePromo(getOriginalPrice(pack), pack.slug, {
-      serviceName: selectedService?.name,
-      packageName: pack.name,
-    }).promoApplied;
 
   const handleAddToCart = (pack: Package) => {
     if (!selectedService) return;
@@ -202,9 +172,10 @@ const Packages: React.FC<Props> = ({ services, isLoggedIn }) => {
     <div className="mt-20 px-4 xl:px-14 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]">
       <div className="flex flex-col items-center justify-center">
         <h5 className="text-xl font-semibold text-red-500">Packages</h5>
-        <h1 className="mb-10 max-w-xl text-center text-3xl font-bold leading-tight md:text-[44px]">
+        <h1 className="mb-6 max-w-xl text-center text-3xl font-bold leading-tight md:text-[44px]">
           Pricing plans for every need
         </h1>
+        <SitePromoBanner className="mb-10 max-w-3xl" />
       </div>
 
       {services.length > 0 && (
@@ -260,17 +231,24 @@ const Packages: React.FC<Props> = ({ services, isLoggedIn }) => {
       )}
 
       {filteredPackages.length > 0 ? (
-        <div className="mx-4 mt-10 flex flex-col gap-10 rounded-[40px] bg-white py-16 xl:mx-14 xl:grid xl:grid-cols-3 xl:gap-0">
-          {filteredPackages.map((pack, index) => {
-            const isLast = index === filteredPackages.length - 1;
+        <div className="mx-4 mt-10 grid gap-8 xl:mx-14 xl:grid-cols-3">
+          {filteredPackages.map((pack) => {
+            const isPopular = pack.name === "Growth";
+            const priceAmount = getSelectedPrice(pack);
 
             return (
               <div
                 key={pack.id}
-                className={`flex flex-col items-center px-10 pb-10 md:flex-row xl:flex-col xl:pb-0 ${
-                  !isLast ? "border-b xl:border-b-0 xl:border-r" : ""
+                className={`relative flex flex-col rounded-[32px] border bg-white p-8 shadow-[0_12px_40px_rgba(0,36,67,0.08)] transition-shadow hover:shadow-[0_20px_50px_rgba(0,36,67,0.12)] ${
+                  isPopular ? "border-brand ring-2 ring-brand/20 xl:-mt-2 xl:mb-2" : "border-gray-200"
                 }`}
               >
+                {isPopular && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand-navy px-4 py-1 text-xs font-bold uppercase tracking-wide text-white">
+                    Most Popular
+                  </span>
+                )}
+
                 <div className="w-full">
                   <div className="mb-8 w-[20%]">
                     <Link href={`/package/${pack.id}`}>
@@ -294,21 +272,15 @@ const Packages: React.FC<Props> = ({ services, isLoggedIn }) => {
                     {pack.name || "Default name"}
                   </h5>
 
-                  {hasPromo(pack) ? (
-                    <div className="mb-6">
-                      <span className="mb-2 inline-block rounded-full bg-brand/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand">
-                        {SITE_PROMO_LABEL}
-                      </span>
-                      <div className="flex flex-wrap items-baseline gap-2">
-                        <h4 className="text-2xl font-bold text-brand">{getDisplayedPrice(pack)}</h4>
-                        <span className="text-lg text-gray-400 line-through">
-                          $ {getOriginalPrice(pack).toFixed(2)}
-                        </span>
-                      </div>
-                    </div>
-                  ) : (
-                    <h4 className="mb-6 text-2xl font-bold">{getDisplayedPrice(pack)}</h4>
-                  )}
+                  <div className="mb-6">
+                    <PackagePriceDisplay
+                      amount={priceAmount}
+                      packageSlug={pack.slug}
+                      serviceName={selectedService?.name}
+                      packageName={pack.name}
+                      suffix={getPriceSuffix(pack)}
+                    />
+                  </div>
 
                   <p className="mb-8 text-lg text-gray-500">
                     {pack.description || "Default description"}
@@ -329,14 +301,17 @@ const Packages: React.FC<Props> = ({ services, isLoggedIn }) => {
                     </div>
                   ))}
 
-                  <div className="mt-10">
+                  <div className="mt-auto pt-8">
                     <motion.button
                       type="button"
-                      whileHover={{ y: -10, transition: { type: "spring" } }}
-                      className="group flex w-full items-center justify-center rounded-full bg-red-500 px-10 py-4 text-white cursor-pointer"
+                      whileHover={{ y: -6 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`group flex w-full items-center justify-center rounded-full px-10 py-4 text-white cursor-pointer transition-colors ${
+                        isPopular ? "bg-brand hover:bg-brand/90" : "bg-brand-navy hover:bg-brand-navy/90"
+                      }`}
                       onClick={() => handleAddToCart(pack)}
                     >
-                      <h5 className="text-base font-semibold">Add to cart</h5>
+                      <span className="text-base font-semibold">Add to cart</span>
                     </motion.button>
                   </div>
                 </div>
