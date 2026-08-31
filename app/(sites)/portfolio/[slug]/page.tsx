@@ -12,7 +12,11 @@ import {
   getProjectBySlug,
   portfolioProjects,
 } from "@/data/portfolio";
-import { PortfolioLivePreview } from "@/components/Portfolio/portfolio-live-preview";
+import { PortfolioProjectPreview } from "@/components/Portfolio/portfolio-live-preview";
+import {
+  getProjectCoverScreenshot,
+  getProjectGalleryScreenshots,
+} from "@/lib/portfolio-media";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 type ProjectPageProps = {
@@ -45,7 +49,7 @@ export async function generateMetadata({
     title: `${project.title} Case Study`,
     description: project.shortDescription,
     path: `/portfolio/${slug}`,
-    ogImage: project.coverImage,
+    ogImage: getProjectCoverScreenshot(project),
     ogType: "article",
     keywords: [project.title, project.client, project.industry, "MHM Digital portfolio"],
   });
@@ -76,6 +80,8 @@ export default async function ProjectPage({
     portfolioProjects[
       (currentIndex + 1) % portfolioProjects.length
     ];
+
+  const galleryImages = getProjectGalleryScreenshots(project);
 
   return (
     <main className="min-h-screen bg-white">
@@ -152,19 +158,21 @@ export default async function ProjectPage({
         </div>
       </section>
 
-      {project.projectUrl && (
-        <section className="px-5 py-10 md:px-8 md:py-14">
-          <div className="mx-auto max-w-7xl">
-            <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#ff2f3d]">
-                  Live Preview
-                </p>
-                <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 md:text-4xl">
-                  View the website directly
-                </h2>
-              </div>
+      <section className="px-5 py-10 md:px-8 md:py-14">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#ff2f3d]">
+                Live Preview
+              </p>
+              <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 md:text-4xl">
+                {project.projectUrl
+                  ? "View the website directly"
+                  : "Project screenshots"}
+              </h2>
+            </div>
 
+            {project.projectUrl && (
               <a
                 href={project.projectUrl}
                 target="_blank"
@@ -174,19 +182,19 @@ export default async function ProjectPage({
                 Open in new tab
                 <ExternalLink size={16} />
               </a>
-            </div>
-
-            <PortfolioLivePreview url={project.projectUrl} title={project.title} />
+            )}
           </div>
-        </section>
-      )}
+
+          <PortfolioProjectPreview project={project} />
+        </div>
+      </section>
 
       <section className="px-5 py-10 md:px-8 md:py-14">
         <div className="mx-auto max-w-7xl overflow-hidden rounded-[30px] bg-slate-100">
           <img
-            src={project.coverImage}
+            src={getProjectCoverScreenshot(project)}
             alt={`${project.title} main project presentation`}
-            className="aspect-16/8 w-full object-cover"
+            className="aspect-16/8 w-full object-cover object-top"
           />
         </div>
       </section>
@@ -263,7 +271,7 @@ export default async function ProjectPage({
         </div>
       </section>
 
-      {project.gallery.length > 0 && (
+      {galleryImages.length > 0 && (
         <section className="px-5 py-16 md:px-8 md:py-24">
           <div className="mx-auto max-w-7xl">
             <div className="mb-10">
@@ -272,31 +280,25 @@ export default async function ProjectPage({
               </p>
 
               <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 md:text-5xl">
-                A closer look at the work.
+                Website screenshots
               </h2>
             </div>
 
             <div className="grid gap-7 md:grid-cols-2">
-              {project.gallery.map(
-                (image, index) => (
-                  <div
-                    key={image}
-                    className={`overflow-hidden rounded-[28px] bg-slate-100 ${
-                      index === 0
-                        ? "md:col-span-2"
-                        : ""
-                    }`}
-                  >
-                    <img
-                      src={image}
-                      alt={`${project.title} gallery view ${
-                        index + 1
-                      }`}
-                      className="aspect-16/10 h-full w-full object-cover transition duration-700 hover:scale-[1.02]"
-                    />
-                  </div>
-                ),
-              )}
+              {galleryImages.map((image, index) => (
+                <div
+                  key={image}
+                  className={`overflow-hidden rounded-[28px] bg-slate-100 ${
+                    index === 0 ? "md:col-span-2" : ""
+                  }`}
+                >
+                  <img
+                    src={image}
+                    alt={`${project.title} screenshot ${index + 1}`}
+                    className="aspect-16/10 h-full w-full object-cover object-top transition duration-700 hover:scale-[1.02]"
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </section>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 import type { PortfolioProject } from "@/data/portfolio";
+import { getProjectCoverScreenshot } from "@/lib/portfolio-media";
 
 type PortfolioCardProps = {
   project: PortfolioProject;
@@ -29,18 +30,16 @@ export function PortfolioCard({
           }`}
         >
           <img
-            src={project.coverImage}
+            src={getProjectCoverScreenshot(project)}
             alt={`${project.title} project preview`}
-            className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+            className="h-full w-full object-cover object-top transition duration-700 group-hover:scale-[1.03]"
           />
 
           <div className="absolute inset-0 bg-linear-to-t from-slate-950/55 via-slate-950/10 to-transparent opacity-80 transition duration-300 group-hover:opacity-100" />
 
-          {project.projectUrl && (
-            <span className="absolute left-5 top-5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-slate-950 shadow-sm">
-              Live site
-            </span>
-          )}
+          <span className="absolute left-5 top-5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-slate-950 shadow-sm">
+            {project.projectUrl ? "Live preview" : "Preview"}
+          </span>
 
           <span className="absolute bottom-5 right-5 flex h-11 w-11 items-center justify-center rounded-full bg-white text-slate-950 shadow-lg transition duration-300 group-hover:scale-105">
             <ArrowUpRight size={20} />

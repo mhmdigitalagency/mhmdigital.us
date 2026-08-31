@@ -13,8 +13,6 @@ export const metadata = buildPageMetadata({
 });
 
 export default function PortfolioPage() {
-  const liveCount = portfolioProjects.filter((project) => project.projectUrl).length;
-
   return (
     <main className="min-h-screen bg-white">
       <section className="relative overflow-hidden px-4 pb-16 pt-32 md:pb-20 md:pt-40 xl:px-14 xxl:px-40 xll:px-80 xxx:px-[22%] lll:px-[25%]">
@@ -32,8 +30,8 @@ export default function PortfolioPage() {
 
           <p className="mt-8 max-w-3xl text-lg leading-8 text-slate-500">
             {portfolioProjects.length} projects across branding, websites, apps, and
-            print. Open any case study on this site and preview the live build when
-            available ({liveCount} live sites).
+            print. Every case study includes live preview or captured screenshots
+            you can browse directly on this site.
           </p>
 
           <div className="mt-10 flex flex-wrap gap-4">
