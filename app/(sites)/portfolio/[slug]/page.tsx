@@ -12,6 +12,7 @@ import {
   getProjectBySlug,
   portfolioProjects,
 } from "@/data/portfolio";
+import { PortfolioLivePreview } from "@/components/Portfolio/portfolio-live-preview";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 type ProjectPageProps = {
@@ -150,6 +151,35 @@ export default async function ProjectPage({
           </div>
         </div>
       </section>
+
+      {project.projectUrl && (
+        <section className="px-5 py-10 md:px-8 md:py-14">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#ff2f3d]">
+                  Live Preview
+                </p>
+                <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 md:text-4xl">
+                  View the website directly
+                </h2>
+              </div>
+
+              <a
+                href={project.projectUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-[#ff2f3d]"
+              >
+                Open in new tab
+                <ExternalLink size={16} />
+              </a>
+            </div>
+
+            <PortfolioLivePreview url={project.projectUrl} title={project.title} />
+          </div>
+        </section>
+      )}
 
       <section className="px-5 py-10 md:px-8 md:py-14">
         <div className="mx-auto max-w-7xl overflow-hidden rounded-[30px] bg-slate-100">

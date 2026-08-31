@@ -550,3 +550,21 @@ export function getProjectBySlug(slug: string) {
 export function getFeaturedProjects(limit = 2) {
   return portfolioProjects.filter((p) => p.featured).slice(0, limit);
 }
+
+export function getProjectsWithLiveUrl() {
+  return portfolioProjects.filter((project) => Boolean(project.projectUrl));
+}
+
+export function getCategoryCounts(): Record<"All" | PortfolioCategory, number> {
+  const counts = {} as Record<"All" | PortfolioCategory, number>;
+  counts.All = portfolioProjects.length;
+
+  for (const category of portfolioCategories) {
+    if (category === "All") continue;
+    counts[category] = portfolioProjects.filter((project) =>
+      project.categories.includes(category)
+    ).length;
+  }
+
+  return counts;
+}

@@ -4,7 +4,7 @@ import HomeServices from "@/components/Pages_components/Home/HomeServices";
 import PrintServicesSection from "@/components/Pages_components/Home/PrintServicesSection";
 import HomeProcess from "@/components/Pages_components/Home/HomeProcess";
 import HomeTestimonials from "@/components/Pages_components/Home/HomeTestimonials";
-import Case from "@/components/Pages_components/Home/Case";
+import { PortfolioSection } from "@/components/Portfolio/portfolio-section";
 import HomeCTA from "@/components/Pages_components/Home/HomeCTA";
 import Contact from "@/components/Pages_components/Home/Contact";
 import HomeDeals from "@/components/Pages_components/Home/HomeDeals";
@@ -41,7 +41,7 @@ export default async function HomePage() {
       <HomeServices />
       <PrintServicesSection />
       <HomeProcess />
-      <Case />
+      <PortfolioSection />
       <HomeTestimonials />
       <HomeCTA />
       <Contact services={services} />
