@@ -302,7 +302,7 @@ async function main() {
       name: "Starter",
       slug: "web-design-and-development-starter",
       pricingType: PackagePricingType.ONE_TIME,
-      price: 1880,
+      price: 1480,
       priceByMonth: null,
       priceByYear: null,
       description: "Ideal for getting started with basic needs.",
