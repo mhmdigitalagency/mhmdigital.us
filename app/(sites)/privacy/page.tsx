@@ -110,7 +110,7 @@ const page = () => {
             <ul>
               <li>Address: Share Space MADDA WALABU, 9040 Rainier Ave S #2, Seattle, WA 98118</li>
               <li>Email: contact@mhmdigital.us</li>
-              <li>Phone: +1 206 771 0038</li>
+              <li>Phone: +1 206-312-3762</li>
             </ul>
         </div>
       </div>
