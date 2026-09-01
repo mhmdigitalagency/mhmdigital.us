@@ -3,10 +3,42 @@ import "@/lib/env";
 import { ServiceType, PackagePricingType } from "@/app/generated/prisma/client";
 
 const PRICE_DISCOUNT = 241;
+const DIGITAL_MARKETING_PRICE_CUT = 430;
+const ANIMATION_STARTER_PRICE_CUT = 400;
+const ANIMATION_ULTIMATE_PRICE_CUT = 1000;
 
 function discounted(price: number | null): number | null {
   if (price === null) return null;
   return Math.max(0, price - PRICE_DISCOUNT);
+}
+
+function applyCategoryPriceCuts(pkg: {
+  serviceName: string;
+  name: string;
+  price: number | null;
+  priceByMonth: number | null;
+  priceByYear: number | null;
+}) {
+  let { price, priceByMonth, priceByYear } = pkg;
+
+  if (pkg.serviceName === "Digital Marketing") {
+    price = price != null ? Math.max(0, price - DIGITAL_MARKETING_PRICE_CUT) : null;
+    priceByMonth =
+      priceByMonth != null ? Math.max(0, priceByMonth - DIGITAL_MARKETING_PRICE_CUT) : null;
+    priceByYear =
+      priceByYear != null ? Math.max(0, priceByYear - DIGITAL_MARKETING_PRICE_CUT) : null;
+  }
+
+  if (pkg.serviceName === "Animation (2D & 3D)") {
+    if (pkg.name === "Starter" && price != null) {
+      price = Math.max(0, price - ANIMATION_STARTER_PRICE_CUT);
+    }
+    if (pkg.name === "Ultimate" && price != null) {
+      price = Math.max(0, price - ANIMATION_ULTIMATE_PRICE_CUT);
+    }
+  }
+
+  return { price, priceByMonth, priceByYear };
 }
 
 import { PRINT_SERVICES } from "@/lib/constants/services-data";
@@ -277,7 +309,7 @@ async function main() {
       points: [
         "Up to 5-page website.",
         "Security: Basic SSL certificate for secure browsing.",
-        "Template-based design (customized to brand colors and fonts).",
+        "Built entirely from scratch — custom design tailored to your brand.",
         "1-year hosting included.",
         "Mobile-friendly layout.",
         "Basic SEO setup (meta tags, alt text).",
@@ -300,10 +332,10 @@ async function main() {
       description:
         "Designed for businesses looking to expand and enhance their web presence.",
       points: [
-        "Up to 10-page website.",
+        "Up to 8-page website.",
         "Domain Name and Hosting.",
         "Security: Basic SSL certificate for secure browsing.",
-        "Custom design (unique layout, tailored to brand).",
+        "Custom design built from scratch (unique layout, tailored to brand).",
         "CMS integration (WordPress or similar).",
         "Advanced SEO setup (keywords, speed optimization).",
         "1-year hosting included.",
@@ -327,7 +359,7 @@ async function main() {
       priceByYear: null,
       description: "For those seeking the best, most complete package.",
       points: [
-        "Up to 20-page fully custom website.",
+        "Up to 18-page fully custom website.",
         "No CMS, coded from scratch for unique needs.",
         "Advanced features (animations, custom forms, e-commerce setup).",
         "1-year hosting included.",
@@ -879,6 +911,8 @@ async function main() {
       ? createdSubServices.get(pkg.subServiceName)
       : null;
 
+    const adjustedPrices = applyCategoryPriceCuts(pkg);
+
     await prisma.package.create({
       data: {
         serviceId: service.id,
@@ -889,9 +923,9 @@ async function main() {
         points: pkg.points,
         image: pkg.image,
         pricingType: pkg.pricingType,
-        price: discounted(pkg.price),
-        priceByMonth: discounted(pkg.priceByMonth),
-        priceByYear: discounted(pkg.priceByYear),
+        price: discounted(adjustedPrices.price),
+        priceByMonth: discounted(adjustedPrices.priceByMonth),
+        priceByYear: discounted(adjustedPrices.priceByYear),
         isActive: true,
         isFeatured: pkg.name === "Ultimate",
         position: pkg.position,
