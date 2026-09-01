@@ -5,6 +5,7 @@ import nodemailer from 'nodemailer'
 import { z } from 'zod'
 import handlebars from 'handlebars'
 import { prisma } from '@/lib/prisma'
+import { syncLeadToGhl } from '@/lib/ghl'
 
 type ContactValues = z.infer<typeof contactSchema>
 
@@ -145,6 +146,17 @@ ${data.description}
         source: "contact-form",
         status: "NEW",
       },
+    })
+
+    await syncLeadToGhl({
+      source: "contact-form",
+      name: data.name,
+      email: data.email,
+      phone: data.phoneNumber,
+      company: data.company,
+      service: data.service,
+      message: data.description,
+      tags: [data.service].filter(Boolean) as string[],
     })
 
     return {
